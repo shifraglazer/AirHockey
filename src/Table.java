@@ -1,3 +1,4 @@
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.Executors;
@@ -21,8 +22,9 @@ public class Table extends JFrame {
 		setSize(width, height);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-		// FIXME not sure if want to create all these Objects here or in separate World class
+		sleep = 0;
+		// FIXME not sure if want to create all these Objects here or in
+		// separate World class
 		// so easier to repaint
 		puck = new Puck();
 
@@ -36,6 +38,12 @@ public class Table extends JFrame {
 
 	public int getSleep() {
 		return sleep;
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponents(g);
+		System.out.println(" jd");
+		puck.drawPuck(g);
 	}
 
 	ActionListener hit = new ActionListener() {
@@ -53,7 +61,8 @@ public class Table extends JFrame {
 
 	private Runnable decreaseSpeed = new Runnable() {
 		public void run() {
-			// FIXME don't kknow what default sleep should be or if this is how should calculate it
+			// FIXME don't kknow what default sleep should be or if this is how
+			// should calculate it
 			// every second since the puck was hit, decrease the speed
 			// really just increase the loop speeds
 			if (puck.speed > 0) {

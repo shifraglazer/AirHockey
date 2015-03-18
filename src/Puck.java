@@ -1,3 +1,5 @@
+import java.awt.Graphics;
+
 public class Puck {
 	protected int speed;
 	private double slope;
@@ -7,6 +9,8 @@ public class Puck {
 	private int puckY;
 
 	public Puck() {
+		puckX=150;
+		puckY=250;
 		slope = 0;
 		speed = 0;
 	}
@@ -20,5 +24,9 @@ public class Puck {
 		// speed is set to 50 each time the puck is hit
 		// the speed slowly decrements as time passes since the puck was last hit
 		speed = 50;
+	}
+	public void drawPuck(Graphics g){
+		System.out.println(puckX+" "+ puckY);
+		g.drawOval(puckX,puckY, 10, 10);
 	}
 }
