@@ -1,2 +1,2 @@
 # AirHockey
-Networked two player air hockey game. Project collaborated with Shifra Glazer and Tziporah Ziegler.
+Networked two player Air Hockey game. Project collaborated by Shifra Glazer and Tzipora Ziegler.
