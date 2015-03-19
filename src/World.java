@@ -1,3 +1,4 @@
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class World extends JFrame {
 			}
 		});
 
+		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		setVisible(true);
 	}
 

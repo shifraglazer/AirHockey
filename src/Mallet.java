@@ -24,7 +24,7 @@ public class Mallet {
 		double locy = location.getY();
 		Point point = MouseInfo.getPointerInfo().getLocation();
 		malletX = (int) (point.getX() - locx);
-		malletY = (int) (point.getY() - locy);
+		malletY = (int) (point.getY() - locy - radius);
 	}
 
 	public int getMalletX() {
