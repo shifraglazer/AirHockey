@@ -4,6 +4,7 @@ public class Puck {
 	protected int speed;
 	private double deltaX;
 	private double deltaY;
+	private static final double DECREASE=.8;
 
 	// the (x,y) coordinates of the center of the puck
 	private int puckX;
@@ -16,9 +17,9 @@ public class Puck {
 		this.radius = radius;
 		puckX = width / 2;
 		puckY = height / 2;
-		deltaX = -3;
-		deltaY = 2;
-		speed = 90;
+		deltaX = 1;
+		deltaY = 1;
+		speed = 100;
 		this.width=width;
 		this.height=height;
 	}
@@ -51,13 +52,18 @@ public class Puck {
 		//if hit side wall
 		if(puckX-radius<=0||puckX+radius>=width){
 			deltaX=-deltaX;
+			speed*=.9;
 		}
 		//hit top/bottom walls
 		else if(puckY-radius<=0||puckY+radius>=height){
 			deltaY=-deltaY;
+			decreaseSpeed();
 		}
 	}
 
+	public void decreaseSpeed(){
+		speed*=DECREASE;
+	}
 	public void hit() {
 		// FIXME don't know what hit speed should be
 		// speed is set to 50 each time the puck is hit
