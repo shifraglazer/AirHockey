@@ -1,14 +1,16 @@
+import java.awt.Color;
 import java.awt.Graphics;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Puck {
-	protected int speed;
-	private double deltaX;
-	private double deltaY;
-	private static final double DECREASE=.8;
+	private AtomicInteger speed;
+	private int deltaX;
+	private int deltaY;
+	private static final double DECREASE = .8;
 
 	// the (x,y) coordinates of the center of the puck
-	private int puckX;
-	private int puckY;
+	protected int puckX;
+	protected int puckY;
 	private int radius;
 	private int width;
 	private int height;
@@ -19,61 +21,61 @@ public class Puck {
 		puckY = height / 2;
 		deltaX = 1;
 		deltaY = 1;
-		speed = 100;
-		this.width=width;
-		this.height=height;
-	}
-
-	public int getPuckX() {
-		return puckX;
-	}
-
-	public void setPuckX(int puckX) {
-		this.puckX = puckX;
-	}
-
-	public int getPuckY() {
-		return puckY;
-	}
-
-	public void setPuckY(int puckY) {
-		this.puckY = puckY;
-	}
-
-	public void setSlope(int malletX, int malletY) {
-		deltaX = puckY - malletY;
-		deltaY = puckX - malletX;
+		speed = new AtomicInteger(99);
+		this.width = width;
+		this.height = height;
 	}
 
 	public void move() {
-		//TODO factor in the goals 
 		puckX += deltaX;
 		puckY += deltaY;
-		//if hit side wall
-		if(puckX-radius<=0||puckX+radius>=width){
-			deltaX=-deltaX;
-			speed*=.9;
+
+		// if hit side wall
+		if (puckX - radius <= 0 || puckX + radius >= width) {
+			deltaX = -deltaX;
+			decreaseSpeed();
 		}
-		//hit top/bottom walls
-		else if(puckY-radius<=0||puckY+radius>=height){
-			deltaY=-deltaY;
+
+		// hit top/bottom walls
+		else if (puckY - radius <= 0 || puckY + radius >= height) {
+			// TODO factor in the goals
+			deltaY = -deltaY;
 			decreaseSpeed();
 		}
 	}
 
-	public void decreaseSpeed(){
-		speed*=DECREASE;
-	}
-	public void hit() {
-		// FIXME don't know what hit speed should be
-		// speed is set to 50 each time the puck is hit
-		// the speed slowly decrements as time passes since the puck was last
-		// hit
-		speed = 50;
+	public void drawPuck(Graphics g) {
+		g.setColor(Color.RED);
+		g.fillOval(puckX - radius, puckY - radius, radius * 2, radius * 2);
 	}
 
-	public void drawPuck(Graphics g) {
-		System.out.println(puckX + " " + puckY);
-		g.fillOval(puckX - radius, puckY - radius, radius * 2, radius * 2);
+	// FIXMEs
+	public void setSlope(int malletX, int malletY) {
+		deltaX = puckY - malletY;
+		deltaY = puckX - malletX;
+		int gcd = gcd(deltaX, deltaY);
+		// if (gcd > 1) {
+		// deltaX /= gcd;
+		// deltaY /= gcd;
+		// }
+	}
+
+	public int gcd(int a, int b) {
+		if (a == 0 || b == 0)
+			return a + b;
+		return gcd(b, a % b);
+	}
+
+	public void decreaseSpeed() {
+		speed.decrementAndGet();
+		// speed *= DECREASE;
+	}
+
+	public int getSpeed() {
+		return speed.get();
+	}
+
+	public void setSpeed(int i) {
+		speed.set(i);
 	}
 }

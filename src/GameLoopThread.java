@@ -14,9 +14,10 @@ public class GameLoopThread extends Thread {
 				world.repaint();
 			}
 			try {
-
+				// FIXME need to factor slope into sleep
 				sleep(100 - speed);
-			} catch (InterruptedException e) {
+			}
+			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}

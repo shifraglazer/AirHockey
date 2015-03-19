@@ -4,7 +4,6 @@ import java.awt.Graphics;
 public class Mallet {
 	private int malletX;
 	private int malletY;
-
 	private int radius;
 
 	public Mallet(int sideCenter, int boardCenter, int radius) {

@@ -5,15 +5,12 @@ public class World extends JFrame {
 	private Table table;
 
 	public World() {
-		int width = 300;
-		int height = 500;
 		setTitle("Air Hockey");
-		setSize(width, height);
+		setSize(300, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		table = new Table();
 		add(table);
-
 		setVisible(true);
 	}
 
