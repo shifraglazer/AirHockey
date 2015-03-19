@@ -5,16 +5,17 @@ public class Mallet {
 	private int malletX;
 	private int malletY;
 
-	private  int radius;
+	private int radius;
 
-	public Mallet(int sideCenter, int boardCenter,int radius) {
-		this.radius=radius;
+	public Mallet(int sideCenter, int boardCenter, int radius) {
+		this.radius = radius;
 		malletX = sideCenter;
 		malletY = boardCenter;
 	}
-	public void drawMallet(Graphics g){		
+
+	public void drawMallet(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.fillOval(malletX-radius,malletY-radius, radius*2, radius*2);
+		g.fillOval(malletX - radius, malletY - radius, radius * 2, radius * 2);
 	}
 
 	public int getMalletX() {
