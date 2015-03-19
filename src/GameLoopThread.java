@@ -1,16 +1,21 @@
 
 public class GameLoopThread extends Thread {
-	private Table table;
+	private World world;
 
-	public GameLoopThread(Table table) {
-		this.table = table;
+	public GameLoopThread() {
+		this.world = new World();
 	}
-
+	@Override
 	public void run() {
 		while (true) {	
+			int speed=world.getPuckSpeed();
+			if(speed>0){
+				world.movePuck();
+				world.repaint();
+			}
 			try {
-				table.repaint();
-				sleep(table.getSleep());
+			
+				sleep(100-speed);
 			}
 			catch (InterruptedException e) {
 				e.printStackTrace();
