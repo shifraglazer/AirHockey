@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -12,6 +14,11 @@ public class AirHockey {
 			e.printStackTrace();
 		}
 
-		new GameLoopThread().start();
+		try {
+			new GameLoopThread().start();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

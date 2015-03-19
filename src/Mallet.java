@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.MouseInfo;
+import java.awt.Point;
 
 public class Mallet {
 	private int malletX;
@@ -17,19 +19,19 @@ public class Mallet {
 		g.fillOval(malletX - radius, malletY - radius, radius * 2, radius * 2);
 	}
 
+	public void setMalletXY(Point location) {
+		double locx = location.getX();
+		double locy = location.getY();
+		Point point = MouseInfo.getPointerInfo().getLocation();
+		malletX = (int) (point.getX() - locx);
+		malletY = (int) (point.getY() - locy);
+	}
+
 	public int getMalletX() {
 		return malletX;
 	}
 
-	public void setMalletX(int malletX) {
-		this.malletX = malletX;
-	}
-
 	public int getMalletY() {
 		return malletY;
-	}
-
-	public void setMalletY(int malletY) {
-		this.malletY = malletY;
 	}
 }

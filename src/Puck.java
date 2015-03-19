@@ -19,9 +19,7 @@ public class Puck {
 		this.radius = radius;
 		puckX = width / 2;
 		puckY = height / 2;
-		deltaX = 1;
-		deltaY = 1;
-		speed = new AtomicInteger(99);
+		speed = new AtomicInteger(0);
 		this.width = width;
 		this.height = height;
 	}
@@ -49,15 +47,22 @@ public class Puck {
 		g.fillOval(puckX - radius, puckY - radius, radius * 2, radius * 2);
 	}
 
-	// FIXMEs
+	// FIXME
 	public void setSlope(int malletX, int malletY) {
 		deltaX = puckY - malletY;
 		deltaY = puckX - malletX;
 		int gcd = gcd(deltaX, deltaY);
-		// if (gcd > 1) {
-		// deltaX /= gcd;
-		// deltaY /= gcd;
-		// }
+		if (gcd > 1) {
+			deltaX /= gcd;
+			deltaY /= gcd;
+		}
+	}
+
+	public double getSlope() {
+		if (deltaY != 0) {
+			return deltaX / deltaY;
+		}
+		return 0;
 	}
 
 	public int gcd(int a, int b) {
