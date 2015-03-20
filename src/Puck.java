@@ -3,14 +3,15 @@ import java.awt.Graphics;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Puck {
-	private AtomicInteger speed;
-	private int deltaX;
-	private int deltaY;
+	private int speed;
+	private double deltaX;
+	private double deltaY;
 	private static final double DECREASE = .8;
+	private static final int MOVERATE=2;
 
 	// the (x,y) coordinates of the center of the puck
-	protected int puckX;
-	protected int puckY;
+	protected double puckX;
+	protected double puckY;
 	private int radius;
 	private int width;
 	private int height;
@@ -19,15 +20,19 @@ public class Puck {
 		this.radius = radius;
 		puckX = width / 2;
 		puckY = height / 2;
-		speed = new AtomicInteger(0);
+		speed =0;
 		this.width = width;
 		this.height = height;
 	}
 
 	public void move() {
+	
+		double angle1 =(90*deltaX)/(deltaX+deltaY);
+		double angle2=90-angle1;
+		deltaY=(Math.sin(angle1)/MOVERATE)*speed;
+		deltaX=(Math.sin(angle2)/MOVERATE)*speed;
 		puckX += deltaX;
 		puckY += deltaY;
-
 		// if hit side wall
 		if (puckX - radius <= 0 || puckX + radius >= width) {
 			deltaX = -deltaX;
@@ -44,14 +49,14 @@ public class Puck {
 
 	public void drawPuck(Graphics g) {
 		g.setColor(Color.RED);
-		g.fillOval(puckX - radius, puckY - radius, radius * 2, radius * 2);
+		g.fillOval((int)(puckX - radius), (int)(puckY - radius), radius * 2, radius * 2);
 	}
 
-	// FIXME
+	// FIXME dont need?
 	public void setSlope(int malletX, int malletY) {
 		deltaX = puckY - malletY;
 		deltaY = puckX - malletX;
-		int gcd = gcd(deltaX, deltaY);
+		double gcd = gcd(deltaX, deltaY);
 		if (gcd > 1) {
 			deltaX /= gcd;
 			deltaY /= gcd;
@@ -65,22 +70,22 @@ public class Puck {
 		return 0;
 	}
 
-	public int gcd(int a, int b) {
+	public double gcd(double a, double b) {
 		if (a == 0 || b == 0)
 			return a + b;
 		return gcd(b, a % b);
 	}
 
 	public void decreaseSpeed() {
-		speed.decrementAndGet();
+		speed--;
 		// speed *= DECREASE;
 	}
 
 	public int getSpeed() {
-		return speed.get();
+		return speed;
 	}
 
 	public void setSpeed(int i) {
-		speed.set(i);
+		speed=i;
 	}
 }
