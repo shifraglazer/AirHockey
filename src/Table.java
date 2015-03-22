@@ -24,7 +24,7 @@ public class Table extends JPanel {
 
 	private final static int WIDTH = 300;
 	// remove 22 points since title bar tables up that much space
-	private final static int HEIGHT = 500 - 22;
+	private final static int HEIGHT = 500 - 27;
 
 	public Table() throws IOException {
 		setSize(new Dimension(WIDTH, HEIGHT));
@@ -32,8 +32,7 @@ public class Table extends JPanel {
 		mallet1 = new Mallet(WIDTH / 2, HEIGHT / 4, MALLETRADIUS);
 		mallet2 = new Mallet(WIDTH / 2, (HEIGHT / 4) * 3, MALLETRADIUS);
 		executor = Executors.newScheduledThreadPool(1);
-		executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000,
-				TimeUnit.MILLISECONDS);
+		executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
 		tableImg = ImageIO.read(getClass().getResource("table1.jpg"));
 	}
 
@@ -61,8 +60,7 @@ public class Table extends JPanel {
 	public boolean calcMallet(Mallet mallet) {
 		int malletX = mallet.getMalletX();
 		int malletY = mallet.getMalletY();
-		double diff = Math.sqrt(Math.pow((malletX - puck.puckX), 2)
-				+ Math.pow(malletY - puck.puckY, 2));
+		double diff = Math.sqrt(Math.pow((malletX - puck.puckX), 2) + Math.pow(malletY - puck.puckY, 2));
 		if (diff <= HITDIS) {
 			puck.setSlope(malletX, malletY);
 			return true;
@@ -78,8 +76,7 @@ public class Table extends JPanel {
 			// TODO set up that only shuts down if executor is not null
 			if (executor.isShutdown()) {
 				executor = Executors.newScheduledThreadPool(1);
-				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000,
-						TimeUnit.MILLISECONDS);
+				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
 			}
 		}
 		repaint();
@@ -94,7 +91,8 @@ public class Table extends JPanel {
 		public void run() {
 			if (puck.getSpeed() > 0) {
 				puck.decreaseSpeed();
-			} else {
+			}
+			else {
 				executor.shutdown();
 			}
 		}

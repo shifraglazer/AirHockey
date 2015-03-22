@@ -1,9 +1,14 @@
+import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 
 public class World extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -14,7 +19,18 @@ public class World extends JFrame {
 		setSize(300, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		// setUndecorated(true);
+		JMenuBar menu = new JMenuBar();
+		JButton exit = new JButton("X");
+		exit.setBackground(Color.RED);
+		exit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		menu.add(exit);
+		setJMenuBar(menu);
+		setUndecorated(true);
 		table = new Table();
 		add(table);
 
