@@ -24,8 +24,8 @@ public class GameLoopThread extends Thread {
 					sleep = 1;
 				}
 				// TODO remove println
-				System.out.println(sleep);
-				sleep(sleep);
+				//System.out.println(sleep);
+				sleep(100);
 				// FIXME when sleep hit 100, the puck disapears instead of just stopping. Don't
 				// thing executor restarts.
 			}
