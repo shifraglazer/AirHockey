@@ -77,10 +77,6 @@ public class Puck {
 		return 0;
 	}
 
-	/*
-	 * public double gcd(double a, double b) { if (a == 0 || b == 0) return a +
-	 * b; return gcd(b, a % b); }
-	 */
 	public void decreaseSpeed() {
 		speed -= .5;
 		// speed *= DECREASE;
