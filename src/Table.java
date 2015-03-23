@@ -1,4 +1,3 @@
-
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -24,8 +23,8 @@ public class Table extends JPanel {
 	private final static double HITDIS = PUCKRADIUS + MALLETRADIUS;
 
 	final static int WIDTH = 300;
-	// remove 22 points since title bar tables up that much space
-	final static int HEIGHT = 500 - 27;
+	// remove 27 points since the meuubar takes up that much space
+	final static int HEIGHT = 500 - 29;
 
 	public Table() throws IOException {
 		setSize(new Dimension(WIDTH, HEIGHT));
@@ -33,8 +32,7 @@ public class Table extends JPanel {
 		mallet1 = new Mallet(WIDTH / 2, (HEIGHT / 4) * 3, MALLETRADIUS);
 		mallet2 = new Mallet(WIDTH / 2, HEIGHT / 4, MALLETRADIUS);
 		executor = Executors.newScheduledThreadPool(1);
-		executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000,
-				TimeUnit.MILLISECONDS);
+		executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
 		tableImg = ImageIO.read(getClass().getResource("table1.jpg"));
 	}
 
@@ -47,24 +45,23 @@ public class Table extends JPanel {
 		mallet2.drawMallet(g);
 	}
 
-	public void movePuck() {
-		puck.move();
+	public int movePuck() {
+		int point = puck.move();
 		if (checkHit()) {
 			// bump so decrease speed
 			puck.decreaseSpeed();
 		}
+		return point;
 	}
 
 	public boolean checkHit() {
-
 		return calcMallet(mallet1) || calcMallet(mallet2);
 	}
 
 	public boolean calcMallet(Mallet mallet) {
 		int malletX = mallet.getMalletX();
 		int malletY = mallet.getMalletY();
-		double diff = Math.sqrt(Math.pow((malletX - puck.puckX), 2)
-				+ Math.pow(malletY - puck.puckY, 2));
+		double diff = Math.sqrt(Math.pow((malletX - puck.puckX), 2) + Math.pow(malletY - puck.puckY, 2));
 		if (diff <= HITDIS) {
 			puck.setSlope(malletX, malletY);
 			return true;
@@ -75,15 +72,13 @@ public class Table extends JPanel {
 	public void moveMallet(Point location) {
 		mallet1.setMalletXY(location);
 		if (checkHit()) {
-			System.out.println("hit");
+			puck.changeColor();
 			puck.setSpeed(20);
-			System.out.println("increase speed");
 			// restart executor
 			// TODO set up that only shuts down if executor is not null
 			if (executor.isShutdown()) {
 				executor = Executors.newScheduledThreadPool(1);
-				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000,
-						TimeUnit.MILLISECONDS);
+				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
 			}
 		}
 		repaint();
@@ -92,20 +87,19 @@ public class Table extends JPanel {
 	public void moveMallet2(Point location) {
 		mallet2.setMalletXY(location);
 		if (checkHit()) {
+			puck.changeColor();
 			puck.setSpeed(20);
 			// restart executor
 			// TODO set up that only shuts down if executor is not null
 			if (executor.isShutdown()) {
 				executor = Executors.newScheduledThreadPool(1);
-				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000,
-						TimeUnit.MILLISECONDS);
+				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
 			}
 		}
 		repaint();
 	}
 
 	public int getPuckSpeed() {
-		System.out.println("speed is " + puck.getSpeed());
 		return puck.getSpeed();
 	}
 
@@ -114,14 +108,10 @@ public class Table extends JPanel {
 		public void run() {
 			if (puck.getSpeed() > 0) {
 				puck.decreaseSpeed();
-			} else {
+			}
+			else {
 				executor.shutdown();
 			}
 		}
 	};
-
-	public double getSlope() {
-		return puck.getSlope();
-	}
-
 }
