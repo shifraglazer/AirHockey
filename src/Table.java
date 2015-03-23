@@ -50,6 +50,7 @@ public class Table extends JPanel {
 	public void movePuck() {
 		puck.move();
 		if (checkHit()) {
+			
 			// bump so decrease speed
 			puck.decreaseSpeed();
 		}

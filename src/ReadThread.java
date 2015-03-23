@@ -37,8 +37,10 @@ public class ReadThread extends Thread{
 				Double y=Double.valueOf(scanner.next());
 				x=Table.WIDTH-x;
 				y=Table.HEIGHT-y;
+				System.out.println("x recieved: "+ x+" y re: "+y);
 				Point location=new Point(x.intValue(),y.intValue());
 				world.moveMallet2(location);
+				scanner.nextLine();
 
 			}
 		} catch (IOException e) {

@@ -18,7 +18,7 @@ public class Puck {
 		this.radius = radius;
 		puckX = width / 2;
 		puckY = height / 2;
-		speed = 20;
+		speed = 20;	
 		this.width = width;
 		this.height = height;
 		colorNum = 0;
@@ -28,6 +28,7 @@ public class Puck {
 
 		puckX += deltaX;
 		puckY += deltaY;
+		System.out.println("puck x: "+ puckX+" puckY: "+puckY);
 		// if hit side wall
 		if (puckX - radius <= 0 || puckX + radius >= width) {
 			colorNum += .02;
@@ -58,7 +59,7 @@ public class Puck {
 
 	public void drawPuck(Graphics g) {
 		g.setColor(Color.getHSBColor(colorNum, 1, 1));
-		System.out.println(deltaX + " " + deltaY);
+		System.out.println("delta x and y:"+deltaX + " " + deltaY);
 		System.out.println(speed);
 
 		/*

@@ -27,6 +27,12 @@ public class Mallet {
 		malletX = (int) (point.getX() - locx);
 		malletY = (int) (point.getY() - locy - radius);
 	}
+	public void updateMallet2(Point location){
+		double locx = location.getX();
+		double locy = location.getY();
+		malletX = (int) (locx);
+		malletY = (int) (locy - radius);
+	}
 
 	public int getMalletX() {
 		return malletX;

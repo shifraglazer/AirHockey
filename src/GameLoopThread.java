@@ -5,8 +5,7 @@ public class GameLoopThread extends Thread {
 	private World world;
 
 	public GameLoopThread(World world) throws IOException {
-		this.world = new World();
-	
+	this.world=world;
 	}
 
 	@Override
@@ -17,6 +16,7 @@ public class GameLoopThread extends Thread {
 				
 				world.movePuck();
 				world.repaint();
+				System.out.println("repainted");
 			}
 			try {
 				System.out.println("game loop "+ speed);

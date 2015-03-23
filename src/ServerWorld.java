@@ -1,4 +1,3 @@
-
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -18,7 +17,6 @@ public class ServerWorld extends World {
 
 	public ServerWorld() throws IOException {
 
-		new GameLoopThread(this).start();
 		try {
 			// client = new Socket("192.168.1.6", 3762);
 
@@ -39,22 +37,27 @@ public class ServerWorld extends World {
 			public void mouseMoved(MouseEvent e) {
 				Point point = getLocation();
 				table.moveMallet(point);
-				/*
-				 * try { updateMallet1(point); } catch (IOException e1) { //
-				 * TODO Auto-generated catch block e1.printStackTrace(); }
-				 */
+
+				try {
+				
+					updateMallet2(point);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
 				repaint();
 			}
 		});
 
 		setVisible(true);
+		new GameLoopThread(this).start();
 	}
 
-	public void updateMallet1(Point location) throws IOException {
+	public void updateMallet2(Point location) throws IOException {
 
-		String text = location.getX() + " " + location.getY();
+		String text = String.valueOf(location.getX()) + " " + String.valueOf(location.getY());
 		OutputStream out = socket.getOutputStream();
-		System.out.println(text);
+		System.out.println("point recieved: "+text);
 		PrintWriter writer = new PrintWriter(out);
 
 		writer.println(text);
