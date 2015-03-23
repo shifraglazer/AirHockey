@@ -1,7 +1,3 @@
-
-
-
-
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,21 +6,17 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Scanner;
 
-
-
-
-public class ReadThread extends Thread{
-
+public class ReadThread extends Thread {
 	private Socket socket;
 	private World world;
 	private Scanner scanner;
-	public ReadThread(Socket socket,World world){
-		this.world=world;
-		this.socket=socket;
-	
+
+	public ReadThread(Socket socket, World world) {
+		this.world = world;
+		this.socket = socket;
 	}
-	public void run(){
-	
+
+	public void run() {
 		try {
 			InputStream in = socket.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -32,6 +24,7 @@ public class ReadThread extends Thread{
 			String line;
 
 			while ((line = reader.readLine()) != null) {
+
 				scanner=new Scanner(line);
 				Double x=Double.valueOf(scanner.next());
 				Double y=Double.valueOf(scanner.next());
@@ -43,12 +36,10 @@ public class ReadThread extends Thread{
 				scanner.nextLine();
 
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
-
-	
 
 	}
 }
