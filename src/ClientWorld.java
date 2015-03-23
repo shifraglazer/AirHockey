@@ -25,12 +25,12 @@ public class ClientWorld extends World {
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				Point point = getLocation();
-				
+
 				table.moveMallet(point);
 
 				try {
-				
-					updateMallet2(point);
+
+					updateMallet2(e.getX(), e.getY());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -43,12 +43,10 @@ public class ClientWorld extends World {
 		new GameLoopThread(this).start();
 	}
 
-	public void updateMallet2(Point location) throws IOException {
+	public void updateMallet2(double x, double y) throws IOException {
 
-
-		String text = String.valueOf(location.getX()) + " " + String.valueOf(location.getY());
+		String text = x + " " + y;
 		OutputStream out = socket.getOutputStream();
-		System.out.println("point recieved: "+ text);
 
 		PrintWriter writer = new PrintWriter(out);
 		writer.println(text);
@@ -57,24 +55,23 @@ public class ClientWorld extends World {
 
 	public static void main(String[] args) {
 		try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			/* LookAndFeel lat = UIManager.getLookAndFeel();
-			 * UIDefaults defaults = lat.getDefaults();
-			 * defaults.replace(key, value);
-			 * for(Object key: UIManager.getLookAndFeel().getDefaults().keySet()) {
-			 * System.out.println(key + " = " + UIManager.get(key));
-			 * } */
-		}
-		catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-				| UnsupportedLookAndFeelException e) {
+			UIManager.setLookAndFeel(UIManager
+					.getCrossPlatformLookAndFeelClassName());
+			/*
+			 * LookAndFeel lat = UIManager.getLookAndFeel(); UIDefaults defaults
+			 * = lat.getDefaults(); defaults.replace(key, value); for(Object
+			 * key: UIManager.getLookAndFeel().getDefaults().keySet()) {
+			 * System.out.println(key + " = " + UIManager.get(key)); }
+			 */
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
 
 		try {
 
 			new ClientWorld();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 
 			e.printStackTrace();
 		}

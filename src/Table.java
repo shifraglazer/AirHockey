@@ -86,7 +86,7 @@ public class Table extends JPanel {
 	}
 
 	public void moveMallet2(Point location) {
-		mallet2.setMalletXY(location);
+		mallet2.updateMallet2(location);
 		if (checkHit()) {
 			puck.changeColor();
 			puck.setSpeed(20);

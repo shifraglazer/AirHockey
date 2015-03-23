@@ -16,7 +16,6 @@ public class GameLoopThread extends Thread {
 			if (speed > 0) {
 				world.movePuck();
 				world.repaint();
-				System.out.println("repainted");
 			}
 			try {
 				sleep(100 - (speed * 2));

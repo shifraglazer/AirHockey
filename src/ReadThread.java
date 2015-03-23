@@ -19,25 +19,44 @@ public class ReadThread extends Thread {
 	public void run() {
 		try {
 			InputStream in = socket.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+			BufferedReader reader = new BufferedReader(
+					new InputStreamReader(in));
 
 			String line;
 
 			while ((line = reader.readLine()) != null) {
 
-				scanner=new Scanner(line);
-				Double x=Double.valueOf(scanner.next());
-				Double y=Double.valueOf(scanner.next());
-				x=Table.WIDTH-x;
-				y=Table.HEIGHT-y;
-				System.out.println("x recieved: "+ x+" y re: "+y);
-				Point location=new Point(x.intValue(),y.intValue());
+				scanner = new Scanner(line);
+				Double x = Double.valueOf(scanner.next());
+				Double y = Double.valueOf(scanner.nextLine());
+				double Whalf = Table.WIDTH / 2;
+				double Lhalf = ((Table.HEIGHT - 29) / 2) + 29;
+				System.out.println("x recieved: " + x + " y re: " + y);
+				// reflection over x and y axis
+				double diffx = Math.abs(Whalf - x);
+				double diffy = Math.abs(Lhalf - y);
+				if (x > Whalf && y > Lhalf) {
+					x = Whalf - diffx;
+					y = Lhalf - diffy;
+				} else if (x < Whalf && y < Lhalf) {
+					x = Whalf + diffx;
+					y = Lhalf + diffy;
+				} else if (y > Lhalf && x < Whalf) {
+					x = Whalf + diffx;
+					y = Lhalf - diffy;
+
+				} else if (y < Lhalf && x > Whalf) {
+					y = Lhalf + diffy;
+					x = Whalf - diffx;
+				}
+
+				System.out.println("change to: x recieved: " + x + " y re: "
+						+ y);
+				Point location = new Point(x.intValue(), y.intValue());
 				world.moveMallet2(location);
-				scanner.nextLine();
 
 			}
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
