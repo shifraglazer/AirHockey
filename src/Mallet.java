@@ -15,6 +15,7 @@ public class Mallet {
 	}
 
 	public void drawMallet(Graphics g) {
+		
 		g.setColor(Color.BLACK);
 		g.fillOval(malletX - radius, malletY - radius, radius * 2, radius * 2);
 	}

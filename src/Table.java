@@ -36,6 +36,9 @@ public class Table extends JPanel {
 		tableImg = ImageIO.read(getClass().getResource("table1.jpg"));
 	}
 
+	public String getMallet1Location(){
+		return mallet1.getMalletX()+" "+mallet1.getMalletY();
+	}
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

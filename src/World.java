@@ -72,9 +72,11 @@ public class World extends JFrame {
 		menu.add(points2);
 
 		setJMenuBar(menu);
+		System.out.println(menu.getHeight());
 	}
 
 	public void movePuck() {
+		
 		int point = table.movePuck();
 		if (point == 1) {
 			points1.setText(String.valueOf(++total1));

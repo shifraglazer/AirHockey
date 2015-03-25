@@ -27,10 +27,10 @@ public class ClientWorld extends World {
 				Point point = getLocation();
 
 				table.moveMallet(point);
-
+			
 				try {
-
-					updateMallet2(e.getX(), e.getY());
+					
+					updateMallet2(table.getMallet1Location());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -43,13 +43,13 @@ public class ClientWorld extends World {
 		new GameLoopThread(this).start();
 	}
 
-	public void updateMallet2(double x, double y) throws IOException {
+	public void updateMallet2(String location) throws IOException {
 
-		String text = x + " " + y;
+		
 		OutputStream out = socket.getOutputStream();
 
 		PrintWriter writer = new PrintWriter(out);
-		writer.println(text);
+		writer.println(location);
 		writer.flush();
 	}
 
