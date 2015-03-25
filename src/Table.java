@@ -24,8 +24,9 @@ public class Table extends JPanel {
 
 	final static int WIDTH = 300;
 	// remove 27 points since the meuubar takes up that much space
-	final static int HEIGHT = 500 - 29;
-
+	
+	final static int BAR=38;
+	final static int HEIGHT = 500-BAR;
 	public Table() throws IOException {
 		setSize(new Dimension(WIDTH, HEIGHT));
 		puck = new Puck(PUCKRADIUS, WIDTH, HEIGHT);

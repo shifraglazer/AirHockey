@@ -70,7 +70,7 @@ public class World extends JFrame {
 		points2 = new JLabel(String.valueOf(total2));
 		points2.setFont(fontBold);
 		menu.add(points2);
-
+		
 		setJMenuBar(menu);
 		System.out.println(menu.getHeight());
 	}

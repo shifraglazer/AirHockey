@@ -29,8 +29,9 @@ public class ReadThread extends Thread {
 				scanner = new Scanner(line);
 				Double x = Double.valueOf(scanner.next());
 				Double y = Double.valueOf(scanner.nextLine());
+				y-=Table.BAR;
 				double Whalf = Table.WIDTH / 2;
-				double Lhalf = ((Table.HEIGHT - 29) / 2) + 29;
+				double Lhalf = Table.HEIGHT / 2;
 				System.out.println("x recieved: " + x + " y re: " + y);
 				// reflection over x and y axis
 				double diffx = Math.abs(Whalf - x);
