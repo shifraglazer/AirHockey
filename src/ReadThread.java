@@ -29,10 +29,9 @@ public class ReadThread extends Thread {
 				scanner = new Scanner(line);
 				Double x = Double.valueOf(scanner.next());
 				Double y = Double.valueOf(scanner.nextLine());
-				y-=Table.BAR;
 				double Whalf = Table.WIDTH / 2;
 				double Lhalf = Table.HEIGHT / 2;
-				System.out.println("x recieved: " + x + " y re: " + y);
+				//System.out.println("x recieved: " + x + " y re: " + y);
 				// reflection over x and y axis
 				double diffx = Math.abs(Whalf - x);
 				double diffy = Math.abs(Lhalf - y);
@@ -50,9 +49,9 @@ public class ReadThread extends Thread {
 					y = Lhalf + diffy;
 					x = Whalf - diffx;
 				}
-
-				System.out.println("change to: x recieved: " + x + " y re: "
-						+ y);
+				
+				//System.out.println("change to: x recieved: " + x + " y re: "
+				//		+ y);
 				Point location = new Point(x.intValue(), y.intValue());
 				world.moveMallet2(location);
 

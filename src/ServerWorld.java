@@ -22,7 +22,7 @@ public class ServerWorld extends World {
 		new ReadThread(socket, this).start();
 
 		// mallet moves with mouse
-		addMouseMotionListener(new MouseMotionAdapter() {
+		table.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				Point point = getLocation();

@@ -21,7 +21,7 @@ public class ClientWorld extends World {
 		new ReadThread(socket, this).start();
 
 		// mallet moves with mouse
-		addMouseMotionListener(new MouseMotionAdapter() {
+		table.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				Point point = getLocation();
@@ -31,6 +31,7 @@ public class ClientWorld extends World {
 				try {
 					
 					updateMallet2(table.getMallet1Location());
+					System.out.println("2 : "+ (Table.MIDDLE-table.getMallet1().getMalletY()));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -44,7 +45,29 @@ public class ClientWorld extends World {
 	}
 
 	public void updateMallet2(String location) throws IOException {
+		double x=table.getMallet1().getMalletX();
+		double y=table.getMallet1().getMalletY();
+		double Whalf = Table.WIDTH / 2;
+		double Lhalf = Table.HEIGHT / 2;
+		// reflection over x and y axis
+		double diffx = Math.abs(Whalf - x);
+		double diffy = Math.abs(Lhalf - y);
+		if (x > Whalf && y > Lhalf) {
+			x = Whalf - diffx;
+			y = Lhalf - diffy;
+		} else if (x < Whalf && y < Lhalf) {
+			x = Whalf + diffx;
+			y = Lhalf + diffy;
+		} else if (y > Lhalf && x < Whalf) {
+			x = Whalf + diffx;
+			y = Lhalf - diffy;
 
+		} else if (y < Lhalf && x > Whalf) {
+			y = Lhalf + diffy;
+			x = Whalf - diffx;
+		}
+		
+	
 		
 		OutputStream out = socket.getOutputStream();
 
