@@ -38,7 +38,7 @@ public class Table extends JPanel {
 		mallet2 = new Mallet(WIDTH / 2, HEIGHT / 4, MALLETRADIUS);
 		executor = Executors.newScheduledThreadPool(1);
 		executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
-		tableImg = ImageIO.read(getClass().getResource("table1.jpg"));
+		tableImg = ImageIO.read(getClass().getResource("pics/table1.jpg"));
 		ice = new IceSkate();
 	}
 

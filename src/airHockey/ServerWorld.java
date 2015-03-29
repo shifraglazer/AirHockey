@@ -8,6 +8,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -15,7 +17,7 @@ public class ServerWorld extends World {
 	private static final long serialVersionUID = 1L;
 	private Socket socket;
 
-	public ServerWorld() throws IOException {
+	public ServerWorld() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		ServerSocket serverSocket = new ServerSocket(3769); // port num sent
 		socket = serverSocket.accept();
 		System.out.println("accepted");
@@ -70,7 +72,7 @@ public class ServerWorld extends World {
 		try {
 			new ServerWorld();
 		}
-		catch (IOException e) {
+		catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		}
 	}

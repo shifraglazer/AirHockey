@@ -1,4 +1,5 @@
 package airHockey;
+
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -7,6 +8,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -14,7 +17,7 @@ public class ClientWorld extends World {
 	private static final long serialVersionUID = 1L;
 	private Socket socket;
 
-	public ClientWorld() throws IOException {
+	public ClientWorld() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 
 		setLocationRelativeTo(null);
 		// client = new Socket("192.168.1.6", 3762);
@@ -93,10 +96,9 @@ public class ClientWorld extends World {
 		}
 
 		try {
-
 			new ClientWorld();
 		}
-		catch (IOException e) {
+		catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
 
 			e.printStackTrace();
 		}

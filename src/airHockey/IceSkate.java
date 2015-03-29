@@ -11,7 +11,7 @@ public class IceSkate {
 	private final Image image;
 
 	public IceSkate() throws IOException {
-		image = ImageIO.read(getClass().getResource("Bird_Hockey.gif"));
+		image = ImageIO.read(getClass().getResource("pics/Bird_Hockey.gif"));
 		x = 30;
 		y = 40;
 	}

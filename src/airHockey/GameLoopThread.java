@@ -1,13 +1,22 @@
 package airHockey;
+
 import java.io.IOException;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class GameLoopThread extends Thread {
 	private World world;
 
-	public GameLoopThread(World world) throws IOException {
+	public GameLoopThread(World world) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
+		this.world = world;
 
-	this.world=world;
-
+		Clip clip = AudioSystem.getClip();
+		clip.open(AudioSystem.getAudioInputStream(getClass().getResource("sound/bounceMusic.wav")));
+		clip.start();
+		clip.loop(1000000);
 	}
 
 	@Override
