@@ -34,6 +34,7 @@ public class World extends JFrame {
 		setUndecorated(true);
 		table = new Table();
 		add(table);
+		
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
@@ -72,7 +73,7 @@ public class World extends JFrame {
 		menu.add(points2);
 		
 		setJMenuBar(menu);
-		System.out.println(menu.getHeight());
+		//System.out.println(menu.getHeight());
 	}
 
 	public void movePuck() {
@@ -99,6 +100,7 @@ public class World extends JFrame {
 
 	public void moveMallet2(Point location) {
 		table.moveMallet2(location);
+	
 	}
 
 	public int getPuckSpeed() {
