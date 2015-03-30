@@ -13,7 +13,6 @@ public class GameLoopThread extends Thread {
 			int speed = world.getPuckSpeed();
 			if (speed > 0) {
 				world.movePuck();
-				world.repaint();
 			}
 			try {
 				sleep(100 - (speed * 2));

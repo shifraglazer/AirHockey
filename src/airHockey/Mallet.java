@@ -1,4 +1,5 @@
 package airHockey;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.MouseInfo;
@@ -16,7 +17,6 @@ public class Mallet {
 	}
 
 	public void drawMallet(Graphics g) {
-		
 		g.setColor(Color.BLACK);
 		g.fillOval(malletX - radius, malletY - radius, radius * 2, radius * 2);
 	}
@@ -26,12 +26,14 @@ public class Mallet {
 		double locy = location.getY();
 		Point point = MouseInfo.getPointerInfo().getLocation();
 		malletX = (int) (point.getX() - locx);
-		System.out.println(point.getY());
-		
+
+		// TODO remove println
+		System.out.println("Mallet 1 Y: " + point.getY());
+
 		malletY = (int) (point.getY() - locy - radius);
-		
 	}
-	public void updateMallet2(Point location){
+
+	public void updateMallet2(Point location) {
 		double locx = location.getX();
 		double locy = location.getY();
 		malletX = (int) (locx);

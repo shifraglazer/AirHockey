@@ -28,16 +28,15 @@ public class ServerWorld extends World {
 		table.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
-
-				// move your mallet to wherever the mouse pointer is located
-				Point point = getLocation();
-				table.moveMallet(point);
-
-				// send location of your mallet to second players
 				try {
+					// move your mallet to wherever the mouse pointer is located
+					Point point = getLocation();
+					moveMallet(point);
+
+					// send location of your mallet to second players
 					updateMallet2(table.getMallet1Location());
 				}
-				catch (IOException e1) {
+				catch (IOException | LineUnavailableException | UnsupportedAudioFileException e1) {
 					e1.printStackTrace();
 				}
 
@@ -46,11 +45,11 @@ public class ServerWorld extends World {
 		});
 
 		setVisible(true);
+		startNoise();
 		new GameLoopThread(this).start();
 	}
 
 	public void updateMallet2(String location) throws IOException {
-
 		OutputStream out = socket.getOutputStream();
 		PrintWriter writer = new PrintWriter(out);
 		writer.println(location);

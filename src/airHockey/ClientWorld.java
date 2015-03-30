@@ -31,13 +31,12 @@ public class ClientWorld extends World {
 			public void mouseMoved(MouseEvent e) {
 				Point point = getLocation();
 
-				table.moveMallet(point);
-
 				try {
+					moveMallet(point);
 					updateMallet2(table.getMallet1Location());
 					System.out.println("2 : " + (Table.MIDDLE - table.getMallet1().getMalletY()));
 				}
-				catch (IOException e1) {
+				catch (IOException | LineUnavailableException | UnsupportedAudioFileException e1) {
 					e1.printStackTrace();
 				}
 
@@ -46,6 +45,7 @@ public class ClientWorld extends World {
 		});
 
 		setVisible(true);
+		startNoise();
 		new GameLoopThread(this).start();
 	}
 

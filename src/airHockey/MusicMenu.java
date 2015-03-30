@@ -14,29 +14,37 @@ import javax.swing.JMenuItem;
 
 public class MusicMenu extends JMenu {
 	private static final long serialVersionUID = 1L;
+	private Font font;
+
 	private Map<String, String> musicSrc;
 	private Music music;
 	private String lastClicked;
-	private boolean on;
-	private Font font;
+	private boolean musicOn;
 
-	public MusicMenu(Font font) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+	private Sound sound;
+	private boolean soundOn;
+
+	public MusicMenu(Font font) {
 		this.font = font;
 		setFont(font);
 		setText("Music");
 		musicSrc = new HashMap<String, String>();
-		JMenuItem item = new JMenuItem("TURN OFF");
+
+		JMenuItem item = new JMenuItem("TURN MUSIC OFF");
 		item.addActionListener(mute);
 		add(item);
-		addChoice("Bounce", "sound/bounceMusicTrimmed.wav");
-		addChoice("Circus", "sound/comedy_circus_music.wav");
-		addChoice("Esther My Child", "sound/EstherMyChild.wav");
+
+		JMenuItem item2 = new JMenuItem("TURN SOUND OFF");
+		item2.addActionListener(soundMute);
+		add(item2);
+
+		addChoice("Bounce", "sound/bounceMusic.wav");
+		addChoice("Circus Comedy", "sound/comedy_circus_music.wav");
+		addChoice("Sailor Piccolo", "sound/sailorPiccolo.wav");
 		addChoice("Signals Classic Piano", "sound/classicPiano_Signals.wav");
 		addChoice("Classic Orchestra", "sound/classical_orchestral_music.wav");
 		addChoice("Light Hearted Orchestra", "sound/light_hearted_orchestral_music.wav");
-		lastClicked = "sound/bounceMusicTrimmed.wav";
-		music = new Music(lastClicked);
-		on = true;
+		lastClicked = "sound/bounceMusic.wav";
 	}
 
 	private void addChoice(String name, String src) {
@@ -47,24 +55,57 @@ public class MusicMenu extends JMenu {
 		musicSrc.put(name, src);
 	}
 
+	public void startMusic() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		music = new Music(lastClicked);
+		musicOn = true;
+	}
+
+	public void startSound(String noise) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		sound = new Sound(noise);
+		soundOn = true;
+	}
+
+	public void changeSound(String filename) throws LineUnavailableException, IOException,
+			UnsupportedAudioFileException {
+		if (soundOn) {
+			sound.changeTrack(filename);
+		}
+	}
+
 	ActionListener mute = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem item = (JMenuItem) e.getSource();
-			if (on) {
-				on = false;
+			if (musicOn) {
+				musicOn = false;
 				music.stop();
-				item.setText("TURN ON");
+				item.setText("TURN MUSIC ON");
 			}
 			else {
 				try {
-					on = true;
-					item.setText("TURN OFF");
+					musicOn = true;
+					item.setText("TURN MUSIC OFF");
 					music.resume(lastClicked);
 				}
 				catch (LineUnavailableException | IOException | UnsupportedAudioFileException e1) {
 					e1.printStackTrace();
 				}
+			}
+		}
+	};
+
+	ActionListener soundMute = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JMenuItem item = (JMenuItem) e.getSource();
+			if (soundOn) {
+				soundOn = false;
+				sound.stop();
+				item.setText("TURN SOUND ON");
+			}
+			else {
+				soundOn = true;
+				item.setText("TURN SOUND OFF");
 			}
 		}
 	};
@@ -76,7 +117,7 @@ public class MusicMenu extends JMenu {
 			String name = (String) item.getText();
 			String src = musicSrc.get(name);
 			lastClicked = src;
-			if (on) {
+			if (musicOn) {
 				try {
 					music.changeTrack(src);
 				}

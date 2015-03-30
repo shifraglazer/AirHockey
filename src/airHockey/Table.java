@@ -1,4 +1,5 @@
 package airHockey;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,6 +11,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
 
 public class Table extends JPanel {
@@ -31,18 +34,16 @@ public class Table extends JPanel {
 	final static int MIDDLE = HEIGHT / 2;
 
 	public Table() throws IOException {
-	
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		puck = new Puck(PUCKRADIUS,WIDTH, HEIGHT);
+		puck = new Puck(PUCKRADIUS, WIDTH, HEIGHT);
 		mallet1 = new Mallet(WIDTH / 2, (HEIGHT / 4) * 3, MALLETRADIUS);
 		mallet2 = new Mallet(WIDTH / 2, HEIGHT / 4, MALLETRADIUS);
 		executor = Executors.newScheduledThreadPool(1);
 		executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
 		tableImg = ImageIO.read(getClass().getResource("pics/table1.jpg"));
 		ice = new IceSkate();
-		//setPreferredSize(new Dimension(WIDTH,HEIGHT));
-		
-		System.out.println("width: " + WIDTH + getWidth()+ "   height: " + HEIGHT+ getHeight());
+
+		System.out.println("width: " + WIDTH + getWidth() + "   height: " + HEIGHT + getHeight());
 	}
 
 	public String getMallet1Location() {
@@ -52,9 +53,7 @@ public class Table extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
 		g.drawImage(tableImg, 0, 0, WIDTH, HEIGHT, this);
-
 		puck.drawPuck(g);
 		mallet1.drawMallet(g);
 		mallet2.drawMallet(g);
@@ -65,7 +64,6 @@ public class Table extends JPanel {
 	public int movePuck() {
 		int point = puck.move();
 		if (checkHit()) {
-
 			// bump so decrease speed
 			puck.decreaseSpeed();
 		}
@@ -87,9 +85,10 @@ public class Table extends JPanel {
 		return false;
 	}
 
-	public void moveMallet(Point location) {
+	public void moveMallet(Point location) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		mallet1.setMalletXY(location);
 		if (checkHit()) {
+			// TODO smusicMenu.changeSound("sound/jumping_teon.wav");
 			puck.changeColor();
 			puck.setSpeed(20);
 			// restart executor

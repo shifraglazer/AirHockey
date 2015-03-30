@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Point;
 import java.io.IOException;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.Box;
@@ -22,8 +24,9 @@ public class World extends JFrame {
 	private Font font;
 	private Font fontBold;
 	private boolean winner;
+	protected MusicMenu musicMenu;
 
-	public World() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
+	public World() throws IOException {
 		setTitle("Air Hockey");
 		setSize(300, 500);
 		// setLocationRelativeTo(null);
@@ -35,14 +38,14 @@ public class World extends JFrame {
 		add(table);
 
 		pack();
-		
+
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
-	private void setUpMenu() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+	private void setUpMenu() {
 		JMenuBar menu = new JMenuBar();
-		
-		menu.add(new MusicMenu(font));
+		musicMenu = new MusicMenu(font);
+		menu.add(musicMenu);
 
 		menu.add(Box.createHorizontalStrut(100));
 
@@ -65,11 +68,9 @@ public class World extends JFrame {
 		menu.add(points2);
 
 		setJMenuBar(menu);
-
 	}
 
 	public void movePuck() {
-
 		int point = table.movePuck();
 		if (point == 1) {
 			points1.setText(String.valueOf(++total1));
@@ -84,18 +85,24 @@ public class World extends JFrame {
 				winner = true;
 			}
 		}
+		repaint();
 	}
 
-	public void moveMallet(Point location) {
+	public void moveMallet(Point location) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		table.moveMallet(location);
+		musicMenu.changeSound("sound/moveMallet.wav");
 	}
 
 	public void moveMallet2(Point location) {
 		table.moveMallet2(location);
-
 	}
 
 	public int getPuckSpeed() {
 		return table.getPuckSpeed();
+	}
+	
+	public void startNoise() throws LineUnavailableException, IOException, UnsupportedAudioFileException{
+		musicMenu.startMusic();
+		musicMenu.startSound("sound/cartoon_mouse_says_uh_oh.wav");
 	}
 }
