@@ -26,15 +26,17 @@ public class World extends JFrame {
 
 	public World() throws IOException {
 		setTitle("Air Hockey");
-		setSize(300, 500);
+		setSize(300,500);
 		// setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		font = new Font("Arial", Font.PLAIN, 14);
 		fontBold = font.deriveFont(Font.BOLD);
 		setUpMenu();
-		setUndecorated(true);
+	//	setUndecorated(true);
+	
 		table = new Table();
 		add(table);
+		pack();
 		
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
@@ -51,11 +53,12 @@ public class World extends JFrame {
 				System.exit(0);
 			}
 		});
-		menu.add(exit);
+		//menu.add(exit);
 
 		menu.add(Box.createHorizontalStrut(80));
 
 		JLabel play1 = new JLabel("You: ");
+	
 		play1.setFont(font);
 		menu.add(play1);
 		total1 = 0;
@@ -74,7 +77,7 @@ public class World extends JFrame {
 		menu.add(points2);
 		
 		setJMenuBar(menu);
-		//System.out.println(menu.getHeight());
+		System.out.println(menu.getHeight());
 	}
 
 	public void movePuck() {

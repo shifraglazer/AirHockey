@@ -26,20 +26,23 @@ public class Table extends JPanel {
 	private IceSkate ice;
 
 	final static int WIDTH = 300;
-	final static int BAR = 27;
+	final static int BAR = 20;
 	final static int HEIGHT = 500 - BAR;
 	final static int MIDDLE = HEIGHT / 2;
 
 	public Table() throws IOException {
-		System.out.println("width: " + WIDTH + "   height: " + HEIGHT);
-		setSize(new Dimension(WIDTH, HEIGHT));
-		puck = new Puck(PUCKRADIUS, WIDTH, HEIGHT);
+	
+		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		puck = new Puck(PUCKRADIUS,WIDTH, HEIGHT);
 		mallet1 = new Mallet(WIDTH / 2, (HEIGHT / 4) * 3, MALLETRADIUS);
 		mallet2 = new Mallet(WIDTH / 2, HEIGHT / 4, MALLETRADIUS);
 		executor = Executors.newScheduledThreadPool(1);
 		executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
 		tableImg = ImageIO.read(getClass().getResource("pics/table1.jpg"));
 		ice = new IceSkate();
+		//setPreferredSize(new Dimension(WIDTH,HEIGHT));
+		
+		System.out.println("width: " + WIDTH + getWidth()+ "   height: " + HEIGHT+ getHeight());
 	}
 
 	public String getMallet1Location() {
@@ -49,6 +52,7 @@ public class Table extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
 		g.drawImage(tableImg, 0, 0, WIDTH, HEIGHT, this);
 
 		puck.drawPuck(g);
