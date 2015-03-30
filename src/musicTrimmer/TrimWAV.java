@@ -8,6 +8,8 @@ import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 /** Used to trim size of wave files
@@ -24,7 +26,7 @@ public class TrimWAV extends AudioInputStream {
 		stream = audioInputStream;
 		// calculate where to start and where to end
 		startByte = (long) ((startMilli / 1000) * stream.getFormat().getFrameRate() * stream.getFormat().getFrameSize());
-		endByte = (long) (31 * stream.getFormat().getFrameRate() * stream.getFormat().getFrameSize());
+		endByte = (long) (20 * stream.getFormat().getFrameRate() * stream.getFormat().getFrameSize());
 	}
 
 	@Override
@@ -59,8 +61,23 @@ public class TrimWAV extends AudioInputStream {
 	public static void main(String[] args) throws UnsupportedAudioFileException, IOException {
 		AudioInputStream music = null;
 		// copy file to project before trimming
-		music = AudioSystem.getAudioInputStream(new File("bounceMusic.wav"));
+		music = AudioSystem.getAudioInputStream(new File("sailorPiccolo.wav"));
 		music = new TrimWAV(music.getFormat(), music, 0, 15000);
 		AudioSystem.write(music, AudioFileFormat.Type.WAVE, new File("out.wav"));
+
+		try {
+			Clip clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(new File("out.wav")));
+			clip.start();
+			clip.loop(2);
+			while (clip.isOpen()) {
+				// busy loop to test if clip is right length and loops at right spot
+			}
+		}
+		catch (LineUnavailableException e) {
+			e.printStackTrace();
+
+		}
+
 	}
 }
