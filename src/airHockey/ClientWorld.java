@@ -85,10 +85,6 @@ public class ClientWorld extends World {
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			/* LookAndFeel lat = UIManager.getLookAndFeel(); UIDefaults defaults
-			 * = lat.getDefaults(); defaults.replace(key, value); for(Object
-			 * key: UIManager.getLookAndFeel().getDefaults().keySet()) {
-			 * System.out.println(key + " = " + UIManager.get(key)); } */
 		}
 		catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 				| UnsupportedLookAndFeelException e) {
