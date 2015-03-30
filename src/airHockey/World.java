@@ -1,17 +1,13 @@
 package airHockey;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.Box;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
@@ -29,45 +25,28 @@ public class World extends JFrame {
 
 	public World() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		setTitle("Air Hockey");
-		setSize(300,500);
+		setSize(300, 500);
 		// setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		font = new Font("Arial", Font.PLAIN, 14);
 		fontBold = font.deriveFont(Font.BOLD);
 		setUpMenu();
-	//	setUndecorated(true);
-	
 		table = new Table();
 		add(table);
 
 		pack();
-
+		
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
 	private void setUpMenu() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		JMenuBar menu = new JMenuBar();
-		JButton exit = new JButton("X");
-		exit.setFont(fontBold);
-		exit.setFocusable(false);
-		exit.setBackground(Color.RED);
-		exit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		//menu.add(exit);
-
-		menu.add(Box.createHorizontalStrut(10));
 		
-		add(new JMenuBar());
 		menu.add(new MusicMenu(font));
-		
-		menu.add(Box.createHorizontalStrut(20));
+
+		menu.add(Box.createHorizontalStrut(100));
 
 		JLabel play1 = new JLabel("You: ");
-	
 		play1.setFont(font);
 		menu.add(play1);
 		total1 = 0;

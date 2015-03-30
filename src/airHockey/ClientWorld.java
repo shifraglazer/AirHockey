@@ -20,8 +20,9 @@ public class ClientWorld extends World {
 	public ClientWorld() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 
 		setLocationRelativeTo(null);
-		// client = new Socket("192.168.1.6", 3762);
-		socket = new Socket("192.168.2.4", 3769); // port num sent
+		// socket = new Socket("192.168.1.6", 3769);
+		// socket = new Socket("192.168.2.4", 3769); // port num sent
+		socket = new Socket("localhost", 3769);
 		new ReadThread(socket, this).start();
 
 		// mallet moves with mouse

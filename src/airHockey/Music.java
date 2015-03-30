@@ -11,10 +11,7 @@ public class Music {
 	private Clip clip;
 
 	public Music(String filename) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		clip = AudioSystem.getClip();
-		clip.open(AudioSystem.getAudioInputStream(getClass().getResource(filename)));
-		clip.start();
-		clip.loop(Clip.LOOP_CONTINUOUSLY);
+		resume(filename);
 	}
 
 	public void changeTrack(String filename) throws LineUnavailableException, IOException,
@@ -31,7 +28,7 @@ public class Music {
 		clip = AudioSystem.getClip();
 		clip.open(AudioSystem.getAudioInputStream(getClass().getResource(filename)));
 		clip.start();
-		clip.loop(1000000);
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
 
 }
