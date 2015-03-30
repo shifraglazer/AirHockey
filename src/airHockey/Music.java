@@ -1,6 +1,7 @@
 package airHockey;
 
 import java.io.IOException;
+import java.net.URL;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -10,23 +11,23 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Music {
 	private Clip clip;
 
-	public Music(String filename) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		resume(filename);
+	public Music(URL lastClicked) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		resume(lastClicked);
 	}
 
-	public void changeTrack(String filename) throws LineUnavailableException, IOException,
+	public void changeTrack(URL src) throws LineUnavailableException, IOException,
 			UnsupportedAudioFileException {
 		stop();
-		resume(filename);
+		resume(src);
 	}
 
 	public void stop() {
 		clip.stop();
 	}
 
-	public void resume(String filename) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+	public void resume(URL src) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		clip = AudioSystem.getClip();
-		clip.open(AudioSystem.getAudioInputStream(getClass().getResource(filename)));
+		clip.open(AudioSystem.getAudioInputStream(src));
 		clip.start();
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}

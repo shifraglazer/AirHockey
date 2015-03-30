@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.awt.Point;
 import java.io.IOException;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.Box;
@@ -26,7 +24,7 @@ public class World extends JFrame {
 	private boolean winner;
 	protected MusicMenu musicMenu;
 
-	public World() throws IOException {
+	public World() throws IOException, UnsupportedAudioFileException {
 		setTitle("Air Hockey");
 		setSize(300, 500);
 		// setLocationRelativeTo(null);
@@ -42,7 +40,7 @@ public class World extends JFrame {
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
-	private void setUpMenu() {
+	private void setUpMenu() throws UnsupportedAudioFileException, IOException {
 		JMenuBar menu = new JMenuBar();
 		musicMenu = new MusicMenu(font);
 		menu.add(musicMenu);

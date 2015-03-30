@@ -29,8 +29,7 @@ public class Table extends JPanel {
 	private IceSkate ice;
 
 	final static int WIDTH = 300;
-	final static int BAR = 20;
-	final static int HEIGHT = 500 - BAR;
+	final static int HEIGHT = 500;
 	final static int MIDDLE = HEIGHT / 2;
 
 	public Table() throws IOException {
@@ -86,7 +85,9 @@ public class Table extends JPanel {
 	}
 
 	public void moveMallet(Point location) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		// if (location.getY() < MIDDLE) {
 		mallet1.setMalletXY(location);
+		// }
 		if (checkHit()) {
 			// TODO smusicMenu.changeSound("sound/jumping_teon.wav");
 			puck.changeColor();
@@ -103,7 +104,9 @@ public class Table extends JPanel {
 	}
 
 	public void moveMallet2(Point location) {
+		// if (location.getY() < MIDDLE) {
 		mallet2.updateMallet2(location);
+		// }
 		if (checkHit()) {
 			puck.changeColor();
 			puck.setSpeed(20);
