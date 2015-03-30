@@ -57,20 +57,21 @@ public class ClientWorld extends World {
 		// reflection over x and y axis
 		double diffx = Math.abs(Whalf - x);
 		double diffy = Math.abs(Lhalf - y);
-		if (x > Whalf && y > Lhalf) {
+		
+		if (x >= Whalf && y >= Lhalf) {
 			x = Whalf - diffx;
 			y = Lhalf - diffy;
 		}
-		else if (x < Whalf && y < Lhalf) {
+		else if (x <= Whalf && y <= Lhalf) {
 			x = Whalf + diffx;
 			y = Lhalf + diffy;
 		}
-		else if (y > Lhalf && x < Whalf) {
+		else if (y >= Lhalf && x <= Whalf) {
 			x = Whalf + diffx;
 			y = Lhalf - diffy;
 
 		}
-		else if (y < Lhalf && x > Whalf) {
+		else if (y <= Lhalf && x >= Whalf) {
 			y = Lhalf + diffy;
 			x = Whalf - diffx;
 		}

@@ -51,7 +51,7 @@ public class Puck {
 
 
 		// if hit side wall
-		if (puckX - radius <= 0 || puckX + radius >= width) {
+		if (puckX - radius <= 4 || puckX + radius >= width-4) {
 			colorNum += .02;
 			deltaX = -deltaX;
 			decreaseSpeed();
@@ -63,9 +63,9 @@ public class Puck {
 		// scored a point
 		// otherwise returns 0
 		else {
-			if (puckY - radius <= 0) {
+			if (puckY - radius <= 4) {
 				return checkGoal(1);
-			} else if (puckY + radius >= height) {
+			} else if (puckY + radius >= height-4) {
 				return checkGoal(2);
 			}
 		}

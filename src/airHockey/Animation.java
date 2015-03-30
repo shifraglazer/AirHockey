@@ -2,6 +2,7 @@ package airHockey;
 
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,9 +15,10 @@ public class Animation extends JFrame {
 	public Animation() throws IOException {
 		setSize(300, 300);
 		ice = new IceSkate();
-		label = new JLabel(new ImageIcon(ice.getImage()));
+		label = new JLabel();
+		label.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("pics/Hockey_Boy.gif"))));
 		add(label);
-		pack();
+		
 	}
 
 	public static void main(String args[]) {

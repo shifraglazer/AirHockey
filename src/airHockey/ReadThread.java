@@ -35,25 +35,24 @@ public class ReadThread extends Thread {
 				// reflection over x and y axis
 				double diffx = Math.abs(Whalf - x);
 				double diffy = Math.abs(Lhalf - y);
-				if (x > Whalf && y > Lhalf) {
+				if (x >= Whalf && y >= Lhalf) {
 					x = Whalf - diffx;
 					y = Lhalf - diffy;
 				}
-				else if (x < Whalf && y < Lhalf) {
+				else if (x <= Whalf && y <= Lhalf) {
 					x = Whalf + diffx;
 					y = Lhalf + diffy;
 				}
-				else if (y > Lhalf && x < Whalf) {
+				else if (y >= Lhalf && x <= Whalf) {
 					x = Whalf + diffx;
 					y = Lhalf - diffy;
 
 				}
-				else if (y < Lhalf && x > Whalf) {
+				else if (y <= Lhalf && x >= Whalf) {
 					x = Whalf - diffx;
-					//y = Lhalf + diffy;
+					y = Lhalf + diffy;
 				}
-				// TODO remove println
-				System.out.println("change to: x recieved: " + x + " y re: " + y);
+			
 				Point location = new Point(x.intValue(), y.intValue());
 				world.moveMallet2(location);
 
