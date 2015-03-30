@@ -1,4 +1,5 @@
 package airHockey;
+
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -7,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,7 +27,7 @@ public class World extends JFrame {
 	private Font fontBold;
 	private boolean winner;
 
-	public World() throws IOException {
+	public World() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		setTitle("Air Hockey");
 		setSize(300,500);
 		// setLocationRelativeTo(null);
@@ -36,12 +39,13 @@ public class World extends JFrame {
 	
 		table = new Table();
 		add(table);
+
 		pack();
-		
+
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
-	private void setUpMenu() {
+	private void setUpMenu() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		JMenuBar menu = new JMenuBar();
 		JButton exit = new JButton("X");
 		exit.setFont(fontBold);
@@ -55,7 +59,12 @@ public class World extends JFrame {
 		});
 		//menu.add(exit);
 
-		menu.add(Box.createHorizontalStrut(80));
+		menu.add(Box.createHorizontalStrut(10));
+		
+		add(new JMenuBar());
+		menu.add(new MusicMenu(font));
+		
+		menu.add(Box.createHorizontalStrut(20));
 
 		JLabel play1 = new JLabel("You: ");
 	
@@ -75,13 +84,13 @@ public class World extends JFrame {
 		points2 = new JLabel(String.valueOf(total2));
 		points2.setFont(fontBold);
 		menu.add(points2);
-		
+
 		setJMenuBar(menu);
-		System.out.println(menu.getHeight());
+
 	}
 
 	public void movePuck() {
-		
+
 		int point = table.movePuck();
 		if (point == 1) {
 			points1.setText(String.valueOf(++total1));
@@ -104,7 +113,7 @@ public class World extends JFrame {
 
 	public void moveMallet2(Point location) {
 		table.moveMallet2(location);
-	
+
 	}
 
 	public int getPuckSpeed() {
