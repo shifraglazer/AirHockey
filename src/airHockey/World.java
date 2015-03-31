@@ -98,8 +98,8 @@ public class World extends JFrame {
 	public int getPuckSpeed() {
 		return table.getPuckSpeed();
 	}
-	
-	public void startNoise() throws LineUnavailableException, IOException, UnsupportedAudioFileException{
+
+	public void startNoise() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		musicMenu.startMusic();
 		musicMenu.startSound("sound/cartoon_mouse_says_uh_oh.wav");
 	}

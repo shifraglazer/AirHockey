@@ -12,7 +12,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-/** Used to trim size of wave files
+/** Used to trim size of wav files
  * Takes in wav file > trims > saves new trimmed file */
 
 public class TrimWAV extends AudioInputStream {

@@ -18,7 +18,6 @@ public class ClientWorld extends World {
 	private Socket socket;
 
 	public ClientWorld() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
-
 		setLocationRelativeTo(null);
 		// socket = new Socket("192.168.1.6", 3769);
 		// socket = new Socket("192.168.2.4", 3769); // port num sent
@@ -57,7 +56,7 @@ public class ClientWorld extends World {
 		// reflection over x and y axis
 		double diffx = Math.abs(Whalf - x);
 		double diffy = Math.abs(Lhalf - y);
-		
+
 		if (x >= Whalf && y >= Lhalf) {
 			x = Whalf - diffx;
 			y = Lhalf - diffy;

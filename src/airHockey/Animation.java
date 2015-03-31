@@ -18,7 +18,6 @@ public class Animation extends JFrame {
 		label = new JLabel();
 		label.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("pics/Hockey_Boy.gif"))));
 		add(label);
-		
 	}
 
 	public static void main(String args[]) {

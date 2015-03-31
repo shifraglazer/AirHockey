@@ -6,6 +6,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+
 public class Puck {
 	private int radius;
 	private int width;
@@ -49,9 +50,8 @@ public class Puck {
 		puckX += deltaX;
 		puckY += deltaY;
 
-
 		// if hit side wall
-		if (puckX - radius <= 4 || puckX + radius >= width-4) {
+		if (puckX - radius <= 4 || puckX + radius >= width - 4) {
 			colorNum += .02;
 			deltaX = -deltaX;
 			decreaseSpeed();
@@ -65,7 +65,8 @@ public class Puck {
 		else {
 			if (puckY - radius <= 4) {
 				return checkGoal(1);
-			} else if (puckY + radius >= height-4) {
+			}
+			else if (puckY + radius >= height - 4) {
 				return checkGoal(2);
 			}
 		}
@@ -92,15 +93,13 @@ public class Puck {
 	public void drawPuck(Graphics g) {
 		g.setColor(Color.getHSBColor(colorNum, 1, 1));
 
-		g.fillOval((int) (puckX - radius), (int) (puckY - radius), radius * 2,
-				radius * 2);
+		g.fillOval((int) (puckX - radius), (int) (puckY - radius), radius * 2, radius * 2);
 		if (goal) {
 			g.setFont(new Font("Arial", Font.BOLD, 50));
 			g.setColor(Color.BLUE);
 			g.drawString("GOAL!", 70, 260);
 		}
-		g.fillOval((int) (puckX - radius), (int) (puckY - radius), radius * 2,
-				radius * 2);
+		g.fillOval((int) (puckX - radius), (int) (puckY - radius), radius * 2, radius * 2);
 
 	}
 

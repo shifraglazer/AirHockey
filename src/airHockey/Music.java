@@ -15,8 +15,7 @@ public class Music {
 		resume(lastClicked);
 	}
 
-	public void changeTrack(URL src) throws LineUnavailableException, IOException,
-			UnsupportedAudioFileException {
+	public void changeTrack(URL src) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		stop();
 		resume(src);
 	}
@@ -31,5 +30,4 @@ public class Music {
 		clip.start();
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
-
 }

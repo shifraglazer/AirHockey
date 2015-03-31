@@ -44,10 +44,11 @@ public class MusicMenu extends JMenu {
 		addChoice("Bounce", "sound/bounceMusic.wav");
 		addChoice("Circus Comedy", "sound/comedy_circus_music.wav");
 		addChoice("Sailor Piccolo", "sound/sailorPiccolo.wav");
-		addChoice("Signals Classic Piano", "sound/classicPiano_Signals.wav");
+		addChoice("Gameloop (Original)", "sound/gameloop.wav");
+		addChoice("Signals (Classic Piano)", "sound/classicPiano_Signals.wav");
 		addChoice("Classic Orchestra", "sound/classical_orchestral_music.wav");
 		addChoice("Light Hearted Orchestra", "sound/light_hearted_orchestral_music.wav");
-		lastClicked = cclass.getResource("sound/sailorPiccolo.wav");
+		lastClicked = cclass.getResource("sound/gameloop.wav");
 	}
 
 	private void addChoice(String name, String src) throws UnsupportedAudioFileException, IOException {
