@@ -26,7 +26,7 @@ public class TrimWAV extends AudioInputStream {
 		stream = audioInputStream;
 		// calculate where to start and where to end
 		startByte = (long) ((startMilli / 1000) * stream.getFormat().getFrameRate() * stream.getFormat().getFrameSize());
-		endByte = (long) (20 * stream.getFormat().getFrameRate() * stream.getFormat().getFrameSize());
+		endByte = (long) ((endMilli / 1000) * stream.getFormat().getFrameRate() * stream.getFormat().getFrameSize());
 	}
 
 	@Override
@@ -34,6 +34,7 @@ public class TrimWAV extends AudioInputStream {
 		return (int) (endByte - startByte - t_bytesRead);
 	}
 
+	@Override
 	public int read(byte[] abData, int nOffset, int nLength) throws IOException {
 		int bytesRead = 0;
 		if (t_bytesRead < startByte) {
@@ -60,8 +61,7 @@ public class TrimWAV extends AudioInputStream {
 
 	public static void main(String[] args) throws UnsupportedAudioFileException, IOException {
 		AudioInputStream music = null;
-		// copy file to project before trimming
-		music = AudioSystem.getAudioInputStream(new File("sailorPiccolo.wav"));
+		music = AudioSystem.getAudioInputStream(new File("Chesed.wav"));
 		music = new TrimWAV(music.getFormat(), music, 0, 15000);
 		AudioSystem.write(music, AudioFileFormat.Type.WAVE, new File("out.wav"));
 
@@ -70,14 +70,10 @@ public class TrimWAV extends AudioInputStream {
 			clip.open(AudioSystem.getAudioInputStream(new File("out.wav")));
 			clip.start();
 			clip.loop(2);
-			while (clip.isOpen()) {
-				// busy loop to test if clip is right length and loops at right spot
-			}
+			Thread.sleep(1000000);
 		}
-		catch (LineUnavailableException e) {
+		catch (LineUnavailableException | InterruptedException e) {
 			e.printStackTrace();
-
 		}
-
 	}
 }
