@@ -25,7 +25,7 @@ public class World extends JFrame {
 	private boolean winner;
 	protected MusicMenu musicMenu;
 
-	public World() throws IOException {
+	public World() throws IOException, UnsupportedAudioFileException {
 		setTitle("Air Hockey");
 		setSize(300, 500);
 		// setLocationRelativeTo(null);
@@ -41,7 +41,7 @@ public class World extends JFrame {
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
-	private void setUpMenu() {
+	private void setUpMenu() throws UnsupportedAudioFileException, IOException {
 		JMenuBar menu = new JMenuBar();
 		musicMenu = new MusicMenu(font);
 		menu.add(musicMenu);
@@ -100,8 +100,8 @@ public class World extends JFrame {
 	public int getPuckSpeed() {
 		return table.getPuckSpeed();
 	}
-	
-	public void startNoise() throws LineUnavailableException, IOException, UnsupportedAudioFileException{
+
+	public void startNoise() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		musicMenu.startMusic();
 		musicMenu.startSound("sound/cartoon_mouse_says_uh_oh.wav");
 	}

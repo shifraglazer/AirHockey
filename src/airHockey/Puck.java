@@ -11,7 +11,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+
+
 
 public class Puck {
 	private int radius;
@@ -77,7 +78,10 @@ public class Puck {
 		else {
 			if (puckY - radius <= 4) {
 				return checkGoal(1);
-			} else if (puckY + radius >= height - 4) {
+
+			}
+			else if (puckY + radius >= height - 4) {
+
 				return checkGoal(2);
 			}
 		}
@@ -108,18 +112,21 @@ public class Puck {
 	public void drawPuck(Graphics g) {
 		g.setColor(Color.getHSBColor(colorNum, 1, 1));
 
+
 		g.fillOval((int) (puckX - radius), (int) (puckY - radius), radius * 2,
 				radius * 2);
 		/*
 		 * g.drawImage(image,(int) (puckX - radius), (int) (puckY - radius),
 		 * radius * 2, radius * 2,null);
 		 */
+
 		if (goal) {
 			g.setFont(new Font("Arial", Font.BOLD, 50));
 			g.setColor(Color.BLUE);
 			// g.drawString("GOAL!", 70, 260);
 
 		}
+
 
 	}
 

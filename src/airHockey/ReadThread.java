@@ -1,4 +1,5 @@
 package airHockey;
+
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -52,10 +53,9 @@ public class ReadThread extends Thread {
 					x = Whalf - diffx;
 					y = Lhalf + diffy;
 				}
-			
+
 				Point location = new Point(x.intValue(), y.intValue());
 				world.moveMallet2(location);
-
 			}
 		}
 		catch (IOException e) {
