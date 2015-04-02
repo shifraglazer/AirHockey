@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class Table extends JPanel {
@@ -26,12 +27,14 @@ public class Table extends JPanel {
 	private final static int PUCKRADIUS = 12;
 	private final static int MALLETRADIUS = 20;
 	private final static double HITDIS = PUCKRADIUS + MALLETRADIUS;
-	private IceSkate ice;
 
 	final static int WIDTH = 300;
 	final static int BAR = 20;
 	final static int HEIGHT = 500 - BAR;
 	final static int MIDDLE = HEIGHT / 2;
+
+	private Image animated;
+	private final static int GOALPICSIZE = 56;
 
 	public Table() throws IOException {
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -39,11 +42,14 @@ public class Table extends JPanel {
 		mallet1 = new Mallet(WIDTH / 2, (HEIGHT / 4) * 3, MALLETRADIUS);
 		mallet2 = new Mallet(WIDTH / 2, HEIGHT / 4, MALLETRADIUS);
 		executor = Executors.newScheduledThreadPool(1);
-		executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
+		executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000,
+				TimeUnit.MILLISECONDS);
 		tableImg = ImageIO.read(getClass().getResource("pics/table1.jpg"));
-		ice = new IceSkate();
+		animated = new ImageIcon(getClass().getResource("pics/puck.gif"))
+				.getImage();
 
-		System.out.println("width: " + WIDTH + getWidth() + "   height: " + HEIGHT + getHeight());
+		System.out.println("width: " + WIDTH + getWidth() + "   height: "
+				+ HEIGHT + getHeight());
 	}
 
 	public String getMallet1Location() {
@@ -53,19 +59,24 @@ public class Table extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(tableImg, 0, 0, WIDTH, HEIGHT, this);
+		g.drawImage(tableImg, 0, 0, WIDTH, HEIGHT, null);
 		puck.drawPuck(g);
 		mallet1.drawMallet(g);
 		mallet2.drawMallet(g);
 		Graphics2D g2 = (Graphics2D) g;
-		g2.drawImage(ice.getImage(), ice.getX(), ice.getY(), 60, 60, null);
+		if (puck.getGoal()) {
+			g2.drawImage(animated, (WIDTH / 2) - GOALPICSIZE / 2, (HEIGHT / 2)
+					- GOALPICSIZE / 2, GOALPICSIZE + 1, GOALPICSIZE, this);
+		}
 	}
 
 	public int movePuck() {
 		int point = puck.move();
 		if (checkHit()) {
 			// bump so decrease speed
-			puck.decreaseSpeed();
+			// puck.decreaseSpeed();
+			// TODO remove setseped and uncomment decrease
+			puck.setSpeed(20);
 		}
 		return point;
 	}
@@ -77,7 +88,8 @@ public class Table extends JPanel {
 	public boolean calcMallet(Mallet mallet) {
 		int malletX = mallet.getMalletX();
 		int malletY = mallet.getMalletY();
-		double diff = Math.sqrt(Math.pow((malletX - puck.puckX), 2) + Math.pow(malletY - puck.puckY, 2));
+		double diff = Math.sqrt(Math.pow((malletX - puck.puckX), 2)
+				+ Math.pow(malletY - puck.puckY, 2));
 		if (diff <= HITDIS) {
 			puck.setSlope(malletX, malletY);
 			return true;
@@ -85,7 +97,8 @@ public class Table extends JPanel {
 		return false;
 	}
 
-	public void moveMallet(Point location) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+	public void moveMallet(Point location) throws LineUnavailableException,
+			IOException, UnsupportedAudioFileException {
 		mallet1.setMalletXY(location);
 		if (checkHit()) {
 			// TODO smusicMenu.changeSound("sound/jumping_teon.wav");
@@ -95,7 +108,8 @@ public class Table extends JPanel {
 			// TODO set up that only shuts down if executor is not null
 			if (executor.isShutdown()) {
 				executor = Executors.newScheduledThreadPool(1);
-				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
+				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000,
+						TimeUnit.MILLISECONDS);
 			}
 		}
 		System.out.println("1 : " + (MIDDLE - mallet1.getMalletY()));
@@ -111,7 +125,8 @@ public class Table extends JPanel {
 			// TODO set up that only shuts down if executor is not null
 			if (executor.isShutdown()) {
 				executor = Executors.newScheduledThreadPool(1);
-				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
+				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000,
+						TimeUnit.MILLISECONDS);
 			}
 		}
 
@@ -132,8 +147,7 @@ public class Table extends JPanel {
 		public void run() {
 			if (puck.getSpeed() > 0) {
 				puck.decreaseSpeed();
-			}
-			else {
+			} else {
 				executor.shutdown();
 			}
 		}

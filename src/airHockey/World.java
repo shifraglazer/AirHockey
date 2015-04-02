@@ -5,11 +5,10 @@ import java.awt.Font;
 import java.awt.Point;
 import java.io.IOException;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
@@ -36,7 +35,7 @@ public class World extends JFrame {
 		setUpMenu();
 		table = new Table();
 		add(table);
-
+		this.setIconImage(new ImageIcon(getClass().getResource("pics/icehockey.png")).getImage());
 		pack();
 
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -85,6 +84,7 @@ public class World extends JFrame {
 				winner = true;
 			}
 		}
+		
 		repaint();
 	}
 
