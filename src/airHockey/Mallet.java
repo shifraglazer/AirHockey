@@ -23,19 +23,22 @@ public class Mallet {
 
 	public void drawMallet(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.drawImage(image, malletX - MALLETRADIUS, malletY - MALLETRADIUS, MALLETRADIUS * 2, MALLETRADIUS * 2, null);
+		g.drawImage(image, malletX - MALLETRADIUS, malletY - MALLETRADIUS,
+				MALLETRADIUS * 2, MALLETRADIUS * 2, null);
 	}
 
 	public void setMalletXY(Point location) {
 		double locx = location.getX();
 		double locy = location.getY();
 		Point point = MouseInfo.getPointerInfo().getLocation();
-		malletX = (int) (point.getX() - locx);
+		if(point.getY()-locy -(MALLETRADIUS*2) >= World.GAMEHEIGHT/2){
+			malletX = (int) (point.getX() - locx);
 
-		// TODO remove println
-		System.out.println("Mallet 1 Y: " + point.getY());
+			// TODO remove println
+			System.out.println("Mallet 1 Y: " + point.getY());
 
-		malletY = (int) (point.getY() - locy - MALLETRADIUS * 2);
+			malletY = (int) (point.getY() - locy - MALLETRADIUS * 2);
+	}
 	}
 
 	public void updateMallet2(Point location) {
@@ -43,6 +46,7 @@ public class Mallet {
 		double locy = location.getY();
 		malletX = (int) (locx);
 		malletY = (int) (locy);
+		
 	}
 
 	public int getMalletX() {

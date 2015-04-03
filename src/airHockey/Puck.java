@@ -46,15 +46,13 @@ public class Puck {
 
 	private void reset() {
 		puckX = width / 2;
-		// TODO see why turning to NaN
-		/* if (resety == height / 4) {
-		 * resety *= 3;
-		 * }
-		 * else {
-		 * resety = height / 4;
-		 * }
-		 * puckY = resety; */
-		puckY = height / 2;
+		 if (resety == (int) height / 4) {
+		  resety *= 3;
+		  }
+		  else {
+		  resety = height / 4;
+		  }
+		  puckY = resety; 
 		speed = 0;
 	}
 
@@ -89,7 +87,7 @@ public class Puck {
 		// if puck within goal range, return player who scores
 		if (puckX > 70 && puckX < width - 70) {
 			time = 2;
-			executor.scheduleAtFixedRate(timer, 0, 3, TimeUnit.SECONDS);
+			executor.scheduleAtFixedRate(timer, 0, 4, TimeUnit.SECONDS);
 			reset();
 			// TODO sound.changeTrack("sound/goal.wav");
 			goal = true;

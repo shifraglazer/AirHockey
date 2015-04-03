@@ -36,7 +36,7 @@ public class Table extends JPanel {
 		setSize(width, height);
 		setPreferredSize(new Dimension(width, height));
 		puck = new Puck();
-		mallet1 = new Mallet((height / 4) * 3 - 10);
+		mallet1 = new Mallet(((height / 4) * 3) - 10);
 		mallet2 = new Mallet(height / 4 + 10);
 		System.out.println("mallet 1: " + mallet1.getMalletX() + ", " + mallet1.getMalletY());
 		System.out.println("mallet 2: " + mallet2.getMalletX() + ", " + mallet2.getMalletY());
