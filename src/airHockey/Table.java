@@ -18,37 +18,35 @@ import javax.swing.JPanel;
 
 public class Table extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private ScheduledExecutorService executor;
+	private int width = World.GAMEWIDTH;
+	private int height = World.GAMEHEIGHT;
 
 	private Puck puck;
 	private Mallet mallet1;
 	private Mallet mallet2;
 	private Image tableImg;
-	private final static int PUCKRADIUS = 12;
-	private final static int MALLETRADIUS = 20;
-	private final static double HITDIS = PUCKRADIUS + MALLETRADIUS;
 
-	final static int WIDTH = 300;
-	final static int HEIGHT = 500;
-	final static int MIDDLE = HEIGHT / 2;
+	private static final double HITDIS = Puck.PUCKRADIUS + Mallet.MALLETRADIUS;
 
 	private Image animated;
 	private final static int GOALPICSIZE = 56;
+	private ScheduledExecutorService executor;
 
 	public Table() throws IOException {
-		setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		puck = new Puck(PUCKRADIUS, WIDTH, HEIGHT);
-		mallet1 = new Mallet(WIDTH / 2, (HEIGHT / 4) * 3, MALLETRADIUS);
-		mallet2 = new Mallet(WIDTH / 2, HEIGHT / 4, MALLETRADIUS);
+		setSize(width, height);
+		setPreferredSize(new Dimension(width, height));
+		puck = new Puck();
+		mallet1 = new Mallet((height / 4) * 3 - 10);
+		mallet2 = new Mallet(height / 4 + 10);
+		System.out.println("mallet 1: " + mallet1.getMalletX() + ", " + mallet1.getMalletY());
+		System.out.println("mallet 2: " + mallet2.getMalletX() + ", " + mallet2.getMalletY());
 		executor = Executors.newScheduledThreadPool(1);
-		executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000,
-				TimeUnit.MILLISECONDS);
+		executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
 		tableImg = ImageIO.read(getClass().getResource("pics/table1.jpg"));
-		animated = new ImageIcon(getClass().getResource("pics/puck.gif"))
-				.getImage();
+		animated = new ImageIcon(getClass().getResource("pics/puck.gif")).getImage();
 
-		System.out.println("width: " + WIDTH + getWidth() + "   height: "
-				+ HEIGHT + getHeight());
+		System.out.println("expected width: " + width + " actual: " + getWidth());
+		System.out.println("expected height: " + height + " actual: " + getHeight());
 	}
 
 	public String getMallet1Location() {
@@ -58,18 +56,18 @@ public class Table extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(tableImg, 0, 0, WIDTH, HEIGHT, null);
+		g.drawImage(tableImg, 0, 0, width, height, null);
 		puck.drawPuck(g);
 		mallet1.drawMallet(g);
 		mallet2.drawMallet(g);
 		Graphics2D g2 = (Graphics2D) g;
 		if (puck.getGoal()) {
-			g2.drawImage(animated, (WIDTH / 2) - GOALPICSIZE / 2, (HEIGHT / 2)
-					- GOALPICSIZE / 2, GOALPICSIZE + 1, GOALPICSIZE, this);
+			g2.drawImage(animated, (width / 2) - GOALPICSIZE / 2, (height / 2) - GOALPICSIZE / 2, GOALPICSIZE + 1,
+					GOALPICSIZE, this);
 		}
 	}
 
-	public int movePuck() {
+	public int movePuck() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		int point = puck.move();
 		if (checkHit()) {
 			// bump so decrease speed
@@ -87,8 +85,7 @@ public class Table extends JPanel {
 	public boolean calcMallet(Mallet mallet) {
 		int malletX = mallet.getMalletX();
 		int malletY = mallet.getMalletY();
-		double diff = Math.sqrt(Math.pow((malletX - puck.puckX), 2)
-				+ Math.pow(malletY - puck.puckY, 2));
+		double diff = Math.sqrt(Math.pow((malletX - puck.puckX), 2) + Math.pow(malletY - puck.puckY, 2));
 		if (diff <= HITDIS) {
 			puck.setSlope(malletX, malletY);
 			return true;
@@ -109,11 +106,9 @@ public class Table extends JPanel {
 			// TODO set up that only shuts down if executor is not null
 			if (executor.isShutdown()) {
 				executor = Executors.newScheduledThreadPool(1);
-				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000,
-						TimeUnit.MILLISECONDS);
+				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
 			}
 		}
-		System.out.println("1 : " + (MIDDLE - mallet1.getMalletY()));
 		repaint();
 	}
 
@@ -128,12 +123,9 @@ public class Table extends JPanel {
 			// TODO set up that only shuts down if executor is not null
 			if (executor.isShutdown()) {
 				executor = Executors.newScheduledThreadPool(1);
-				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000,
-						TimeUnit.MILLISECONDS);
+				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
 			}
 		}
-
-		System.out.println("2 : " + (Table.MIDDLE - mallet2.getMalletY()));
 		repaint();
 	}
 
@@ -150,7 +142,8 @@ public class Table extends JPanel {
 		public void run() {
 			if (puck.getSpeed() > 0) {
 				puck.decreaseSpeed();
-			} else {
+			}
+			else {
 				executor.shutdown();
 			}
 		}

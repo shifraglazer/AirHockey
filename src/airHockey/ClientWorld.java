@@ -10,19 +10,16 @@ import java.net.Socket;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 public class ClientWorld extends World {
 	private static final long serialVersionUID = 1L;
 	private Socket socket;
 
-	public ClientWorld() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
+	public ClientWorld(String serverAddress) throws IOException, LineUnavailableException,
+			UnsupportedAudioFileException {
 		setLocationRelativeTo(null);
-		// socket = new Socket("192.168.1.6", 3769);
-		// socket = new Socket("192.168.2.4", 3769); // port num sent
-		socket = new Socket("localhost", 3769);
-		new ReadThread(socket, this).start();
+		socket = new Socket(serverAddress, 3769);
+		new ReaderThread(socket, this).start();
 
 		// mallet moves with mouse
 		table.addMouseMotionListener(new MouseMotionAdapter() {
@@ -33,7 +30,7 @@ public class ClientWorld extends World {
 				try {
 					moveMallet(point);
 					updateMallet2(table.getMallet1Location());
-					System.out.println("2 : " + (Table.MIDDLE - table.getMallet1().getMalletY()));
+					System.out.println("2 : " + (MIDDLE - table.getMallet1().getMalletY()));
 				}
 				catch (IOException | LineUnavailableException | UnsupportedAudioFileException e1) {
 					e1.printStackTrace();
@@ -51,8 +48,8 @@ public class ClientWorld extends World {
 	public void updateMallet2(String location) throws IOException {
 		double x = table.getMallet1().getMalletX();
 		double y = table.getMallet1().getMalletY();
-		double Whalf = Table.WIDTH / 2;
-		double Lhalf = Table.HEIGHT / 2;
+		double Whalf = GAMEWIDTH / 2;
+		double Lhalf = GAMEHEIGHT / 2;
 		// reflection over x and y axis
 		double diffx = Math.abs(Whalf - x);
 		double diffy = Math.abs(Lhalf - y);
@@ -80,23 +77,5 @@ public class ClientWorld extends World {
 		PrintWriter writer = new PrintWriter(out);
 		writer.println(location);
 		writer.flush();
-	}
-
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-		}
-		catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-				| UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			new ClientWorld();
-		}
-		catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
-
-			e.printStackTrace();
-		}
 	}
 }

@@ -23,9 +23,6 @@ public class MusicMenu extends JMenu {
 	private Music music;
 	private URL lastClicked;
 	private boolean musicOn;
-
-	private Sound sound;
-	private boolean soundOn;
 	private Class<? extends MusicMenu> cclass;
 
 	private JMenuItem oldItem;
@@ -34,11 +31,11 @@ public class MusicMenu extends JMenu {
 	private final Color selectedForeG = Color.decode("#0B2161");
 	private final Color selectedBackG = Color.decode("#E0ECF8");
 
-	// Music starts at random track
+	// music starts at random track
 	private Random random;
 	private int randomStart;
 
-	public MusicMenu(Font font) throws UnsupportedAudioFileException, IOException {
+	public MusicMenu(JMenuItem soundItem, Font font) throws UnsupportedAudioFileException, IOException {
 		this.font = font;
 		setFont(font);
 		setText("Music");
@@ -48,14 +45,14 @@ public class MusicMenu extends JMenu {
 		item.addActionListener(mute);
 		add(item);
 
-		JMenuItem item2 = new JMenuItem("TURN SOUND OFF");
-		item2.addActionListener(soundMute);
-		add(item2);
+		add(soundItem);
 
 		// choose a random track to start with
-		// at this point there are 7 tracks, so will select 0-6s
+		// at this point there are 7 tracks
+		// so chooses 0-6 and then add 1 so get right choice on list
 		random = new Random();
-		randomStart = random.nextInt(7);
+		randomStart = random.nextInt(7) + 1;
+		System.out.println("music choice number: " + randomStart);
 
 		// add all the sound tracks to the menu and maps
 		cclass = getClass();
@@ -86,21 +83,10 @@ public class MusicMenu extends JMenu {
 		}
 	}
 
+	// FIXME change Music format to be more like Sound format
 	public void startMusic() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		music = new Music(lastClicked);
 		musicOn = true;
-	}
-
-	public void startSound(String noise) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		sound = new Sound(noise);
-		soundOn = true;
-	}
-
-	public void changeSound(String filename) throws LineUnavailableException, IOException,
-			UnsupportedAudioFileException {
-		if (soundOn) {
-			sound.changeTrack(filename);
-		}
 	}
 
 	public void deselectItem(JMenuItem item) {
@@ -109,8 +95,6 @@ public class MusicMenu extends JMenu {
 	}
 
 	public void selectItem(JMenuItem item, URL src) {
-		// TODO remove println
-		System.out.println("music choice: " + src);
 		item.setForeground(selectedForeG);
 		item.setBackground(selectedBackG);
 		oldItem = item;
@@ -139,23 +123,6 @@ public class MusicMenu extends JMenu {
 		}
 	};
 
-	ActionListener soundMute = new ActionListener() {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JMenuItem item = (JMenuItem) e.getSource();
-			if (soundOn) {
-				soundOn = false;
-				sound.stop();
-				item.setText("TURN SOUND ON");
-			}
-			else {
-				soundOn = true;
-				item.setText("TURN SOUND OFF");
-			}
-		}
-	};
-
 	ActionListener changeTrackListen = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -166,7 +133,6 @@ public class MusicMenu extends JMenu {
 
 			URL src = musicSrc.get(item.getText());
 			selectItem(item, src);
-
 			if (musicOn) {
 				try {
 					music.changeTrack(src);

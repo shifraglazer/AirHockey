@@ -7,17 +7,25 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class Sound {
-	private Clip clip;
+/** Singleton Class */
 
-	public Sound(String filename) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		resume(filename);
+public class Sound {
+	// since every airHockey game will for sure need a Sound, can initialize it right away
+	private static final Sound SOUND = new Sound();
+	private Clip clip;
+	private boolean on;
+
+	// private constructor so new Sound can never be constructed
+	private Sound() {
+
 	}
 
 	public void changeTrack(String filename) throws LineUnavailableException, IOException,
 			UnsupportedAudioFileException {
-		stop();
-		resume(filename);
+		if (on) {
+			stop();
+			resume(filename);
+		}
 	}
 
 	public void stop() {
@@ -31,4 +39,22 @@ public class Sound {
 		clip.open(AudioSystem.getAudioInputStream(getClass().getResource(filename)));
 		clip.start();
 	}
+
+	public void turnOn() {
+		on = true;
+	}
+
+	public void turnOff() {
+		on = false;
+	}
+
+	public boolean isOn() {
+		return on;
+	}
+
+	// allow other classes access to the singleton instance
+	public static Sound getInstance() {
+		return SOUND;
+	}
+
 }

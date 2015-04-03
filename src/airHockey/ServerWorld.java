@@ -11,8 +11,6 @@ import java.net.Socket;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 public class ServerWorld extends World {
 	private static final long serialVersionUID = 1L;
@@ -22,7 +20,7 @@ public class ServerWorld extends World {
 		ServerSocket serverSocket = new ServerSocket(3769); // port num sent
 		socket = serverSocket.accept();
 		System.out.println("accepted");
-		new ReadThread(socket, this).start();
+		new ReaderThread(socket, this).start();
 
 		// mallet moves with mouse
 		table.addMouseMotionListener(new MouseMotionAdapter() {
@@ -55,22 +53,4 @@ public class ServerWorld extends World {
 		writer.println(location);
 		writer.flush();
 	}
-
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-		}
-		catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-				| UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			new ServerWorld();
-		}
-		catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		}
-	}
-
 }

@@ -10,21 +10,20 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Mallet {
+	protected static final int MALLETRADIUS = 20;
 	private int malletX;
 	private int malletY;
-	private int radius;
 	private Image image;
 
-	public Mallet(int sideCenter, int boardCenter, int radius) throws IOException {
-		this.radius = radius;
-		malletX = sideCenter;
-		malletY = boardCenter;
-		image=ImageIO.read(getClass().getResource("pics/mallet.jpg"));
+	public Mallet(int sideCenter) throws IOException {
+		malletX = World.GAMEWIDTH / 2;
+		malletY = sideCenter;
+		image = ImageIO.read(getClass().getResource("pics/mallet.jpg"));
 	}
 
 	public void drawMallet(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.drawImage(image,malletX - radius, malletY - radius, radius * 2, radius * 2,null);
+		g.drawImage(image, malletX - MALLETRADIUS, malletY - MALLETRADIUS, MALLETRADIUS * 2, MALLETRADIUS * 2, null);
 	}
 
 	public void setMalletXY(Point location) {
@@ -34,10 +33,9 @@ public class Mallet {
 		malletX = (int) (point.getX() - locx);
 
 		// TODO remove println
-		System.out.println("radius " + radius);
 		System.out.println("Mallet 1 Y: " + point.getY());
 
-		malletY = (int) (point.getY() - locy - radius * 2);
+		malletY = (int) (point.getY() - locy - MALLETRADIUS * 2);
 	}
 
 	public void updateMallet2(Point location) {

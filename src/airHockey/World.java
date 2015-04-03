@@ -4,6 +4,8 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Point;
 import java.io.IOException;
+import java.net.Socket;
+import java.util.Scanner;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -12,8 +14,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
-public class World extends JFrame {
+import org.apache.commons.io.IOUtils;
+
+public class World extends JFrame implements ReaderListener {
 	private static final long serialVersionUID = 1L;
 	protected Table table;
 	private JLabel points1;
@@ -22,17 +27,23 @@ public class World extends JFrame {
 	private int total2;
 	private Font font;
 	private Font fontBold;
-	private boolean winner;
-	protected MusicMenu musicMenu;
+	// TODO private boolean winner;
 
-	public World() throws IOException, UnsupportedAudioFileException {
+	private MusicMenu musicMenu;
+	private final Sound sound = Sound.getInstance();
+
+	protected static final int GAMEWIDTH = 300;
+	protected static final int GAMEHEIGHT = 500;
+	protected static final int MIDDLE = GAMEHEIGHT / 2;
+
+	public World() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
 		setTitle("Air Hockey");
-		setSize(300, 500);
 		// setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		font = new Font("Arial", Font.PLAIN, 14);
 		fontBold = font.deriveFont(Font.BOLD);
 		setUpMenu();
+		setSize(GAMEWIDTH, GAMEHEIGHT + musicMenu.getHeight());
 		table = new Table();
 		add(table);
 		this.setIconImage(new ImageIcon(getClass().getResource("pics/icehockey.png")).getImage());
@@ -43,7 +54,9 @@ public class World extends JFrame {
 
 	private void setUpMenu() throws UnsupportedAudioFileException, IOException {
 		JMenuBar menu = new JMenuBar();
-		musicMenu = new MusicMenu(font);
+		JMenuItem soundItem = new JMenuItem("TURN SOUND OFF");
+		soundItem.addActionListener(new SoundMute());
+		musicMenu = new MusicMenu(soundItem, font);
 		menu.add(musicMenu);
 
 		menu.add(Box.createHorizontalStrut(100));
@@ -69,28 +82,28 @@ public class World extends JFrame {
 		setJMenuBar(menu);
 	}
 
-	public void movePuck() {
+	public void movePuck() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		int point = table.movePuck();
 		if (point == 1) {
 			points1.setText(String.valueOf(++total1));
 			if (total1 >= 10) {
-				winner = true;
+				// winner = true;
 				// TODO can instead return winner so know if should stop gameloops
 			}
 		}
 		else if (point == 2) {
 			points2.setText(String.valueOf(++total2));
 			if (total2 >= 10) {
-				winner = true;
+				// TODO winner = true;
 			}
 		}
-		
+
 		repaint();
 	}
 
 	public void moveMallet(Point location) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		table.moveMallet(location);
-		musicMenu.changeSound("sound/moveMallet.wav");
+		sound.changeTrack("sound/moveMallet.wav");
 	}
 
 	public void moveMallet2(Point location) {
@@ -103,6 +116,47 @@ public class World extends JFrame {
 
 	public void startNoise() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		musicMenu.startMusic();
-		musicMenu.startSound("sound/cartoon_mouse_says_uh_oh.wav");
+		sound.turnOn();
+		sound.resume("sound/cartoon_mouse_says_uh_oh.wav");
+	}
+
+	@Override
+	public void onLineRead(String line) {
+		Scanner scanner = new Scanner(line);
+		Double x = Double.valueOf(scanner.next());
+		Double y = Double.valueOf(scanner.nextLine());
+		double Whalf = GAMEWIDTH / 2;
+		double Lhalf = GAMEHEIGHT / 2;
+		System.out.println("x recieved: " + x + " y re: " + y);
+
+		// reflection over x and y axis
+		double diffx = Math.abs(Whalf - x);
+		double diffy = Math.abs(Lhalf - y);
+		if (x >= Whalf && y >= Lhalf) {
+			x = Whalf - diffx;
+			y = Lhalf - diffy;
+		}
+		else if (x <= Whalf && y <= Lhalf) {
+			x = Whalf + diffx;
+			y = Lhalf + diffy;
+		}
+		else if (y >= Lhalf && x <= Whalf) {
+			x = Whalf + diffx;
+			y = Lhalf - diffy;
+
+		}
+		else if (y <= Lhalf && x >= Whalf) {
+			x = Whalf - diffx;
+			y = Lhalf + diffy;
+		}
+
+		Point location = new Point(x.intValue(), y.intValue());
+		moveMallet2(location);
+		scanner.close();
+	}
+
+	@Override
+	public void onCloseSocket(Socket socket) {
+		IOUtils.closeQuietly(socket);
 	}
 }
