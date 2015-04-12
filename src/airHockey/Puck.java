@@ -57,11 +57,13 @@ public class Puck {
 
 	public int move() throws LineUnavailableException, IOException,
 			UnsupportedAudioFileException {
+		
 		puckX += (deltaX * speed);
 		puckY += (deltaY * speed);
-
+		
 		// if hit side wall
-		if (puckX - PUCKRADIUS <= 4 || puckX + PUCKRADIUS >= width - 4) {
+		if (puckX - PUCKRADIUS <= speed + 1
+				|| puckX + PUCKRADIUS >= width - (speed + 1)) {
 			colorNum += .02;
 			deltaX = -deltaX;
 			decreaseSpeed();
@@ -73,9 +75,9 @@ public class Puck {
 		// scored a point
 		// otherwise returns 0
 		else {
-			if (puckY - PUCKRADIUS <= 4) {
+			if (puckY - PUCKRADIUS <= speed + 1) {
 				return checkGoal(1);
-			} else if (puckY + PUCKRADIUS >= height - 4) {
+			} else if (puckY + PUCKRADIUS >= height - (speed + 1)) {
 				return checkGoal(2);
 			}
 		}
@@ -154,14 +156,17 @@ public class Puck {
 		}
 		deltaX = Math.abs(deltaX);
 		deltaY = Math.abs(deltaY);
-
-		// calculate the inverse tangent of the slope
-		double angle1 = Math.atan(deltaX / deltaY);
-		double angle2 = 90 - angle1;
-
-		deltaY = Math.sin(angle1) * yneg;
-
-		deltaX = Math.sin(angle2) * xneg;
+		if (deltaX != 0 && deltaY != 0) {
+			// calculate the inverse tangent of the slope
+			double angle1 = Math.atan(deltaX / deltaY);
+			double angle2 = 90 - angle1;
+			deltaY = Math.sin(angle2) * yneg;
+			deltaX = Math.sin(angle1) * xneg;
+		} else if (deltaX == 0) {
+			deltaY = yneg;
+		} else {
+			deltaX = xneg;
+		}
 		System.out.println("coords " + deltaX + " " + deltaY);
 	}
 
@@ -183,5 +188,13 @@ public class Puck {
 
 	public boolean getGoal() {
 		return goal;
+	}
+	public void setResetY(int num){
+		if(num==1){
+			resety=height/4;
+		}
+		else{
+			resety=height/4*3;
+		}
 	}
 }

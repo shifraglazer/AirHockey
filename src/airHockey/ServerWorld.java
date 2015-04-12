@@ -8,9 +8,11 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.CountDownLatch;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.JDialog;
 
 public class ServerWorld extends World {
 	private static final long serialVersionUID = 1L;
@@ -41,7 +43,8 @@ public class ServerWorld extends World {
 				repaint();
 			}
 		});
-
+		//serve first
+		table.setPuck(3);
 		setVisible(true);
 		startNoise();
 		new GameLoopThread(this).start();

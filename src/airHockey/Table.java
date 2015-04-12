@@ -71,9 +71,8 @@ public class Table extends JPanel {
 		int point = puck.move();
 		if (checkHit()) {
 			// bump so decrease speed
-			// puck.decreaseSpeed();
-			// TODO remove setseped and uncomment decrease
-			puck.setSpeed(20);
+			puck.decreaseSpeed();
+		
 		}
 		return point;
 	}
@@ -112,6 +111,9 @@ public class Table extends JPanel {
 		repaint();
 	}
 
+	public void setPuck(int number){
+		puck.setResetY(number);
+	}
 	public void moveMallet2(Point location) {
 		// if (location.getY() < MIDDLE) {
 		mallet2.updateMallet2(location);

@@ -39,6 +39,8 @@ public class ClientWorld extends World {
 				repaint();
 			}
 		});
+		//serve second
+		table.setPuck(1);
 
 		setVisible(true);
 		startNoise();

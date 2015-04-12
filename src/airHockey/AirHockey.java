@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -51,7 +52,8 @@ public class AirHockey extends JDialog {
 	MouseListener mouse = new MouseAdapter() {
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// TODO when make nicer graphics use the following code to highlight whichever botton
+			// TODO when make nicer graphics use the following code to highlight
+			// whichever botton
 			// the mouse is hovering over
 			// JButton button = (JButton) e.getSource();
 			// button.setBorder(border);
@@ -68,10 +70,14 @@ public class AirHockey extends JDialog {
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			try {
-				new ServerWorld();
 				dispose();
-			}
-			catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+				new ServerSetup();
+
+			} catch (IOException | LineUnavailableException
+					| UnsupportedAudioFileException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -80,14 +86,9 @@ public class AirHockey extends JDialog {
 	ActionListener clientListen = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			try {
-				// TODO get ip address from user
-				new ClientWorld("192.168.40.3");
-				dispose();
-			}
-			catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
-				e.printStackTrace();
-			}
+			// TODO get ip address from user
+			new ClientSetup();
+			dispose();
 		}
 	};
 
@@ -98,8 +99,8 @@ public class AirHockey extends JDialog {
 				public void run() {
 					try {
 						new ServerWorld();
-					}
-					catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+					} catch (IOException | LineUnavailableException
+							| UnsupportedAudioFileException e) {
 						e.printStackTrace();
 					}
 				}
@@ -108,8 +109,8 @@ public class AirHockey extends JDialog {
 				public void run() {
 					try {
 						new ClientWorld("localhost");
-					}
-					catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+					} catch (IOException | LineUnavailableException
+							| UnsupportedAudioFileException e) {
 						e.printStackTrace();
 					}
 				}
@@ -122,16 +123,16 @@ public class AirHockey extends JDialog {
 
 	public static void main(String[] args) {
 		try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			/* LookAndFeel lat = UIManager.getLookAndFeel();
-			 * UIDefaults defaults = lat.getDefaults();
-			 * defaults.replace(key, value);
-			 * for(Object key: UIManager.getLookAndFeel().getDefaults().keySet()) {
-			 * System.out.println(key + " = " + UIManager.get(key));
-			 * } */
-		}
-		catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-				| UnsupportedLookAndFeelException e) {
+			UIManager.setLookAndFeel(UIManager
+					.getCrossPlatformLookAndFeelClassName());
+			/*
+			 * LookAndFeel lat = UIManager.getLookAndFeel(); UIDefaults defaults
+			 * = lat.getDefaults(); defaults.replace(key, value); for(Object
+			 * key: UIManager.getLookAndFeel().getDefaults().keySet()) {
+			 * System.out.println(key + " = " + UIManager.get(key)); }
+			 */
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
 		new AirHockey();
