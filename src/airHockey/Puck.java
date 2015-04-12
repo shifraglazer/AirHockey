@@ -46,19 +46,19 @@ public class Puck {
 
 	private void reset() {
 		puckX = width / 2;
-		 if (resety == (int) height / 4) {
-		  resety *= 3;
-		  }
-		  else {
-		  resety = height / 4;
-		  }
-		  puckY = resety; 
+		if (resety == (int) height / 4) {
+			resety *= 3;
+		} else {
+			resety = height / 4;
+		}
+		puckY = resety;
 		speed = 0;
 	}
 
-	public int move() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		puckX += deltaX;
-		puckY += deltaY;
+	public int move() throws LineUnavailableException, IOException,
+			UnsupportedAudioFileException {
+		puckX += (deltaX * speed);
+		puckY += (deltaY * speed);
 
 		// if hit side wall
 		if (puckX - PUCKRADIUS <= 4 || puckX + PUCKRADIUS >= width - 4) {
@@ -75,15 +75,15 @@ public class Puck {
 		else {
 			if (puckY - PUCKRADIUS <= 4) {
 				return checkGoal(1);
-			}
-			else if (puckY + PUCKRADIUS >= height - 4) {
+			} else if (puckY + PUCKRADIUS >= height - 4) {
 				return checkGoal(2);
 			}
 		}
 		return 0;
 	}
 
-	private int checkGoal(int player) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+	private int checkGoal(int player) throws LineUnavailableException,
+			IOException, UnsupportedAudioFileException {
 		// if puck within goal range, return player who scores
 		if (puckX > 70 && puckX < width - 70) {
 			time = 2;
@@ -104,9 +104,12 @@ public class Puck {
 	public void drawPuck(Graphics g) {
 		g.setColor(Color.getHSBColor(colorNum, 1, 1));
 
-		g.fillOval((int) (puckX - PUCKRADIUS), (int) (puckY - PUCKRADIUS), PUCKRADIUS * 2, PUCKRADIUS * 2);
-		/* g.drawImage(image,(int) (puckX - radius), (int) (puckY - radius),
-		 * radius * 2, radius * 2,null); */
+		g.fillOval((int) (puckX - PUCKRADIUS), (int) (puckY - PUCKRADIUS),
+				PUCKRADIUS * 2, PUCKRADIUS * 2);
+		/*
+		 * g.drawImage(image,(int) (puckX - radius), (int) (puckY - radius),
+		 * radius * 2, radius * 2,null);
+		 */
 
 		if (goal) {
 			g.setFont(new Font("Arial", Font.BOLD, 50));
@@ -126,10 +129,8 @@ public class Puck {
 	};
 
 	public void setSlope(int malletX, int malletY) {
-		deltaX = puckY - malletY;
-		deltaY = puckX - malletX;
-		// double hyp=Math.sqrt(Math.pow(deltaX, 2)+Math.pow(deltaY, 2));
-		// double angle1 =(90*deltaX)/(deltaX+deltaY);
+		deltaY = puckY - malletY;
+		deltaX = puckX - malletX;
 
 		// keep track if original x or y was negative so know which end
 		// direction should be negative
@@ -137,18 +138,31 @@ public class Puck {
 		// was negative
 		int xneg = 1;
 		int yneg = 1;
+		/*
+		 * if (deltaX > 0 && deltaY < 0) { yneg = -1; } else if (deltaX < 0 &&
+		 * deltaY < 0) { xneg = -1; yneg = -1; } else if (deltaX < 0 && deltaY >
+		 * 0) { xneg = -1; } else if (deltaX > 0 && deltaY > 0) {
+		 * 
+		 * }
+		 */
 		if (deltaX < 0) {
 			xneg = -1;
 		}
+
 		if (deltaY < 0) {
 			yneg = -1;
 		}
+		deltaX = Math.abs(deltaX);
+		deltaY = Math.abs(deltaY);
 
 		// calculate the inverse tangent of the slope
 		double angle1 = Math.atan(deltaX / deltaY);
 		double angle2 = 90 - angle1;
-		deltaY = (Math.sin(angle1) * speed) * yneg;
-		deltaX = (Math.sin(angle2) * speed) * xneg;
+
+		deltaY = Math.sin(angle1) * yneg;
+
+		deltaX = Math.sin(angle2) * xneg;
+		System.out.println("coords " + deltaX + " " + deltaY);
 	}
 
 	public void decreaseSpeed() {
