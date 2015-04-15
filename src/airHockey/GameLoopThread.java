@@ -25,7 +25,7 @@ public class GameLoopThread extends Thread {
 				}
 			}
 			try {
-				sleep(100 - (speed * 2));
+				sleep(21 - speed);
 			}
 			catch (InterruptedException e) {
 				e.printStackTrace();

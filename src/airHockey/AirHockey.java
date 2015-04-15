@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.util.concurrent.CountDownLatch;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -72,12 +71,8 @@ public class AirHockey extends JDialog {
 			try {
 				dispose();
 				new ServerSetup();
-
-			} catch (IOException | LineUnavailableException
-					| UnsupportedAudioFileException e) {
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+			}
+			catch (IOException | LineUnavailableException | UnsupportedAudioFileException | InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
@@ -99,8 +94,8 @@ public class AirHockey extends JDialog {
 				public void run() {
 					try {
 						new ServerWorld();
-					} catch (IOException | LineUnavailableException
-							| UnsupportedAudioFileException e) {
+					}
+					catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
 						e.printStackTrace();
 					}
 				}
@@ -109,8 +104,8 @@ public class AirHockey extends JDialog {
 				public void run() {
 					try {
 						new ClientWorld("localhost");
-					} catch (IOException | LineUnavailableException
-							| UnsupportedAudioFileException e) {
+					}
+					catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
 						e.printStackTrace();
 					}
 				}
@@ -123,16 +118,13 @@ public class AirHockey extends JDialog {
 
 	public static void main(String[] args) {
 		try {
-			UIManager.setLookAndFeel(UIManager
-					.getCrossPlatformLookAndFeelClassName());
-			/*
-			 * LookAndFeel lat = UIManager.getLookAndFeel(); UIDefaults defaults
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			/* LookAndFeel lat = UIManager.getLookAndFeel(); UIDefaults defaults
 			 * = lat.getDefaults(); defaults.replace(key, value); for(Object
 			 * key: UIManager.getLookAndFeel().getDefaults().keySet()) {
-			 * System.out.println(key + " = " + UIManager.get(key)); }
-			 */
-		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException | UnsupportedLookAndFeelException e) {
+			 * System.out.println(key + " = " + UIManager.get(key)); } */
+		}
+		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
 		new AirHockey();

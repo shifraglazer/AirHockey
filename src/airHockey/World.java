@@ -103,7 +103,7 @@ public class World extends JFrame implements ReaderListener {
 
 	public void moveMallet(Point location) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		table.moveMallet(location);
-		sound.changeTrack("sound/moveMallet.wav");
+		// sound.changeTrack("sound/moveMallet.wav");
 	}
 
 	public void moveMallet2(Point location) {

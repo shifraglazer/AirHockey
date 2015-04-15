@@ -3,31 +3,29 @@ package airHockey;
 import java.io.IOException;
 import java.net.URL;
 
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class Music {
-	private Clip clip;
+/** Singleton Class */
 
-	public Music(URL lastClicked) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		resume(lastClicked);
+public class Music extends Noise {
+	// know for sure will have a Music so can create it here
+	private static final Music MUSIC = new Music();
+
+	// private constructor so new Sound can never be constructed
+	private Music() {
+
 	}
 
-	public void changeTrack(URL src) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		stop();
-		resume(src);
-	}
-
-	public void stop() {
-		clip.stop();
-	}
-
+	@Override
 	public void resume(URL src) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		clip = AudioSystem.getClip();
-		clip.open(AudioSystem.getAudioInputStream(src));
-		clip.start();
+		super.resume(src);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
+	}
+
+	// allow other classes access to the singleton instance
+	public static Music getInstance() {
+		return MUSIC;
 	}
 }

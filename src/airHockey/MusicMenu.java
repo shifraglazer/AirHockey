@@ -20,9 +20,8 @@ public class MusicMenu extends JMenu {
 	private Font font;
 
 	private Map<String, URL> musicSrc;
-	private Music music;
+	private Music music = Music.getInstance();
 	private URL lastClicked;
-	private boolean musicOn;
 	private Class<? extends MusicMenu> cclass;
 
 	private JMenuItem oldItem;
@@ -48,10 +47,10 @@ public class MusicMenu extends JMenu {
 		add(soundItem);
 
 		// choose a random track to start with
-		// at this point there are 7 tracks
-		// so chooses 0-6 and then add 1 so get right choice on list
+		// at this point there are 8 tracks
+		// so chooses 0-7 and then add 1 so get right choice on list
 		random = new Random();
-		randomStart = random.nextInt(7) + 1;
+		randomStart = random.nextInt(8) + 1;
 		System.out.println("music choice number: " + randomStart);
 
 		// add all the sound tracks to the menu and maps
@@ -60,6 +59,7 @@ public class MusicMenu extends JMenu {
 		addChoice("Circus Comedy", "sound/comedy_circus_music.wav");
 		addChoice("Sailor Piccolo", "sound/sailorPiccolo.wav");
 		addChoice("Gameloop (Original)", "sound/gameloop.wav");
+		addChoice("Gameloop2 (Original)", "sound/gameloop2.wav");
 		addChoice("Signals (Classic Piano)", "sound/classicPiano_Signals.wav");
 		addChoice("Classic Orchestra", "sound/classical_orchestral_music.wav");
 		addChoice("Light Hearted Orchestra", "sound/light_hearted_orchestral_music.wav");
@@ -83,12 +83,6 @@ public class MusicMenu extends JMenu {
 		}
 	}
 
-	// FIXME change Music format to be more like Sound format
-	public void startMusic() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		music = new Music(lastClicked);
-		musicOn = true;
-	}
-
 	public void deselectItem(JMenuItem item) {
 		item.setForeground(defaultForeG);
 		item.setBackground(defaultBackG);
@@ -101,18 +95,23 @@ public class MusicMenu extends JMenu {
 		lastClicked = src;
 	}
 
+	public void startMusic() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		music.turnOn();
+		music.resume(lastClicked);
+	}
+
 	ActionListener mute = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem item = (JMenuItem) e.getSource();
-			if (musicOn) {
-				musicOn = false;
+			if (music.isOn()) {
+				music.turnOff();
 				music.stop();
 				item.setText("TURN MUSIC ON");
 			}
 			else {
 				try {
-					musicOn = true;
+					music.turnOn();
 					item.setText("TURN MUSIC OFF");
 					music.resume(lastClicked);
 				}
@@ -133,7 +132,7 @@ public class MusicMenu extends JMenu {
 
 			URL src = musicSrc.get(item.getText());
 			selectItem(item, src);
-			if (musicOn) {
+			if (music.isOn()) {
 				try {
 					music.changeTrack(src);
 				}

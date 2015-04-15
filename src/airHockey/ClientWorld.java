@@ -15,8 +15,7 @@ public class ClientWorld extends World {
 	private static final long serialVersionUID = 1L;
 	private Socket socket;
 
-	public ClientWorld(String serverAddress) throws IOException, LineUnavailableException,
-			UnsupportedAudioFileException {
+	public ClientWorld(String serverAddress) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		setLocationRelativeTo(null);
 		socket = new Socket(serverAddress, 3769);
 		new ReaderThread(socket, this).start();
@@ -39,7 +38,7 @@ public class ClientWorld extends World {
 				repaint();
 			}
 		});
-		//serve second
+		// serve second
 		table.setPuck(1);
 
 		setVisible(true);

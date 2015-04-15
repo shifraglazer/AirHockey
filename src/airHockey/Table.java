@@ -31,6 +31,7 @@ public class Table extends JPanel {
 	private Image animated;
 	private final static int GOALPICSIZE = 56;
 	private ScheduledExecutorService executor;
+	private Sound SOUND = Sound.getInstance();
 
 	public Table() throws IOException {
 		setSize(width, height);
@@ -62,8 +63,7 @@ public class Table extends JPanel {
 		mallet2.drawMallet(g);
 		Graphics2D g2 = (Graphics2D) g;
 		if (puck.getGoal()) {
-			g2.drawImage(animated, (width / 2) - GOALPICSIZE / 2, (height / 2) - GOALPICSIZE / 2, GOALPICSIZE + 1,
-					GOALPICSIZE, this);
+			g2.drawImage(animated, (width / 2) - GOALPICSIZE / 2, (height / 2) - GOALPICSIZE / 2, GOALPICSIZE + 1, GOALPICSIZE, this);
 		}
 	}
 
@@ -72,7 +72,7 @@ public class Table extends JPanel {
 		if (checkHit()) {
 			// bump so decrease speed
 			puck.decreaseSpeed();
-		
+
 		}
 		return point;
 	}
@@ -98,7 +98,8 @@ public class Table extends JPanel {
 		mallet1.setMalletXY(location);
 		// }
 		if (checkHit()) {
-			// TODO smusicMenu.changeSound("sound/jumping_teon.wav");
+			// FIXME don't know if should play sound here - not playing at right time anyway
+			SOUND.changeTrack("sound/score.wav");
 			puck.changeColor();
 			puck.setSpeed(20);
 			// restart executor
@@ -111,9 +112,10 @@ public class Table extends JPanel {
 		repaint();
 	}
 
-	public void setPuck(int number){
+	public void setPuck(int number) {
 		puck.setResetY(number);
 	}
+
 	public void moveMallet2(Point location) {
 		// if (location.getY() < MIDDLE) {
 		mallet2.updateMallet2(location);

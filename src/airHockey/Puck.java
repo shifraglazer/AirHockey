@@ -48,22 +48,20 @@ public class Puck {
 		puckX = width / 2;
 		if (resety == (int) height / 4) {
 			resety *= 3;
-		} else {
+		}
+		else {
 			resety = height / 4;
 		}
 		puckY = resety;
 		speed = 0;
 	}
 
-	public int move() throws LineUnavailableException, IOException,
-			UnsupportedAudioFileException {
-		
-		puckX += (deltaX * speed);
-		puckY += (deltaY * speed);
-		
+	public int move() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		puckX += (deltaX);
+		puckY += (deltaY);
+
 		// if hit side wall
-		if (puckX - PUCKRADIUS <= speed + 1
-				|| puckX + PUCKRADIUS >= width - (speed + 1)) {
+		if (puckX - PUCKRADIUS <= 4 || puckX + PUCKRADIUS >= width - 4) {
 			colorNum += .02;
 			deltaX = -deltaX;
 			decreaseSpeed();
@@ -75,17 +73,17 @@ public class Puck {
 		// scored a point
 		// otherwise returns 0
 		else {
-			if (puckY - PUCKRADIUS <= speed + 1) {
+			if (puckY - PUCKRADIUS <= 4) {
 				return checkGoal(1);
-			} else if (puckY + PUCKRADIUS >= height - (speed + 1)) {
+			}
+			else if (puckY + PUCKRADIUS >= height - 4) {
 				return checkGoal(2);
 			}
 		}
 		return 0;
 	}
 
-	private int checkGoal(int player) throws LineUnavailableException,
-			IOException, UnsupportedAudioFileException {
+	private int checkGoal(int player) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		// if puck within goal range, return player who scores
 		if (puckX > 70 && puckX < width - 70) {
 			time = 2;
@@ -106,12 +104,9 @@ public class Puck {
 	public void drawPuck(Graphics g) {
 		g.setColor(Color.getHSBColor(colorNum, 1, 1));
 
-		g.fillOval((int) (puckX - PUCKRADIUS), (int) (puckY - PUCKRADIUS),
-				PUCKRADIUS * 2, PUCKRADIUS * 2);
-		/*
-		 * g.drawImage(image,(int) (puckX - radius), (int) (puckY - radius),
-		 * radius * 2, radius * 2,null);
-		 */
+		g.fillOval((int) (puckX - PUCKRADIUS), (int) (puckY - PUCKRADIUS), PUCKRADIUS * 2, PUCKRADIUS * 2);
+		/* g.drawImage(image,(int) (puckX - radius), (int) (puckY - radius),
+		 * radius * 2, radius * 2,null); */
 
 		if (goal) {
 			g.setFont(new Font("Arial", Font.BOLD, 50));
@@ -140,13 +135,10 @@ public class Puck {
 		// was negative
 		int xneg = 1;
 		int yneg = 1;
-		/*
-		 * if (deltaX > 0 && deltaY < 0) { yneg = -1; } else if (deltaX < 0 &&
+		/* if (deltaX > 0 && deltaY < 0) { yneg = -1; } else if (deltaX < 0 &&
 		 * deltaY < 0) { xneg = -1; yneg = -1; } else if (deltaX < 0 && deltaY >
 		 * 0) { xneg = -1; } else if (deltaX > 0 && deltaY > 0) {
-		 * 
-		 * }
-		 */
+		 * } */
 		if (deltaX < 0) {
 			xneg = -1;
 		}
@@ -162,9 +154,11 @@ public class Puck {
 			double angle2 = 90 - angle1;
 			deltaY = Math.sin(angle2) * yneg;
 			deltaX = Math.sin(angle1) * xneg;
-		} else if (deltaX == 0) {
+		}
+		else if (deltaX == 0) {
 			deltaY = yneg;
-		} else {
+		}
+		else {
 			deltaX = xneg;
 		}
 		System.out.println("coords " + deltaX + " " + deltaY);
@@ -189,12 +183,13 @@ public class Puck {
 	public boolean getGoal() {
 		return goal;
 	}
-	public void setResetY(int num){
-		if(num==1){
-			resety=height/4;
+
+	public void setResetY(int num) {
+		if (num == 1) {
+			resety = height / 4;
 		}
-		else{
-			resety=height/4*3;
+		else {
+			resety = height / 4 * 3;
 		}
 	}
 }
