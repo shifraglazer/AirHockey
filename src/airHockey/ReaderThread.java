@@ -17,10 +17,13 @@ public class ReaderThread extends Thread {
 
 	public void run() {
 		try {
+			// ObjectInputStream in = (ObjectInputStream) socket.getInputStream();
 			InputStream in = socket.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 			String line;
 			while ((line = reader.readLine()) != null) {
+				// Command command = (Command) in.readObject();
+				// listener.onObjectRead(command);
 				listener.onLineRead(line);
 			}
 		}
