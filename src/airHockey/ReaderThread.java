@@ -14,12 +14,16 @@ public class ReaderThread extends Thread {
 		this.listener = listener;
 	}
 
+	@Override
 	public void run() {
 		try {
 			InputStream in = socket.getInputStream();
-			ObjectInputStream objIn = new ObjectInputStream(in);
-			Command command = (Command) objIn.readObject();
-			listener.onObjectRead(command);
+			
+			while (in != null) {
+				ObjectInputStream objIn = new ObjectInputStream(in);
+				Command command = (Command) objIn.readObject();
+				listener.onObjectRead(command);
+			}
 			//in.close();
 			//onjIn.close();
 		}

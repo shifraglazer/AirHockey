@@ -3,6 +3,7 @@ package airHockey;
 import java.awt.Point;
 
 public class MalletCommand implements Command {
+	private static final long serialVersionUID = 1L;
 	private Double x;
 	private Double y;
 
@@ -10,14 +11,8 @@ public class MalletCommand implements Command {
 		x = malletX;
 		y = malletY;
 	}
-	
-	public void updateCommand(double x, double y){
-		this.x = x;
-		this.y = y;
-	}
 
-	@Override
-	public void perform(Table table) {
+	public void updateCommand(double x, double y) {
 		double Whalf = World.GAMEWIDTH / 2;
 		double Lhalf = World.GAMEHEIGHT / 2;
 
@@ -41,7 +36,12 @@ public class MalletCommand implements Command {
 			x = Whalf - diffx;
 			y = Lhalf + diffy;
 		}
+		this.x = x;
+		this.y = y;
+	}
 
+	@Override
+	public void perform(Table table) {
 		Point location = new Point(x.intValue(), y.intValue());
 		table.moveMallet2(location);
 	}

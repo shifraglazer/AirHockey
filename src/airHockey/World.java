@@ -22,7 +22,7 @@ import org.apache.commons.io.IOUtils;
 
 public class World extends JFrame implements ReaderListener, Serializable {
 	private static final long serialVersionUID = 1L;
-	//protected Socket socket;
+	protected Socket socket;
 	protected Table table;
 	private JLabel points1;
 	private JLabel points2;
@@ -123,13 +123,13 @@ public class World extends JFrame implements ReaderListener, Serializable {
 		sound.resume("sound/cartoon_mouse_says_uh_oh.wav");
 	}
 	
-	//public void updateMallet2(MalletCommand command) throws IOException {
-	//	OutputStream out = socket.getOutputStream();
-	//	ObjectOutputStream objOut = new ObjectOutputStream(out);
-	//	objOut.writeObject(command);
+	public void updateMallet2(MalletCommand command) throws IOException {
+		OutputStream out = socket.getOutputStream();
+		ObjectOutputStream objOut = new ObjectOutputStream(out);
+		objOut.writeObject(command);
 		//out.close();
 		//objOut.close();
-	//}
+	}
 	
 	@Override
 	public void onObjectRead(Command command) {

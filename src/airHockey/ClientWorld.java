@@ -4,8 +4,6 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -13,7 +11,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class ClientWorld extends World {
 	private static final long serialVersionUID = 1L;
-	protected Socket socket;
 
 	public ClientWorld(String serverAddress) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		setLocationRelativeTo(null);
@@ -44,13 +41,5 @@ public class ClientWorld extends World {
 		setVisible(true);
 		startNoise();
 		new GameLoopThread(this).start();
-	}
-	
-	public void updateMallet2(MalletCommand command) throws IOException {
-		OutputStream out = socket.getOutputStream();
-		ObjectOutputStream objOut = new ObjectOutputStream(out);
-		objOut.writeObject(command);
-		//out.close();
-		//objOut.close();
 	}
 }
