@@ -11,9 +11,9 @@ import java.util.concurrent.TimeUnit;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import commands.PuckCommand;
+import commands.PositionCommand;
 
-public class Puck {
+public class Puck implements Positionable {
 	protected static final int PUCKRADIUS = 12;
 	private int width = World.GAMEWIDTH;
 	private int height = World.GAMEHEIGHT;
@@ -22,7 +22,7 @@ public class Puck {
 	// private Image image;
 	private int resety;
 
-	private PuckCommand command;
+	private PositionCommand command;
 
 	// the (x,y) coordinates of the center of the puck
 	protected double puckX;
@@ -44,7 +44,7 @@ public class Puck {
 		resety = height / 4;
 		colorNum = 0;
 		executor = Executors.newScheduledThreadPool(1);
-		command = new PuckCommand(puckX, puckY);
+		command = new PositionCommand(puckX, puckY, this);
 	}
 
 	private void reset() {
@@ -196,12 +196,13 @@ public class Puck {
 		}
 	}
 
+	@Override
 	public void updateCoordinates(double x, double y) {
 		puckX = x;
 		puckY = y;
 	}
 
-	public PuckCommand getCommand() {
+	public PositionCommand getCommand() {
 		command.updateCommand(puckX, puckY);
 		return command;
 	}

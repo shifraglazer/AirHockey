@@ -7,7 +7,7 @@ public class MessageCommand implements Command {
 
 	@Override
 	public void perform(Table table) {
-		//TODO add message to chat text area
+		// TODO add message to chat text area
 	}
 
 }

@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -16,10 +17,9 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import commands.MalletCommand;
-import commands.PuckCommand;
+import commands.PositionCommand;
 
-public class Table extends JPanel {
+public class Table extends JPanel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int width = World.GAMEWIDTH;
 	private int height = World.GAMEHEIGHT;
@@ -41,8 +41,8 @@ public class Table extends JPanel {
 		setSize(width, height);
 		setPreferredSize(new Dimension(width, height));
 		puck = new Puck();
-		mallet1 = new Mallet(((height / 4) * 3) - 10);
-		mallet2 = new Mallet(height / 4 + 10);
+		mallet1 = new Mallet(((height / 4) * 3) - 10, this);
+		mallet2 = new Mallet(height / 4 + 10, this);
 		System.out.println("mallet 1: " + mallet1.getMalletX() + ", " + mallet1.getMalletY());
 		System.out.println("mallet 2: " + mallet2.getMalletX() + ", " + mallet2.getMalletY());
 		executor = Executors.newScheduledThreadPool(1);
@@ -54,7 +54,7 @@ public class Table extends JPanel {
 		System.out.println("expected height: " + height + " actual: " + getHeight());
 	}
 
-	public MalletCommand getMallet1Location() {
+	public PositionCommand getMallet1Location() {
 		return mallet1.getCommand();
 	}
 
@@ -120,11 +120,23 @@ public class Table extends JPanel {
 		puck.setResetY(number);
 	}
 
-	public void moveMallet2(Double x, Double y) {
-		Point location = new Point(x.intValue(), y.intValue());
-		// if (location.getY() < MIDDLE) {
-		mallet2.updateMallet2(location);
-		// }
+	public void moveMallet2(double x, double y) {
+		mallet2.updateCoordinates(x, y);
+	}
+
+	public int getPuckSpeed() {
+		return puck.getSpeed();
+	}
+
+	public Mallet getMallet1() {
+		return mallet1;
+	}
+
+	public void updateCoordinates(double x, double y, Positionable positionable) {
+		positionable.updateCoordinates(x, y);
+	}
+
+	public void updateCheckHit() {
 		if (checkHit()) {
 			puck.changeColor();
 			puck.setSpeed(20);
@@ -138,19 +150,7 @@ public class Table extends JPanel {
 		repaint();
 	}
 
-	public int getPuckSpeed() {
-		return puck.getSpeed();
-	}
-
-	public Mallet getMallet1() {
-		return mallet1;
-	}
-
-	public void updatePuckCoordinates(double x, double y) {
-		puck.updateCoordinates(x, y);
-	}
-
-	public PuckCommand getPuckCommand() {
+	public PositionCommand getPuckCommand() {
 		return puck.getCommand();
 	}
 

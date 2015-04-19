@@ -9,7 +9,6 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class MalletMotionListener extends MouseMotionAdapter {
-
 	private World world;
 
 	public MalletMotionListener(World world) {

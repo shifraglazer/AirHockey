@@ -6,7 +6,6 @@ import java.awt.Point;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.net.Socket;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -26,7 +25,7 @@ import audio.SoundMute;
 
 import commands.Command;
 
-public class World extends JFrame implements ReaderListener, Serializable {
+public class World extends JFrame implements ReaderListener {
 	private static final long serialVersionUID = 1L;
 	protected Table table;
 	protected Socket socket;
@@ -71,7 +70,7 @@ public class World extends JFrame implements ReaderListener, Serializable {
 
 		table.addMouseMotionListener(new MalletMotionListener(this));
 		table.setPuck(number);
-		
+
 		setVisible(true);
 		startNoise();
 		new GameLoopThread(this).start();
@@ -124,10 +123,6 @@ public class World extends JFrame implements ReaderListener, Serializable {
 		}
 
 		repaint();
-	}
-
-	public void movingPuck() {
-
 	}
 
 	public void moveMallet(Point location) throws LineUnavailableException, IOException, UnsupportedAudioFileException {

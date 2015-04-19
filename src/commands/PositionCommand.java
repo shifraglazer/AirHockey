@@ -1,15 +1,19 @@
 package commands;
 
+import airHockey.Positionable;
+import airHockey.Table;
 import airHockey.World;
 
-public abstract class PositionCommand implements Command {
+public class PositionCommand implements Command {
 	private static final long serialVersionUID = 1L;
 	protected double x;
 	protected double y;
+	private Positionable positionable;
 
-	public PositionCommand(double x, double y) {
+	public PositionCommand(double x, double y, Positionable positionable) {
 		this.x = x;
 		this.y = y;
+		this.positionable = positionable;
 	}
 
 	public void updateCommand(double x, double y) {
@@ -38,5 +42,10 @@ public abstract class PositionCommand implements Command {
 		}
 		this.x = x;
 		this.y = y;
+	}
+
+	@Override
+	public void perform(Table table) {
+		table.updateCoordinates(x, y, positionable);
 	}
 }
