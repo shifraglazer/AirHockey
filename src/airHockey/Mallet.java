@@ -9,6 +9,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import commands.MalletCommand;
+
 public class Mallet {
 	protected static final int MALLETRADIUS = 20;
 	private int malletX;

@@ -5,6 +5,8 @@ import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import startUp.LoadingFrame;
+
 public class ServerThread extends Thread {
 	private LoadingFrame frame;
 
@@ -15,7 +17,7 @@ public class ServerThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			new ServerWorld();
+			new ServerWorld(false);
 		}
 		catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
 			e.printStackTrace();

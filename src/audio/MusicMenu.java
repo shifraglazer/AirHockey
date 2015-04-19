@@ -1,4 +1,4 @@
-package airHockey;
+package audio;
 
 import java.awt.Color;
 import java.awt.Font;

@@ -3,15 +3,15 @@ package airHockey;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
+import commands.PuckCommand;
 
 public class Puck {
 	protected static final int PUCKRADIUS = 12;
@@ -19,9 +19,9 @@ public class Puck {
 	private int height = World.GAMEHEIGHT;
 	private int speed;
 	private float colorNum;
-	private Image image;
+	// private Image image;
 	private int resety;
-	
+
 	private PuckCommand command;
 
 	// the (x,y) coordinates of the center of the puck
@@ -36,19 +36,15 @@ public class Puck {
 	private ScheduledExecutorService executor;
 	private int time;
 
-	public Puck() {
-		try {
-			image = ImageIO.read(getClass().getResource("pics/puck.jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public Puck() throws IOException {
+		// image = ImageIO.read(getClass().getResource("pics/puck.jpg"));
 		puckX = width / 2;
 		puckY = height / 2;
 		speed = 0;
 		resety = height / 4;
 		colorNum = 0;
 		executor = Executors.newScheduledThreadPool(1);
-		command=new PuckCommand(puckX,puckY);
+		command = new PuckCommand(puckX, puckY);
 	}
 
 	private void reset() {
@@ -199,13 +195,14 @@ public class Puck {
 			resety = height / 4 * 3;
 		}
 	}
-	
-	public void updateCoordinates(double x, double y){
+
+	public void updateCoordinates(double x, double y) {
 		puckX = x;
 		puckY = y;
 	}
-	public PuckCommand getCommand(){
-		command.updateCommand(puckX,puckY);
+
+	public PuckCommand getCommand() {
+		command.updateCommand(puckX, puckY);
 		return command;
 	}
 }

@@ -20,30 +20,38 @@ import javax.swing.JMenuItem;
 
 import org.apache.commons.io.IOUtils;
 
+import audio.MusicMenu;
+import audio.Sound;
+import audio.SoundMute;
+
+import commands.Command;
+
 public class World extends JFrame implements ReaderListener, Serializable {
 	private static final long serialVersionUID = 1L;
-	protected Socket socket;
 	protected Table table;
+	protected Socket socket;
+	protected OutputStream output;
+	protected ObjectOutputStream objOut;
+
 	private JLabel points1;
 	private JLabel points2;
 	private int total1;
 	private int total2;
+
 	private Font font;
 	private Font fontBold;
-	protected OutputStream output;
-	protected ObjectOutputStream objOut;
+
 	// TODO private boolean winner;
 
 	private MusicMenu musicMenu;
 	private final Sound sound = Sound.getInstance();
 
-	protected static final int GAMEWIDTH = 300;
-	protected static final int GAMEHEIGHT = 500;
+	public static final int GAMEWIDTH = 300;
+	public static final int GAMEHEIGHT = 500;
 	protected static final int MIDDLE = GAMEHEIGHT / 2;
 
 	public World() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
 		setTitle("Air Hockey");
-		// setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		font = new Font("Arial", Font.PLAIN, 14);
 		fontBold = font.deriveFont(Font.BOLD);
@@ -51,9 +59,22 @@ public class World extends JFrame implements ReaderListener, Serializable {
 		setSize(GAMEWIDTH, GAMEHEIGHT + musicMenu.getHeight());
 		table = new Table();
 		add(table);
-		this.setIconImage(new ImageIcon(getClass().getResource("pics/icehockey.png")).getImage());
+		setIconImage(new ImageIcon(getClass().getResource("pics/icehockey.png")).getImage());
 		pack();
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+	}
+
+	public void setUp(int number) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
+		new ReaderThread(socket, this).start();
+		output = socket.getOutputStream();
+		objOut = new ObjectOutputStream(output);
+
+		table.addMouseMotionListener(new MalletMotionListener(this));
+		table.setPuck(number);
+		
+		setVisible(true);
+		startNoise();
+		new GameLoopThread(this).start();
 	}
 
 	private void setUpMenu() throws UnsupportedAudioFileException, IOException {
@@ -104,17 +125,14 @@ public class World extends JFrame implements ReaderListener, Serializable {
 
 		repaint();
 	}
-	public void movingPuck(){
-		
+
+	public void movingPuck() {
+
 	}
 
 	public void moveMallet(Point location) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		table.moveMallet(location);
 		// sound.changeTrack("sound/moveMallet.wav");
-	}
-
-	public void moveMallet2(Point location) {
-		table.moveMallet2(location);
 	}
 
 	public int getPuckSpeed() {
@@ -126,17 +144,15 @@ public class World extends JFrame implements ReaderListener, Serializable {
 		sound.turnOn();
 		sound.resume("sound/cartoon_mouse_says_uh_oh.wav");
 	}
-	
+
 	public void sendCommand(Command command) throws IOException {
-		
 		objOut.writeObject(command);
-		//out.close();
-		//objOut.close();
 		objOut.flush();
 		objOut.reset();
-
+		// out.close();
+		// objOut.close();
 	}
-	
+
 	@Override
 	public void onObjectRead(Command command) {
 		command.perform(table);

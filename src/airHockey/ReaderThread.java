@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+import commands.Command;
+
 public class ReaderThread extends Thread {
 	private Socket socket;
 	private ReaderListener listener;
@@ -19,17 +21,17 @@ public class ReaderThread extends Thread {
 		try {
 			InputStream in = socket.getInputStream();
 			ObjectInputStream objIn = new ObjectInputStream(in);
-		
+
 			while (true) {
-				Command command=(Command) objIn.readObject();
+				Command command = (Command) objIn.readObject();
 				listener.onObjectRead(command);
 			}
-			//in.close();
-			//onjIn.close();
+			// in.close();
+			// onjIn.close();
 		}
 		catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
-		//listener.onCloseSocket(socket);
+		// listener.onCloseSocket(socket);
 	}
 }

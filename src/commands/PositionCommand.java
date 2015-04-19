@@ -1,22 +1,18 @@
-package airHockey;
+package commands;
 
-public class PuckCommand implements Command {
-	/**
-	 * 
-	 */
+import airHockey.World;
+
+public abstract class PositionCommand implements Command {
 	private static final long serialVersionUID = 1L;
-	private double x;
-	private double y;
-	
-	public PuckCommand(double x, double y){
-		this.x=x;
-		this.y=y;
+	protected double x;
+	protected double y;
+
+	public PositionCommand(double x, double y) {
+		this.x = x;
+		this.y = y;
 	}
-	@Override
-	public void perform(Table table) {
-		table.updatePuckCoordinates(x, y);
-	}
-	public void updateCommand(double x, double y){
+
+	public void updateCommand(double x, double y) {
 		double Whalf = World.GAMEWIDTH / 2;
 		double Lhalf = World.GAMEHEIGHT / 2;
 
@@ -43,5 +39,4 @@ public class PuckCommand implements Command {
 		this.x = x;
 		this.y = y;
 	}
-
 }

@@ -1,4 +1,4 @@
-package airHockey;
+package audio;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

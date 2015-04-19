@@ -1,4 +1,4 @@
-package airHockey;
+package audio;
 
 import java.io.IOException;
 import java.net.URL;

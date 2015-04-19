@@ -1,4 +1,4 @@
-package airHockey;
+package startUp;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -10,6 +10,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
+
+import airHockey.ClientWorld;
 
 public class ClientSetup extends JDialog {
 	private static final long serialVersionUID = 1L;

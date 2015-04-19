@@ -16,6 +16,9 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import commands.MalletCommand;
+import commands.PuckCommand;
+
 public class Table extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private int width = World.GAMEWIDTH;
@@ -31,7 +34,8 @@ public class Table extends JPanel {
 	private Image animated;
 	private final static int GOALPICSIZE = 56;
 	private ScheduledExecutorService executor;
-	private Sound SOUND = Sound.getInstance();
+
+	// private Sound SOUND = Sound.getInstance();
 
 	public Table() throws IOException {
 		setSize(width, height);
@@ -99,7 +103,7 @@ public class Table extends JPanel {
 		// }
 		if (checkHit()) {
 			// FIXME don't know if should play sound here - not playing at right time anyway
-			//SOUND.changeTrack("sound/score.wav");
+			// SOUND.changeTrack("sound/score.wav");
 			puck.changeColor();
 			puck.setSpeed(20);
 			// restart executor
@@ -116,7 +120,8 @@ public class Table extends JPanel {
 		puck.setResetY(number);
 	}
 
-	public void moveMallet2(Point location) {
+	public void moveMallet2(Double x, Double y) {
+		Point location = new Point(x.intValue(), y.intValue());
 		// if (location.getY() < MIDDLE) {
 		mallet2.updateMallet2(location);
 		// }
@@ -141,6 +146,14 @@ public class Table extends JPanel {
 		return mallet1;
 	}
 
+	public void updatePuckCoordinates(double x, double y) {
+		puck.updateCoordinates(x, y);
+	}
+
+	public PuckCommand getPuckCommand() {
+		return puck.getCommand();
+	}
+
 	// speed decreases as time elapses since was last hit by a mallets
 	private Runnable decreaseSpeed = new Runnable() {
 		public void run() {
@@ -152,11 +165,4 @@ public class Table extends JPanel {
 			}
 		}
 	};
-
-	public void updatePuckCoordinates(double x, double y) {
-		puck.updateCoordinates(x, y);
-	}
-	public PuckCommand getPuckCommand(){
-		return puck.getCommand();
-	}
 }

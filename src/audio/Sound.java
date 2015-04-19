@@ -1,4 +1,4 @@
-package airHockey;
+package audio;
 
 public class Sound extends Noise {
 	private static final Sound SOUND = new Sound();

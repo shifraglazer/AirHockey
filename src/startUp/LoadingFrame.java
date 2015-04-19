@@ -1,4 +1,4 @@
-package airHockey;
+package startUp;
 
 import java.awt.Color;
 

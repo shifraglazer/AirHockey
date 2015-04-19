@@ -1,20 +1,19 @@
 package airHockey;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import startUp.ClientListener;
+import startUp.ServerListener;
+import startUp.TestModeListener;
 
 public class AirHockey extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -32,17 +31,17 @@ public class AirHockey extends JDialog {
 
 		server = new JButton("SERVER");
 		server.addMouseListener(mouse);
-		server.addActionListener(serverListen);
+		server.addActionListener(new ServerListener(this));
 		add(server);
 
 		client = new JButton("CLIENT");
 		client.addMouseListener(mouse);
-		client.addActionListener(clientListen);
+		client.addActionListener(new ClientListener(this));
 		add(client);
 
 		testMode = new JButton("TEST MODE");
 		testMode.addMouseListener(mouse);
-		testMode.addActionListener(testModeListen);
+		testMode.addActionListener(new TestModeListener(this));
 		add(testMode);
 
 		setVisible(true);
@@ -52,7 +51,7 @@ public class AirHockey extends JDialog {
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			// TODO when make nicer graphics use the following code to highlight
-			// whichever botton
+			// whichever button
 			// the mouse is hovering over
 			// JButton button = (JButton) e.getSource();
 			// button.setBorder(border);
@@ -62,57 +61,6 @@ public class AirHockey extends JDialog {
 		public void mouseExited(MouseEvent e) {
 			// JButton button = (JButton) e.getSource();
 			// button.setBorder(null);
-		}
-	};
-
-	ActionListener serverListen = new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent event) {
-			try {
-				dispose();
-				new ServerSetup();
-			}
-			catch (IOException | LineUnavailableException | UnsupportedAudioFileException | InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	};
-
-	ActionListener clientListen = new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent event) {
-			// TODO get ip address from user
-			new ClientSetup();
-			dispose();
-		}
-	};
-
-	ActionListener testModeListen = new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent event) {
-			Thread thread1 = new Thread() {
-				public void run() {
-					try {
-						new ServerWorld();
-					}
-					catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
-						e.printStackTrace();
-					}
-				}
-			};
-			Thread thread2 = new Thread() {
-				public void run() {
-					try {
-						new ClientWorld("localhost");
-					}
-					catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
-						e.printStackTrace();
-					}
-				}
-			};
-			thread1.start();
-			thread2.start();
-			dispose();
 		}
 	};
 
