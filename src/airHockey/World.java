@@ -103,6 +103,9 @@ public class World extends JFrame implements ReaderListener, Serializable {
 
 		repaint();
 	}
+	public void movingPuck(){
+		
+	}
 
 	public void moveMallet(Point location) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		table.moveMallet(location);
@@ -123,7 +126,7 @@ public class World extends JFrame implements ReaderListener, Serializable {
 		sound.resume("sound/cartoon_mouse_says_uh_oh.wav");
 	}
 	
-	public void updateMallet2(MalletCommand command) throws IOException {
+	public void sendCommand(Command command) throws IOException {
 		OutputStream out = socket.getOutputStream();
 		ObjectOutputStream objOut = new ObjectOutputStream(out);
 		objOut.writeObject(command);

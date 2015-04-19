@@ -156,4 +156,7 @@ public class Table extends JPanel {
 	public void updatePuckCoordinates(double x, double y) {
 		puck.updateCoordinates(x, y);
 	}
+	public PuckCommand getPuckCommand(){
+		return puck.getCommand();
+	}
 }

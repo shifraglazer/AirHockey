@@ -25,7 +25,7 @@ public class ClientWorld extends World {
 
 				try {
 					moveMallet(point);
-					updateMallet2(table.getMallet1Location());
+					sendCommand(table.getMallet1Location());
 					System.out.println("2 : " + (MIDDLE - table.getMallet1().getMalletY()));
 				}
 				catch (IOException | LineUnavailableException | UnsupportedAudioFileException e1) {

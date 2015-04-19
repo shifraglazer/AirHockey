@@ -21,6 +21,8 @@ public class Puck {
 	private float colorNum;
 	private Image image;
 	private int resety;
+	
+	private PuckCommand command;
 
 	// the (x,y) coordinates of the center of the puck
 	protected double puckX;
@@ -46,6 +48,7 @@ public class Puck {
 		resety = height / 4;
 		colorNum = 0;
 		executor = Executors.newScheduledThreadPool(1);
+		command=new PuckCommand(puckX,puckY);
 	}
 
 	private void reset() {
@@ -200,5 +203,9 @@ public class Puck {
 	public void updateCoordinates(double x, double y){
 		puckX = x;
 		puckY = y;
+	}
+	public PuckCommand getCommand(){
+		command.updateCommand(puckX,puckY);
+		return command;
 	}
 }

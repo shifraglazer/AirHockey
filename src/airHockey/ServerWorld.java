@@ -28,7 +28,7 @@ public class ServerWorld extends World {
 					moveMallet(point);
 
 					// send location of your mallet to second players
-					updateMallet2(table.getMallet1Location());
+					sendCommand(table.getMallet1Location());
 				}
 				catch (IOException | LineUnavailableException | UnsupportedAudioFileException e1) {
 					e1.printStackTrace();
@@ -43,5 +43,11 @@ public class ServerWorld extends World {
 		setVisible(true);
 		startNoise();
 		new GameLoopThread(this).start();
+	}
+	@Override
+	public void movePuck() throws LineUnavailableException, IOException, UnsupportedAudioFileException{
+		sendCommand(table.getPuckCommand());
+		super.movePuck();
+		
 	}
 }
