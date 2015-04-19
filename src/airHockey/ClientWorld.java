@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -16,7 +18,8 @@ public class ClientWorld extends World {
 		setLocationRelativeTo(null);
 		socket = new Socket(serverAddress, 3769);
 		new ReaderThread(socket, this).start();
-
+		output=socket.getOutputStream();
+		objOut=new ObjectOutputStream(output);
 		// mallet moves with mouse
 		table.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
@@ -42,4 +45,5 @@ public class ClientWorld extends World {
 		startNoise();
 		new GameLoopThread(this).start();
 	}
+
 }

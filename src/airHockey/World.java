@@ -30,6 +30,8 @@ public class World extends JFrame implements ReaderListener, Serializable {
 	private int total2;
 	private Font font;
 	private Font fontBold;
+	protected OutputStream output;
+	protected ObjectOutputStream objOut;
 	// TODO private boolean winner;
 
 	private MusicMenu musicMenu;
@@ -51,7 +53,6 @@ public class World extends JFrame implements ReaderListener, Serializable {
 		add(table);
 		this.setIconImage(new ImageIcon(getClass().getResource("pics/icehockey.png")).getImage());
 		pack();
-
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
@@ -127,11 +128,13 @@ public class World extends JFrame implements ReaderListener, Serializable {
 	}
 	
 	public void sendCommand(Command command) throws IOException {
-		OutputStream out = socket.getOutputStream();
-		ObjectOutputStream objOut = new ObjectOutputStream(out);
+		
 		objOut.writeObject(command);
 		//out.close();
 		//objOut.close();
+		objOut.flush();
+		objOut.reset();
+
 	}
 	
 	@Override

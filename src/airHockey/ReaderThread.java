@@ -18,10 +18,10 @@ public class ReaderThread extends Thread {
 	public void run() {
 		try {
 			InputStream in = socket.getInputStream();
-			
-			while (in != null) {
-				ObjectInputStream objIn = new ObjectInputStream(in);
-				Command command = (Command) objIn.readObject();
+			ObjectInputStream objIn = new ObjectInputStream(in);
+		
+			while (true) {
+				Command command=(Command) objIn.readObject();
 				listener.onObjectRead(command);
 			}
 			//in.close();
@@ -30,6 +30,6 @@ public class ReaderThread extends Thread {
 		catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
-		listener.onCloseSocket(socket);
+		//listener.onCloseSocket(socket);
 	}
 }

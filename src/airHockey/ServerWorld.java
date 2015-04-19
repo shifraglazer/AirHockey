@@ -4,7 +4,10 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -17,7 +20,8 @@ public class ServerWorld extends World {
 		socket = serverSocket.accept();
 		System.out.println("accepted");
 		new ReaderThread(socket, this).start();
-
+		output=socket.getOutputStream();
+		objOut=new ObjectOutputStream(output);
 		// mallet moves with mouse
 		table.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
@@ -50,4 +54,5 @@ public class ServerWorld extends World {
 		super.movePuck();
 		
 	}
+
 }
