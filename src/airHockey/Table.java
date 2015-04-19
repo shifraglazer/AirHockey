@@ -21,7 +21,7 @@ public class Table extends JPanel {
 	private int width = World.GAMEWIDTH;
 	private int height = World.GAMEHEIGHT;
 
-	private final Puck PUCK = Puck.getInstace();
+	private Puck puck;
 	private Mallet mallet1;
 	private Mallet mallet2;
 	private Image tableImg;
@@ -36,6 +36,7 @@ public class Table extends JPanel {
 	public Table() throws IOException {
 		setSize(width, height);
 		setPreferredSize(new Dimension(width, height));
+		puck = new Puck();
 		mallet1 = new Mallet(((height / 4) * 3) - 10);
 		mallet2 = new Mallet(height / 4 + 10);
 		System.out.println("mallet 1: " + mallet1.getMalletX() + ", " + mallet1.getMalletY());
@@ -57,20 +58,20 @@ public class Table extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(tableImg, 0, 0, width, height, null);
-		PUCK.drawPuck(g);
+		puck.drawPuck(g);
 		mallet1.drawMallet(g);
 		mallet2.drawMallet(g);
 		Graphics2D g2 = (Graphics2D) g;
-		if (PUCK.getGoal()) {
+		if (puck.getGoal()) {
 			g2.drawImage(animated, (width / 2) - GOALPICSIZE / 2, (height / 2) - GOALPICSIZE / 2, GOALPICSIZE + 1, GOALPICSIZE, this);
 		}
 	}
 
 	public int movePuck() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		int point = PUCK.move();
+		int point = puck.move();
 		if (checkHit()) {
 			// bump so decrease speed
-			PUCK.decreaseSpeed();
+			puck.decreaseSpeed();
 
 		}
 		return point;
@@ -83,9 +84,9 @@ public class Table extends JPanel {
 	public boolean calcMallet(Mallet mallet) {
 		int malletX = mallet.getMalletX();
 		int malletY = mallet.getMalletY();
-		double diff = Math.sqrt(Math.pow((malletX - PUCK.puckX), 2) + Math.pow(malletY - PUCK.puckY, 2));
+		double diff = Math.sqrt(Math.pow((malletX - puck.puckX), 2) + Math.pow(malletY - puck.puckY, 2));
 		if (diff <= HITDIS) {
-			PUCK.setSlope(malletX, malletY);
+			puck.setSlope(malletX, malletY);
 			return true;
 		}
 		return false;
@@ -98,9 +99,9 @@ public class Table extends JPanel {
 		// }
 		if (checkHit()) {
 			// FIXME don't know if should play sound here - not playing at right time anyway
-			SOUND.changeTrack("sound/score.wav");
-			PUCK.changeColor();
-			PUCK.setSpeed(20);
+			//SOUND.changeTrack("sound/score.wav");
+			puck.changeColor();
+			puck.setSpeed(20);
 			// restart executor
 			// TODO set up that only shuts down if executor is not null
 			if (executor.isShutdown()) {
@@ -112,7 +113,7 @@ public class Table extends JPanel {
 	}
 
 	public void setPuck(int number) {
-		PUCK.setResetY(number);
+		puck.setResetY(number);
 	}
 
 	public void moveMallet2(Point location) {
@@ -120,8 +121,8 @@ public class Table extends JPanel {
 		mallet2.updateMallet2(location);
 		// }
 		if (checkHit()) {
-			PUCK.changeColor();
-			PUCK.setSpeed(20);
+			puck.changeColor();
+			puck.setSpeed(20);
 			// restart executor
 			// TODO set up that only shuts down if executor is not null
 			if (executor.isShutdown()) {
@@ -133,7 +134,7 @@ public class Table extends JPanel {
 	}
 
 	public int getPuckSpeed() {
-		return PUCK.getSpeed();
+		return puck.getSpeed();
 	}
 
 	public Mallet getMallet1() {
@@ -143,8 +144,8 @@ public class Table extends JPanel {
 	// speed decreases as time elapses since was last hit by a mallets
 	private Runnable decreaseSpeed = new Runnable() {
 		public void run() {
-			if (PUCK.getSpeed() > 0) {
-				PUCK.decreaseSpeed();
+			if (puck.getSpeed() > 0) {
+				puck.decreaseSpeed();
 			}
 			else {
 				executor.shutdown();
@@ -153,6 +154,6 @@ public class Table extends JPanel {
 	};
 
 	public void updatePuckCoordinates(double x, double y) {
-		PUCK.updateCoordinates(x, y);
+		puck.updateCoordinates(x, y);
 	}
 }
