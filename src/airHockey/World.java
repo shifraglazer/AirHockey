@@ -4,8 +4,10 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Point;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
 import java.net.Socket;
-import java.util.Scanner;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -18,8 +20,9 @@ import javax.swing.JMenuItem;
 
 import org.apache.commons.io.IOUtils;
 
-public class World extends JFrame implements ReaderListener {
+public class World extends JFrame implements ReaderListener, Serializable {
 	private static final long serialVersionUID = 1L;
+	//protected Socket socket;
 	protected Table table;
 	private JLabel points1;
 	private JLabel points2;
@@ -119,40 +122,18 @@ public class World extends JFrame implements ReaderListener {
 		sound.turnOn();
 		sound.resume("sound/cartoon_mouse_says_uh_oh.wav");
 	}
-
+	
+	//public void updateMallet2(MalletCommand command) throws IOException {
+	//	OutputStream out = socket.getOutputStream();
+	//	ObjectOutputStream objOut = new ObjectOutputStream(out);
+	//	objOut.writeObject(command);
+		//out.close();
+		//objOut.close();
+	//}
+	
 	@Override
-	public void onLineRead(String line) {
-		Scanner scanner = new Scanner(line);
-		Double x = Double.valueOf(scanner.next());
-		Double y = Double.valueOf(scanner.nextLine());
-		double Whalf = GAMEWIDTH / 2;
-		double Lhalf = GAMEHEIGHT / 2;
-		System.out.println("x recieved: " + x + " y re: " + y);
-
-		// reflection over x and y axis
-		double diffx = Math.abs(Whalf - x);
-		double diffy = Math.abs(Lhalf - y);
-		if (x >= Whalf && y >= Lhalf) {
-			x = Whalf - diffx;
-			y = Lhalf - diffy;
-		}
-		else if (x <= Whalf && y <= Lhalf) {
-			x = Whalf + diffx;
-			y = Lhalf + diffy;
-		}
-		else if (y >= Lhalf && x <= Whalf) {
-			x = Whalf + diffx;
-			y = Lhalf - diffy;
-
-		}
-		else if (y <= Lhalf && x >= Whalf) {
-			x = Whalf - diffx;
-			y = Lhalf + diffy;
-		}
-
-		Point location = new Point(x.intValue(), y.intValue());
-		moveMallet2(location);
-		scanner.close();
+	public void onObjectRead(Command command) {
+		command.perform(table);
 	}
 
 	@Override

@@ -14,11 +14,13 @@ public class Mallet {
 	private int malletX;
 	private int malletY;
 	private Image image;
+	private MalletCommand malletCommand;
 
 	public Mallet(int sideCenter) throws IOException {
 		malletX = World.GAMEWIDTH / 2;
 		malletY = sideCenter;
 		image = ImageIO.read(getClass().getResource("pics/mallet.jpg"));
+		malletCommand = new MalletCommand(malletX, malletY);
 	}
 
 	public void drawMallet(Graphics g) {
@@ -54,5 +56,10 @@ public class Mallet {
 
 	public int getMalletY() {
 		return malletY;
+	}
+
+	public MalletCommand getCommand() {
+		malletCommand.updateCommand(malletX, malletY);
+		return malletCommand;
 	}
 }

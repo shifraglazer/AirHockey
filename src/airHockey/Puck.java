@@ -14,6 +14,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Puck {
+	private final static Puck PUCK = new Puck();
 	protected static final int PUCKRADIUS = 12;
 	private int width = World.GAMEWIDTH;
 	private int height = World.GAMEHEIGHT;
@@ -34,8 +35,12 @@ public class Puck {
 	private ScheduledExecutorService executor;
 	private int time;
 
-	public Puck() throws IOException {
-		image = ImageIO.read(getClass().getResource("pics/puck.jpg"));
+	private Puck() {
+		try {
+			image = ImageIO.read(getClass().getResource("pics/puck.jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		puckX = width / 2;
 		puckY = height / 2;
 		speed = 0;
@@ -191,5 +196,14 @@ public class Puck {
 		else {
 			resety = height / 4 * 3;
 		}
+	}
+	
+	public void updateCoordinates(double x, double y){
+		puckX = x;
+		puckY = y;
+	}
+	
+	public static Puck getInstace(){
+		return PUCK;
 	}
 }

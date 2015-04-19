@@ -4,8 +4,8 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -14,7 +14,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class ServerWorld extends World {
 	private static final long serialVersionUID = 1L;
-	private Socket socket;
+	protected Socket socket;
 
 	public ServerWorld() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		ServerSocket serverSocket = new ServerSocket(3769); // port num sent
@@ -48,11 +48,12 @@ public class ServerWorld extends World {
 		startNoise();
 		new GameLoopThread(this).start();
 	}
-
-	public void updateMallet2(String location) throws IOException {
+	
+	public void updateMallet2(MalletCommand command) throws IOException {
 		OutputStream out = socket.getOutputStream();
-		PrintWriter writer = new PrintWriter(out);
-		writer.println(location);
-		writer.flush();
+		ObjectOutputStream objOut = new ObjectOutputStream(out);
+		objOut.writeObject(command);
+		//out.close();
+		//objOut.close();
 	}
 }

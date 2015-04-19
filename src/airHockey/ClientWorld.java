@@ -4,8 +4,8 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -13,7 +13,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class ClientWorld extends World {
 	private static final long serialVersionUID = 1L;
-	private Socket socket;
+	protected Socket socket;
 
 	public ClientWorld(String serverAddress) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		setLocationRelativeTo(null);
@@ -45,38 +45,12 @@ public class ClientWorld extends World {
 		startNoise();
 		new GameLoopThread(this).start();
 	}
-
-	public void updateMallet2(String location) throws IOException {
-		double x = table.getMallet1().getMalletX();
-		double y = table.getMallet1().getMalletY();
-		double Whalf = GAMEWIDTH / 2;
-		double Lhalf = GAMEHEIGHT / 2;
-		// reflection over x and y axis
-		double diffx = Math.abs(Whalf - x);
-		double diffy = Math.abs(Lhalf - y);
-
-		if (x >= Whalf && y >= Lhalf) {
-			x = Whalf - diffx;
-			y = Lhalf - diffy;
-		}
-		else if (x <= Whalf && y <= Lhalf) {
-			x = Whalf + diffx;
-			y = Lhalf + diffy;
-		}
-		else if (y >= Lhalf && x <= Whalf) {
-			x = Whalf + diffx;
-			y = Lhalf - diffy;
-
-		}
-		else if (y <= Lhalf && x >= Whalf) {
-			y = Lhalf + diffy;
-			x = Whalf - diffx;
-		}
-
+	
+	public void updateMallet2(MalletCommand command) throws IOException {
 		OutputStream out = socket.getOutputStream();
-
-		PrintWriter writer = new PrintWriter(out);
-		writer.println(location);
-		writer.flush();
+		ObjectOutputStream objOut = new ObjectOutputStream(out);
+		objOut.writeObject(command);
+		//out.close();
+		//objOut.close();
 	}
 }
