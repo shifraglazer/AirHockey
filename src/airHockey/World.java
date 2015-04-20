@@ -140,9 +140,9 @@ public class World extends JFrame implements ReaderListener, Serializable {
 	}
 
 	public void sendCommand(Command command) throws IOException, InterruptedException {
-	
 		objOut.writeObject(command);
 		objOut.flush();
+		objOut.reset();
 		// out.close();
 		// objOut.close();
 	}

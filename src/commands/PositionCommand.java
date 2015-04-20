@@ -53,5 +53,6 @@ public class PositionCommand implements Command {
 	@Override
 	public void perform(Table table) {
 		table.updateCoordinates(x, y, pos);
+		System.out.println(x+" "+y);
 	}
 }
