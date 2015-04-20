@@ -43,6 +43,7 @@ public class World extends JFrame implements ReaderListener, Serializable {
 	private MusicMenu musicMenu;
 	private final Sound sound = Sound.getInstance();
 	private OutputStream out;
+	private ObjectOutputStream objOut;
 
 	public static final int GAMEWIDTH = 300;
 	public static final int GAMEHEIGHT = 500;
@@ -65,6 +66,7 @@ public class World extends JFrame implements ReaderListener, Serializable {
 	public void setUp(int number) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		new ReaderThread(socket, this).start();
 		out = socket.getOutputStream();
+		objOut=new ObjectOutputStream(out);
 		table.addMouseMotionListener(new MalletMotionListener(this));
 		table.setPuck(number);
 
@@ -138,7 +140,7 @@ public class World extends JFrame implements ReaderListener, Serializable {
 	}
 
 	public void sendCommand(Command command) throws IOException, InterruptedException {
-		ObjectOutputStream objOut = new ObjectOutputStream(out);
+	
 		objOut.writeObject(command);
 		objOut.flush();
 		// out.close();
