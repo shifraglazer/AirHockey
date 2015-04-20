@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -22,15 +23,12 @@ import org.apache.commons.io.IOUtils;
 import audio.MusicMenu;
 import audio.Sound;
 import audio.SoundMute;
-
 import commands.Command;
 
-public class World extends JFrame implements ReaderListener {
+public class World extends JFrame implements ReaderListener, Serializable {
 	private static final long serialVersionUID = 1L;
 	protected Table table;
 	protected Socket socket;
-	protected OutputStream output;
-	protected ObjectOutputStream objOut;
 
 	private JLabel points1;
 	private JLabel points2;
@@ -44,6 +42,7 @@ public class World extends JFrame implements ReaderListener {
 
 	private MusicMenu musicMenu;
 	private final Sound sound = Sound.getInstance();
+	private OutputStream out;
 
 	public static final int GAMEWIDTH = 300;
 	public static final int GAMEHEIGHT = 500;
@@ -65,9 +64,7 @@ public class World extends JFrame implements ReaderListener {
 
 	public void setUp(int number) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		new ReaderThread(socket, this).start();
-		output = socket.getOutputStream();
-		objOut = new ObjectOutputStream(output);
-
+		out = socket.getOutputStream();
 		table.addMouseMotionListener(new MalletMotionListener(this));
 		table.setPuck(number);
 
@@ -106,7 +103,7 @@ public class World extends JFrame implements ReaderListener {
 		setJMenuBar(menu);
 	}
 
-	public void movePuck() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+	public void movePuck() throws LineUnavailableException, IOException, UnsupportedAudioFileException, InterruptedException {
 		int point = table.movePuck();
 		if (point == 1) {
 			points1.setText(String.valueOf(++total1));
@@ -140,10 +137,10 @@ public class World extends JFrame implements ReaderListener {
 		sound.resume("sound/cartoon_mouse_says_uh_oh.wav");
 	}
 
-	public void sendCommand(Command command) throws IOException {
+	public void sendCommand(Command command) throws IOException, InterruptedException {
+		ObjectOutputStream objOut = new ObjectOutputStream(out);
 		objOut.writeObject(command);
 		objOut.flush();
-		objOut.reset();
 		// out.close();
 		// objOut.close();
 	}

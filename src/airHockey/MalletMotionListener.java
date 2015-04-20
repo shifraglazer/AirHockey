@@ -4,11 +4,13 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class MalletMotionListener extends MouseMotionAdapter {
+public class MalletMotionListener extends MouseMotionAdapter implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private World world;
 
 	public MalletMotionListener(World world) {
@@ -24,9 +26,9 @@ public class MalletMotionListener extends MouseMotionAdapter {
 			world.moveMallet(point);
 
 			// send location of your mallet to second players
-			world.sendCommand(world.table.getMallet1Location());
+			world.sendCommand(world.table.getMalletCommand());
 		}
-		catch (IOException | LineUnavailableException | UnsupportedAudioFileException e1) {
+		catch (IOException | LineUnavailableException | UnsupportedAudioFileException | InterruptedException e1) {
 			e1.printStackTrace();
 		}
 

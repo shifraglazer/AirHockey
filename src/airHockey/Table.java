@@ -26,7 +26,8 @@ public class Table extends JPanel implements Serializable {
 
 	private Puck puck;
 	private Mallet mallet1;
-	private Mallet mallet2;
+	// private Mallet mallet2;
+	protected Mallet mallet2;
 	private Image tableImg;
 
 	private static final double HITDIS = Puck.PUCKRADIUS + Mallet.MALLETRADIUS;
@@ -41,8 +42,8 @@ public class Table extends JPanel implements Serializable {
 		setSize(width, height);
 		setPreferredSize(new Dimension(width, height));
 		puck = new Puck();
-		mallet1 = new Mallet(((height / 4) * 3) - 10, this);
-		mallet2 = new Mallet(height / 4 + 10, this);
+		mallet1 = new Mallet(((height / 4) * 3) - 10);
+		mallet2 = new Mallet(height / 4 + 10);
 		System.out.println("mallet 1: " + mallet1.getMalletX() + ", " + mallet1.getMalletY());
 		System.out.println("mallet 2: " + mallet2.getMalletX() + ", " + mallet2.getMalletY());
 		executor = Executors.newScheduledThreadPool(1);
@@ -52,10 +53,6 @@ public class Table extends JPanel implements Serializable {
 
 		System.out.println("expected width: " + width + " actual: " + getWidth());
 		System.out.println("expected height: " + height + " actual: " + getHeight());
-	}
-
-	public PositionCommand getMallet1Location() {
-		return mallet1.getCommand();
 	}
 
 	@Override
@@ -86,9 +83,9 @@ public class Table extends JPanel implements Serializable {
 	}
 
 	public boolean calcMallet(Mallet mallet) {
-		int malletX = mallet.getMalletX();
-		int malletY = mallet.getMalletY();
-		double diff = Math.sqrt(Math.pow((malletX - puck.puckX), 2) + Math.pow(malletY - puck.puckY, 2));
+		double malletX = mallet.getMalletX();
+		double malletY = mallet.getMalletY();
+		double diff = Math.sqrt(Math.pow((malletX - puck.posX), 2) + Math.pow(malletY - puck.posY, 2));
 		if (diff <= HITDIS) {
 			puck.setSlope(malletX, malletY);
 			return true;
@@ -120,10 +117,6 @@ public class Table extends JPanel implements Serializable {
 		puck.setResetY(number);
 	}
 
-	public void moveMallet2(double x, double y) {
-		mallet2.updateCoordinates(x, y);
-	}
-
 	public int getPuckSpeed() {
 		return puck.getSpeed();
 	}
@@ -132,8 +125,14 @@ public class Table extends JPanel implements Serializable {
 		return mallet1;
 	}
 
-	public void updateCoordinates(double x, double y, Positionable positionable) {
-		positionable.updateCoordinates(x, y);
+	// public void updateCoordinates(double x, double y, Positionable positionable) {
+	public void updateCoordinates(double x, double y, char pos) {
+		if (pos == 'm') {
+			mallet2.updateCoordinates(x, y, this);
+		}
+		else {
+			puck.updateCoordinates(x, y, this);
+		}
 	}
 
 	public void updateCheckHit() {
@@ -152,6 +151,10 @@ public class Table extends JPanel implements Serializable {
 
 	public PositionCommand getPuckCommand() {
 		return puck.getCommand();
+	}
+
+	public PositionCommand getMalletCommand() {
+		return mallet1.getCommand();
 	}
 
 	// speed decreases as time elapses since was last hit by a mallets

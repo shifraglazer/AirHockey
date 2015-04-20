@@ -26,7 +26,7 @@ public class ServerWorld extends World {
 	}
 
 	@Override
-	public void movePuck() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+	public void movePuck() throws LineUnavailableException, IOException, UnsupportedAudioFileException, InterruptedException {
 		sendCommand(table.getPuckCommand());
 		super.movePuck();
 	}

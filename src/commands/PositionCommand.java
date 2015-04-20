@@ -9,12 +9,18 @@ public class PositionCommand implements Command {
 	protected double x;
 	protected double y;
 	private Positionable positionable;
+	private char pos;
 
-	public PositionCommand(double x, double y, Positionable positionable) {
+	public PositionCommand(double x, double y, char pos) {
 		this.x = x;
 		this.y = y;
-		this.positionable = positionable;
+		// this.positionable = positionable;
+		this.pos = pos;
 	}
+
+	// public void setPositionable(Positionable positionable) {
+	// this.positionable = positionable;
+	// }
 
 	public void updateCommand(double x, double y) {
 		double Whalf = World.GAMEWIDTH / 2;
@@ -46,6 +52,6 @@ public class PositionCommand implements Command {
 
 	@Override
 	public void perform(Table table) {
-		table.updateCoordinates(x, y, positionable);
+		table.updateCoordinates(x, y, pos);
 	}
 }

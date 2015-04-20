@@ -20,7 +20,7 @@ public class GameLoopThread extends Thread {
 				try {
 					world.movePuck();
 				}
-				catch (LineUnavailableException | IOException | UnsupportedAudioFileException e) {
+				catch (LineUnavailableException | IOException | UnsupportedAudioFileException | InterruptedException e) {
 					e.printStackTrace();
 				}
 			}

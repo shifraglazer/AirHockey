@@ -12,26 +12,21 @@ import javax.imageio.ImageIO;
 
 import commands.PositionCommand;
 
-public class Mallet implements Positionable, Serializable {
+public class Mallet extends Positionable implements Serializable {
 	private static final long serialVersionUID = 1L;
 	protected static final int MALLETRADIUS = 20;
-	private int malletX;
-	private int malletY;
 	private Image image;
-	private PositionCommand malletCommand;
-	private Table table;
 
-	public Mallet(int sideCenter, Table table) throws IOException {
-		malletX = World.GAMEWIDTH / 2;
-		malletY = sideCenter;
+	public Mallet(int sideCenter) throws IOException {
+		posX = World.GAMEWIDTH / 2;
+		posY = sideCenter;
 		image = ImageIO.read(getClass().getResource("pics/mallet.jpg"));
-		malletCommand = new PositionCommand(malletX, malletY, this);
-		this.table = table;
+		command = new PositionCommand(posX, posY, 'm');
 	}
 
 	public void drawMallet(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.drawImage(image, malletX - MALLETRADIUS, malletY - MALLETRADIUS, MALLETRADIUS * 2, MALLETRADIUS * 2, null);
+		g.drawImage(image, (int) posX - MALLETRADIUS, (int) posY - MALLETRADIUS, MALLETRADIUS * 2, MALLETRADIUS * 2, null);
 	}
 
 	public void setMalletXY(Point location) {
@@ -39,29 +34,26 @@ public class Mallet implements Positionable, Serializable {
 		double locy = location.getY();
 		Point point = MouseInfo.getPointerInfo().getLocation();
 		if (point.getY() - locy - (MALLETRADIUS * 2) >= World.GAMEHEIGHT / 2) {
-			malletX = (int) (point.getX() - locx);
-			malletY = (int) (point.getY() - locy - MALLETRADIUS * 2);
+			posX = point.getX() - locx;
+			posY = point.getY() - locy - MALLETRADIUS * 2;
 		}
 	}
 
+	public double getMalletX() {
+		return posX;
+	}
+
+	public double getMalletY() {
+		return posY;
+	}
+
 	@Override
-	public void updateCoordinates(double x, double y) {
+	public void updateCoordinates(double x, double y, Table table) {
+		// TODO remove println
+		System.out.println("mallet performing");
 		Point location = new Point((int) x, (int) y);
 		table.updateCheckHit();
-		malletX = (int) location.getX();
-		malletY = (int) location.getY();
-	}
-
-	public int getMalletX() {
-		return malletX;
-	}
-
-	public int getMalletY() {
-		return malletY;
-	}
-
-	public PositionCommand getCommand() {
-		malletCommand.updateCommand(malletX, malletY);
-		return malletCommand;
+		posX = (int) location.getX();
+		posY = (int) location.getY();
 	}
 }
