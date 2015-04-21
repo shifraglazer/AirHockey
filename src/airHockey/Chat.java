@@ -40,14 +40,14 @@ public class Chat extends JPanel {
 
 	public String readText() throws IOException {
 		String line = text.getText();
-		area.append(line + "\n");
+		area.append("Me: "+line + "\n");
 
 		text.setText("");
 		return line;
 	}
 
 	public void updateChat(String msg) {
-		area.append(msg + "\n");
+		area.append("Opponent: "+msg + "\n");
 		System.out.println(msg);
 	}
 

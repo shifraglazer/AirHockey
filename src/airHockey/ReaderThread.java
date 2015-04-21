@@ -23,7 +23,7 @@ public class ReaderThread extends Thread {
 			ObjectInputStream objIn = new ObjectInputStream(in);
 
 			while (true) {
-				Command command = (Command) objIn.readObject();
+				Command command = (Command) objIn.readUnshared();
 				listener.onObjectRead(command);
 			}
 			// in.close();
