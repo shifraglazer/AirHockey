@@ -21,7 +21,7 @@ import commands.PositionCommand;
 public class Table extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private int width = World.GAMEWIDTH;
-	private int height = World.GAMEHEIGHT;
+	private int height = World.FRAMEHEIGHT;
 
 	private Puck puck;
 	private Mallet mallet1;
@@ -43,15 +43,10 @@ public class Table extends JPanel {
 		puck = new Puck();
 		mallet1 = new Mallet(((height / 4) * 3) - 10);
 		mallet2 = new Mallet(height / 4 + 10);
-		System.out.println("mallet 1: " + mallet1.getMalletX() + ", " + mallet1.getMalletY());
-		System.out.println("mallet 2: " + mallet2.getMalletX() + ", " + mallet2.getMalletY());
 		executor = Executors.newScheduledThreadPool(1);
 		executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
 		tableImg = ImageIO.read(getClass().getResource("pics/table1.jpg"));
 		animated = new ImageIcon(getClass().getResource("pics/puck.gif")).getImage();
-
-		System.out.println("expected width: " + width + " actual: " + getWidth());
-		System.out.println("expected height: " + height + " actual: " + getHeight());
 	}
 
 	@Override
@@ -93,10 +88,8 @@ public class Table extends JPanel {
 	}
 
 	public void moveMallet(Point location) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		// if (location.getY() < MIDDLE) {
-
 		mallet1.setMalletXY(location);
-		// }
+
 		if (checkHit()) {
 			// FIXME don't know if should play sound here - not playing at right time anyway
 			// SOUND.changeTrack("sound/score.wav");

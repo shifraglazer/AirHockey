@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -14,11 +13,10 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import commands.PositionCommand;
 
-public class Puck extends Positionable implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Puck extends Positionable {
 	protected static final int PUCKRADIUS = 12;
 	private int width = World.GAMEWIDTH;
-	private int height = World.GAMEHEIGHT;
+	private int height = World.FRAMEHEIGHT;
 	private int speed;
 	private float colorNum;
 	// private Image image;
@@ -86,6 +84,7 @@ public class Puck extends Positionable implements Serializable {
 		// if puck within goal range, return player who scores
 		if (posX > 70 && posX < width - 70) {
 			time = 2;
+			// use executor to ensure that goal shows for right amount of time
 			executor.scheduleAtFixedRate(timer, 0, 4, TimeUnit.SECONDS);
 			reset();
 			// TODO sound.changeTrack("sound/goal.wav");
@@ -193,8 +192,6 @@ public class Puck extends Positionable implements Serializable {
 
 	@Override
 	public void updateCoordinates(double x, double y, Table table) {
-		// TODO remove println
-		System.out.println("puck performing");
 		posX = x;
 		posY = y;
 		table.repaint();

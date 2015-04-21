@@ -18,9 +18,6 @@ public class ServerWorld extends World {
 		serverSocket = new ServerSocket(3769); // port num sent
 		socket = serverSocket.accept();
 
-		// TODO remove println
-		System.out.println("accepted");
-
 		// 3 = server first
 		setUp(3);
 	}

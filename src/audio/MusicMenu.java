@@ -20,7 +20,7 @@ public class MusicMenu extends JMenu {
 	private Font font;
 
 	private Map<String, URL> musicSrc;
-	private Music music = Music.getInstance();
+	private Music music = new Music();
 	private URL lastClicked;
 	private Class<? extends MusicMenu> cclass;
 
@@ -51,7 +51,6 @@ public class MusicMenu extends JMenu {
 		// so chooses 0-7 and then add 1 so get right choice on list
 		random = new Random();
 		randomStart = random.nextInt(8) + 1;
-		System.out.println("music choice number: " + randomStart);
 
 		// add all the sound tracks to the menu and maps
 		cclass = getClass();

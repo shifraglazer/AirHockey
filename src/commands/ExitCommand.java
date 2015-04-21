@@ -1,12 +1,12 @@
 package commands;
 
-import airHockey.Table;
+import airHockey.World;
 
 public class ExitCommand implements Command {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void perform(Table table) {
+	public void perform(World world) {
 	}
 
 }

@@ -19,19 +19,20 @@ public class LoadingFrame extends JDialog {
 		setAlwaysOnTop(true);
 		setSize(550, 106);
 		setResizable(false);
-
 		setLocation(500, 100);
+
 		label = new JLabel();
 		label.setLayout(new BoxLayout(label, BoxLayout.X_AXIS));
-		pic = new JLabel();
 		label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+		pic = new JLabel();
 		pic.setIcon(new ImageIcon(getClass().getResource("network.gif")));
 		add(label);
 		label.add(pic);
+		
 		text = new JLabel("         Loading...");
 		ImageIcon image = new ImageIcon(getClass().getResource("loading (2).gif"));
 
-		 text.setIcon(image);
+		text.setIcon(image);
 		// text.setFont(new Font("Arial",Font.BOLD,40));
 		// text.setBackground(Color.WHITE);
 		label.add(text);

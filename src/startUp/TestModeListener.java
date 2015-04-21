@@ -28,6 +28,7 @@ public class TestModeListener extends SetUpListener {
 				}
 			}
 		};
+
 		Thread thread2 = new Thread() {
 			public void run() {
 				try {
@@ -38,8 +39,10 @@ public class TestModeListener extends SetUpListener {
 				}
 			}
 		};
+
 		thread1.start();
 		thread2.start();
+
 		hockey.dispose();
 	}
 

@@ -1,7 +1,6 @@
 package commands;
 
 import airHockey.Positionable;
-
 import airHockey.World;
 
 public class PositionCommand implements Command {
@@ -15,16 +14,16 @@ public class PositionCommand implements Command {
 		this.x = x;
 		this.y = y;
 		// this.positionable = positionable;
-		 this.pos = pos;
+		this.pos = pos;
 	}
 
-	//public void setPositionable(Positionable positionable) {
+	// public void setPositionable(Positionable positionable) {
 	// this.positionable = positionable;
 	// }
 
 	public void updateCommand(double x, double y) {
 		double Whalf = World.GAMEWIDTH / 2;
-		double Lhalf = World.GAMEHEIGHT / 2;
+		double Lhalf = World.FRAMEHEIGHT / 2;
 
 		// reflection over x and y axis
 		double diffx = Math.abs(Whalf - x);
@@ -53,6 +52,5 @@ public class PositionCommand implements Command {
 	@Override
 	public void perform(World world) {
 		world.updateCoordinates(x, y, pos);
-		System.out.println(x+" "+y);
 	}
 }

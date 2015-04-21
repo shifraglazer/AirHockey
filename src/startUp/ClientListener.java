@@ -12,7 +12,6 @@ public class ClientListener extends SetUpListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO get ip address from user
 		new ClientSetup();
 		hockey.dispose();
 	}

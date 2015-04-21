@@ -14,7 +14,7 @@ public class Noise {
 
 	public void resume(URL src) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		clip = AudioSystem.getClip();
-		//clip.open(AudioSystem.getAudioInputStream(src));
+		clip.open(AudioSystem.getAudioInputStream(src));
 		clip.start();
 	}
 

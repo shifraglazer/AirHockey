@@ -22,6 +22,7 @@ public class ClientSetup extends JDialog {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
 		ip = new JTextField("Please enter your IP address");
 		add(ip);
 		ip.addFocusListener(new FocusAdapter() {
@@ -46,7 +47,7 @@ public class ClientSetup extends JDialog {
 				}
 			}
 		});
-		setVisible(true);
 
+		setVisible(true);
 	}
 }

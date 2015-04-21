@@ -56,12 +56,11 @@ public class World extends JFrame implements ReaderListener {
 	private OutputStream out;
 	private ObjectOutputStream objOut;
 	public static final int FRAMEWIDTH = 600;
-	public static final int GAMEWIDTH = 300;
-	public static final int GAMEHEIGHT = 500;
-	protected static final int MIDDLE = GAMEHEIGHT / 2;
+	public static final int FRAMEHEIGHT = 500;
+	public static final int GAMEWIDTH = FRAMEWIDTH / 2;
+	protected static final int MIDDLE = FRAMEHEIGHT / 2;
 
-	public World() throws IOException, UnsupportedAudioFileException,
-			LineUnavailableException {
+	public World() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
 		setTitle("Air Hockey");
 		container = getContentPane();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -70,26 +69,23 @@ public class World extends JFrame implements ReaderListener {
 		chat = new Chat();
 		setFocusable(true);
 		setUpMenu();
-		setSize(FRAMEWIDTH, GAMEHEIGHT + musicMenu.getHeight());
+		setSize(FRAMEWIDTH, FRAMEHEIGHT + musicMenu.getHeight());
 		table = new Table();
 		container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
 		add(table);
 		add(chat);
-		InputMap inputMap = getRootPane().getInputMap(
-				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 		ActionMap actionMap = getRootPane().getActionMap();
 		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
 
 		actionMap.put("enter", new EnterAction());
 
-		setIconImage(new ImageIcon(getClass().getResource("pics/icehockey.png"))
-				.getImage());
+		setIconImage(new ImageIcon(getClass().getResource("pics/icehockey.png")).getImage());
 		pack();
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
-	public void setUp(int number) throws IOException, LineUnavailableException,
-			UnsupportedAudioFileException {
+	public void setUp(int number) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		new ReaderThread(socket, this).start();
 		out = socket.getOutputStream();
 		objOut = new ObjectOutputStream(out);
@@ -108,7 +104,7 @@ public class World extends JFrame implements ReaderListener {
 		musicMenu = new MusicMenu(soundItem, font);
 		menu.add(musicMenu);
 
-		menu.add(Box.createHorizontalStrut(100));
+		menu.add(Box.createHorizontalStrut(380));
 
 		JLabel play1 = new JLabel("Me: ");
 		play1.setFont(font);
@@ -118,7 +114,7 @@ public class World extends JFrame implements ReaderListener {
 		points1.setFont(fontBold);
 		menu.add(points1);
 
-		menu.add(Box.createHorizontalStrut(32));
+		menu.add(Box.createHorizontalStrut(35));
 
 		JLabel play2 = new JLabel("Opponent: ");
 		play2.setFont(font);
@@ -131,8 +127,7 @@ public class World extends JFrame implements ReaderListener {
 		setJMenuBar(menu);
 	}
 
-	public void movePuck() throws LineUnavailableException, IOException,
-			UnsupportedAudioFileException, InterruptedException {
+	public void movePuck() throws LineUnavailableException, IOException, UnsupportedAudioFileException, InterruptedException {
 		int point = table.movePuck();
 		if (point == 1) {
 			points1.setText(String.valueOf(++total1));
@@ -141,7 +136,8 @@ public class World extends JFrame implements ReaderListener {
 				// TODO can instead return winner so know if should stop
 				// gameloops
 			}
-		} else if (point == 2) {
+		}
+		else if (point == 2) {
 			points2.setText(String.valueOf(++total2));
 			if (total2 >= 10) {
 				// TODO winner = true;
@@ -151,8 +147,7 @@ public class World extends JFrame implements ReaderListener {
 		repaint();
 	}
 
-	public void moveMallet(Point location) throws LineUnavailableException,
-			IOException, UnsupportedAudioFileException {
+	public void moveMallet(Point location) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		table.moveMallet(location);
 		// sound.changeTrack("sound/moveMallet.wav");
 	}
@@ -161,20 +156,26 @@ public class World extends JFrame implements ReaderListener {
 		return table.getPuckSpeed();
 	}
 
-	public void startNoise() throws LineUnavailableException, IOException,
-			UnsupportedAudioFileException {
+	public void startNoise() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		musicMenu.startMusic();
 		sound.turnOn();
 		sound.resume("sound/cartoon_mouse_says_uh_oh.wav");
 	}
 
-	public void sendCommand(Command command) throws IOException,
-			InterruptedException {
-		objOut.writeUnshared(command);
+	public void sendCommand(Command command) throws IOException, InterruptedException {
+		objOut.writeObject(command);
 		objOut.flush();
-		// objOut.reset();
+		objOut.reset();
 		// out.close();
 		// objOut.close();
+	}
+
+	public void updateChat(String msg) {
+		chat.updateChat(msg);
+	}
+
+	public void updateCoordinates(double x, double y, char pos) {
+		table.updateCoordinates(x, y, pos);
 	}
 
 	@Override
@@ -187,16 +188,6 @@ public class World extends JFrame implements ReaderListener {
 		IOUtils.closeQuietly(socket);
 	}
 
-	public void updateChat(String msg) {
-		chat.updateChat(msg);
-
-	}
-
-	public void updateCoordinates(double x, double y, char pos) {
-		table.updateCoordinates(x, y, pos);
-
-	}
-
 	private class EnterAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -206,10 +197,8 @@ public class World extends JFrame implements ReaderListener {
 				String text = chat.readText();
 				MessageCommand message = new MessageCommand(text);
 				sendCommand(message);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			}
+			catch (InterruptedException | IOException e) {
 				e.printStackTrace();
 			}
 		}

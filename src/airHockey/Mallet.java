@@ -6,14 +6,12 @@ import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.io.IOException;
-import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
 import commands.PositionCommand;
 
-public class Mallet extends Positionable implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Mallet extends Positionable {
 	protected static final int MALLETRADIUS = 20;
 	private Image image;
 
@@ -33,7 +31,7 @@ public class Mallet extends Positionable implements Serializable {
 		double locx = location.getX();
 		double locy = location.getY();
 		Point point = MouseInfo.getPointerInfo().getLocation();
-		if (point.getY() - locy - (MALLETRADIUS * 2) >= World.GAMEHEIGHT / 2) {
+		if (point.getY() - locy - (MALLETRADIUS * 2) >= World.FRAMEHEIGHT / 2) {
 			posX = point.getX() - locx;
 			posY = point.getY() - locy - MALLETRADIUS * 2;
 		}
@@ -49,8 +47,6 @@ public class Mallet extends Positionable implements Serializable {
 
 	@Override
 	public void updateCoordinates(double x, double y, Table table) {
-		// TODO remove println
-		System.out.println("mallet performing");
 		Point location = new Point((int) x, (int) y);
 		table.updateCheckHit();
 		posX = (int) location.getX();

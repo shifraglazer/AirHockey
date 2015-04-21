@@ -1,6 +1,5 @@
 package commands;
 
-
 import airHockey.World;
 
 public class MessageCommand implements Command {
@@ -14,6 +13,5 @@ public class MessageCommand implements Command {
 	@Override
 	public void perform(World world) {
 		world.updateChat(msg);
-		
 	}
 }
