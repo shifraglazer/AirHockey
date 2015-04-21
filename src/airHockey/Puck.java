@@ -30,7 +30,6 @@ public class Puck {
 	private ScheduledExecutorService executor;
 	private int time;
 	
-	private PuckCommand command;
 	protected double posX;
 	protected double posY;
 
@@ -42,7 +41,6 @@ public class Puck {
 		resety = height / 4;
 		colorNum = 0;
 		executor = Executors.newScheduledThreadPool(1);
-		command = new PuckCommand(posX, posY, speed);
 	}
 
 	private void reset() {
@@ -202,6 +200,7 @@ public class Puck {
 	}
 	
 	public PuckCommand getCommand() {
+		PuckCommand command=new PuckCommand(posX,posY,speed);
 		command.updateCommand(posX, posY, speed);
 		return command;
 	}

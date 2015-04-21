@@ -165,7 +165,7 @@ public class World extends JFrame implements ReaderListener {
 	public synchronized void sendCommand(Command command) throws IOException, InterruptedException {
 		objOut.writeObject(command);
 		objOut.flush();
-		objOut.reset();
+		//objOut.reset();
 		// out.close();
 		// objOut.close();
 	}

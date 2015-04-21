@@ -13,7 +13,6 @@ import commands.MalletCommand;
 
 public class Mallet {
 	protected static final int MALLETRADIUS = 20;
-	private MalletCommand command;
 	private double posX;
 	private double posY;
 	private Image image;
@@ -22,7 +21,6 @@ public class Mallet {
 		posX = World.GAMEWIDTH / 2;
 		posY = sideCenter;
 		image = ImageIO.read(getClass().getResource("pics/mallet.jpg"));
-		command = new MalletCommand(posX, posY);
 	}
 
 	public void drawMallet(Graphics g) {
@@ -49,6 +47,7 @@ public class Mallet {
 	}
 	
 	public MalletCommand getCommand() {
+		MalletCommand command=new MalletCommand(posX,posY);
 		command.updateCommand(posX, posY);
 		return command;
 	}
