@@ -9,17 +9,20 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import commands.PositionCommand;
+import commands.MalletCommand;
 
-public class Mallet extends Positionable {
+public class Mallet {
 	protected static final int MALLETRADIUS = 20;
+	private MalletCommand command;
+	private double posX;
+	private double posY;
 	private Image image;
 
 	public Mallet(int sideCenter) throws IOException {
 		posX = World.GAMEWIDTH / 2;
 		posY = sideCenter;
 		image = ImageIO.read(getClass().getResource("pics/mallet.jpg"));
-		command = new PositionCommand(posX, posY, 'm');
+		command = new MalletCommand(posX, posY);
 	}
 
 	public void drawMallet(Graphics g) {
@@ -44,8 +47,12 @@ public class Mallet extends Positionable {
 	public double getMalletY() {
 		return posY;
 	}
+	
+	public MalletCommand getCommand() {
+		command.updateCommand(posX, posY);
+		return command;
+	}
 
-	@Override
 	public void updateCoordinates(double x, double y, Table table) {
 		Point location = new Point((int) x, (int) y);
 		table.updateCheckHit();

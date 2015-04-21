@@ -174,8 +174,8 @@ public class World extends JFrame implements ReaderListener {
 		chat.updateChat(msg);
 	}
 
-	public void updateCoordinates(double x, double y, char pos) {
-		table.updateCoordinates(x, y, pos);
+	public void updateMalletCoordinates(double x, double y) {
+		table.updateMalletCoordinates(x, y);
 	}
 
 	@Override
@@ -202,5 +202,9 @@ public class World extends JFrame implements ReaderListener {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void updatePuckCoordinates(double x, double y, int speed) {
+		table.updatePuckCoordinates(x, y, speed);
 	};
 }

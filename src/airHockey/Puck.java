@@ -11,9 +11,9 @@ import java.util.concurrent.TimeUnit;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import commands.PositionCommand;
+import commands.PuckCommand;
 
-public class Puck extends Positionable {
+public class Puck {
 	protected static final int PUCKRADIUS = 12;
 	private int width = World.GAMEWIDTH;
 	private int height = World.FRAMEHEIGHT;
@@ -29,6 +29,10 @@ public class Puck extends Positionable {
 	private boolean goal;
 	private ScheduledExecutorService executor;
 	private int time;
+	
+	private PuckCommand command;
+	protected double posX;
+	protected double posY;
 
 	public Puck() throws IOException {
 		// image = ImageIO.read(getClass().getResource("pics/puck.jpg"));
@@ -38,7 +42,7 @@ public class Puck extends Positionable {
 		resety = height / 4;
 		colorNum = 0;
 		executor = Executors.newScheduledThreadPool(1);
-		command = new PositionCommand(posX, posY, 'p');
+		command = new PuckCommand(posX, posY, speed);
 	}
 
 	private void reset() {
@@ -190,10 +194,15 @@ public class Puck extends Positionable {
 		}
 	}
 
-	@Override
-	public void updateCoordinates(double x, double y, Table table) {
+	public void updatePuckCoordinates(double x, double y, int speed, Table table) {
 		posX = x;
 		posY = y;
+		this.speed = speed;
 		table.repaint();
+	}
+	
+	public PuckCommand getCommand() {
+		command.updateCommand(posX, posY, speed);
+		return command;
 	}
 }

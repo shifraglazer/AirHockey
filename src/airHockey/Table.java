@@ -16,7 +16,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import commands.PositionCommand;
+import commands.MalletCommand;
+import commands.PuckCommand;
 
 public class Table extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -117,16 +118,6 @@ public class Table extends JPanel {
 		return mallet1;
 	}
 
-	// public void updateCoordinates(double x, double y, Positionable positionable) {
-	public void updateCoordinates(double x, double y, char pos) {
-		if (pos == 'm') {
-			mallet2.updateCoordinates(x, y, this);
-		}
-		else {
-			puck.updateCoordinates(x, y, this);
-		}
-	}
-
 	public void updateCheckHit() {
 		if (checkHit()) {
 			puck.changeColor();
@@ -141,11 +132,19 @@ public class Table extends JPanel {
 		repaint();
 	}
 
-	public PositionCommand getPuckCommand() {
+	public void updatePuckCoordinates(double x, double y, int speed) {
+		puck.updatePuckCoordinates(x, y, speed, this);
+	}
+
+	public void updateMalletCoordinates(double x, double y) {
+		mallet2.updateCoordinates(x, y, this);
+	}
+
+	public PuckCommand getPuckCommand() {
 		return puck.getCommand();
 	}
 
-	public PositionCommand getMalletCommand() {
+	public MalletCommand getMalletCommand() {
 		return mallet1.getCommand();
 	}
 

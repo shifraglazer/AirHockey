@@ -1,25 +1,16 @@
 package commands;
 
-import airHockey.Positionable;
 import airHockey.World;
 
-public class PositionCommand implements Command {
+public class MalletCommand implements Command {
 	private static final long serialVersionUID = 1L;
 	protected double x;
 	protected double y;
-	private Positionable positionable;
-	private char pos;
 
-	public PositionCommand(double x, double y, char pos) {
+	public MalletCommand(double x, double y) {
 		this.x = x;
 		this.y = y;
-		// this.positionable = positionable;
-		this.pos = pos;
 	}
-
-	// public void setPositionable(Positionable positionable) {
-	// this.positionable = positionable;
-	// }
 
 	public void updateCommand(double x, double y) {
 		double Whalf = World.GAMEWIDTH / 2;
@@ -51,6 +42,6 @@ public class PositionCommand implements Command {
 
 	@Override
 	public void perform(World world) {
-		world.updateCoordinates(x, y, pos);
+		world.updateMalletCoordinates(x, y);
 	}
 }
