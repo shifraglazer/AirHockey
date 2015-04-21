@@ -4,9 +4,8 @@ import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Point;
-import java.awt.event.KeyAdapter;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -14,19 +13,25 @@ import java.net.Socket;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
 import org.apache.commons.io.IOUtils;
 
 import audio.MusicMenu;
 import audio.Sound;
 import audio.SoundMute;
+
 import commands.Command;
 import commands.MessageCommand;
 
@@ -70,27 +75,13 @@ public class World extends JFrame implements ReaderListener {
 		container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
 		add(table);
 		add(chat);
-		KeyListener key = new KeyAdapter() {
+		InputMap inputMap = getRootPane().getInputMap(
+				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		ActionMap actionMap = getRootPane().getActionMap();
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
 
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					try {
-						String text = chat.readText();
-						MessageCommand message = new MessageCommand(text);
-						sendCommand(message);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+		actionMap.put("enter", new EnterAction());
 
-			}
-		};
-		addKeyListener(key);
 		setIconImage(new ImageIcon(getClass().getResource("pics/icehockey.png"))
 				.getImage());
 		pack();
@@ -119,7 +110,7 @@ public class World extends JFrame implements ReaderListener {
 
 		menu.add(Box.createHorizontalStrut(100));
 
-		JLabel play1 = new JLabel("You: ");
+		JLabel play1 = new JLabel("Me: ");
 		play1.setFont(font);
 		menu.add(play1);
 		total1 = 0;
@@ -129,7 +120,7 @@ public class World extends JFrame implements ReaderListener {
 
 		menu.add(Box.createHorizontalStrut(32));
 
-		JLabel play2 = new JLabel("Not You: ");
+		JLabel play2 = new JLabel("Opponent: ");
 		play2.setFont(font);
 		menu.add(play2);
 		total2 = 0;
@@ -205,4 +196,22 @@ public class World extends JFrame implements ReaderListener {
 		table.updateCoordinates(x, y, pos);
 
 	}
+
+	private class EnterAction extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			try {
+				String text = chat.readText();
+				MessageCommand message = new MessageCommand(text);
+				sendCommand(message);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	};
 }
