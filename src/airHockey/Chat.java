@@ -34,23 +34,7 @@ public class Chat extends JPanel {
 		area.add(pane);
 		area.setEditable(false);
 		text.setPreferredSize(new Dimension(CHATWIDTH, 25));
-		KeyListener key = new KeyAdapter() {
-
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					try {
-						readText();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-			}
-		};
-
-		text.addKeyListener(key);
+	
 		add(text);
 	}
 
