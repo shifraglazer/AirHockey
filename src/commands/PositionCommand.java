@@ -15,10 +15,10 @@ public class PositionCommand implements Command {
 		this.x = x;
 		this.y = y;
 		// this.positionable = positionable;
-		this.pos = pos;
+		 this.pos = pos;
 	}
 
-	// public void setPositionable(Positionable positionable) {
+	//public void setPositionable(Positionable positionable) {
 	// this.positionable = positionable;
 	// }
 

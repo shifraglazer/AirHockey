@@ -4,13 +4,11 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
-import java.io.Serializable;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class MalletMotionListener extends MouseMotionAdapter implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class MalletMotionListener extends MouseMotionAdapter {
 	private World world;
 
 	public MalletMotionListener(World world) {

@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +18,7 @@ import javax.swing.JPanel;
 
 import commands.PositionCommand;
 
-public class Table extends JPanel implements Serializable {
+public class Table extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private int width = World.GAMEWIDTH;
 	private int height = World.GAMEHEIGHT;

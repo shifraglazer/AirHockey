@@ -6,7 +6,6 @@ import java.awt.Point;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.net.Socket;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -23,9 +22,10 @@ import org.apache.commons.io.IOUtils;
 import audio.MusicMenu;
 import audio.Sound;
 import audio.SoundMute;
+
 import commands.Command;
 
-public class World extends JFrame implements ReaderListener, Serializable {
+public class World extends JFrame implements ReaderListener {
 	private static final long serialVersionUID = 1L;
 	protected Table table;
 	protected Socket socket;
@@ -66,7 +66,7 @@ public class World extends JFrame implements ReaderListener, Serializable {
 	public void setUp(int number) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		new ReaderThread(socket, this).start();
 		out = socket.getOutputStream();
-		objOut=new ObjectOutputStream(out);
+		objOut = new ObjectOutputStream(out);
 		table.addMouseMotionListener(new MalletMotionListener(this));
 		table.setPuck(number);
 
@@ -140,7 +140,7 @@ public class World extends JFrame implements ReaderListener, Serializable {
 	}
 
 	public void sendCommand(Command command) throws IOException, InterruptedException {
-		objOut.writeObject(command);
+		objOut.writeUnshared(command);
 		objOut.flush();
 		//objOut.reset();
 		// out.close();
