@@ -1,6 +1,7 @@
 package airHockey;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.io.IOException;
 
 import javax.swing.JPanel;
@@ -16,7 +17,8 @@ public class Chat extends JPanel {
 
 	public Chat() {
 		setLayout(new BorderLayout());
-
+		setPreferredSize(new Dimension(World.GAMEWIDTH, World.FRAMEHEIGHT));
+		
 		area = new JTextArea();
 		area.setEditable(false);
 		area.setLineWrap(true);

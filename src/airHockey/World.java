@@ -162,7 +162,7 @@ public class World extends JFrame implements ReaderListener {
 		sound.resume("sound/cartoon_mouse_says_uh_oh.wav");
 	}
 
-	public void sendCommand(Command command) throws IOException, InterruptedException {
+	public synchronized void sendCommand(Command command) throws IOException, InterruptedException {
 		objOut.writeObject(command);
 		objOut.flush();
 		objOut.reset();
