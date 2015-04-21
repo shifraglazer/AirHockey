@@ -1,7 +1,7 @@
 package commands;
 
 import airHockey.Positionable;
-import airHockey.Table;
+
 import airHockey.World;
 
 public class PositionCommand implements Command {
@@ -51,8 +51,8 @@ public class PositionCommand implements Command {
 	}
 
 	@Override
-	public void perform(Table table) {
-		table.updateCoordinates(x, y, pos);
+	public void perform(World world) {
+		world.updateCoordinates(x, y, pos);
 		System.out.println(x+" "+y);
 	}
 }

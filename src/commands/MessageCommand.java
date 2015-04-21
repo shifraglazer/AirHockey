@@ -1,6 +1,7 @@
 package commands;
 
-import airHockey.Table;
+
+import airHockey.World;
 
 public class MessageCommand implements Command {
 	private static final long serialVersionUID = 1L;
@@ -11,8 +12,8 @@ public class MessageCommand implements Command {
 	}
 
 	@Override
-	public void perform(Table table) {
-		// TODO message goes to chat area
-		System.out.println(msg);
+	public void perform(World world) {
+		world.updateChat(msg);
+		
 	}
 }
