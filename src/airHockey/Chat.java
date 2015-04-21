@@ -19,7 +19,7 @@ public class Chat extends JPanel {
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(World.GAMEWIDTH, World.FRAMEHEIGHT));
 		
-		area = new JTextArea();
+		area = new JTextArea("Welcome to chat!\n");
 		area.setEditable(false);
 		area.setLineWrap(true);
 		JScrollPane pane = new JScrollPane(area);
