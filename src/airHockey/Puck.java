@@ -29,7 +29,7 @@ public class Puck {
 	private boolean goal;
 	private ScheduledExecutorService executor;
 	private int time;
-	
+
 	protected double posX;
 	protected double posY;
 
@@ -192,16 +192,13 @@ public class Puck {
 		}
 	}
 
-	public void updatePuckCoordinates(double x, double y, int speed, Table table) {
+	public void updatePuckCoordinates(double x, double y, int speed) {
 		posX = x;
 		posY = y;
 		this.speed = speed;
-		table.repaint();
 	}
-	
+
 	public PuckCommand getCommand() {
-		PuckCommand command=new PuckCommand(posX,posY,speed);
-		command.updateCommand(posX, posY, speed);
-		return command;
+		return new PuckCommand(posX, posY, speed);
 	}
 }

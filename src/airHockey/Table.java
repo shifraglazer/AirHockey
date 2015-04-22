@@ -118,7 +118,13 @@ public class Table extends JPanel {
 		return mallet1;
 	}
 
-	public void updateCheckHit() {
+	public void updatePuckCoordinates(double x, double y, int speed) {
+		puck.updatePuckCoordinates(x, y, speed);
+		repaint();
+	}
+
+	public void updateMalletCoordinates(double x, double y) {
+		mallet2.updateCoordinates(x, y);
 		if (checkHit()) {
 			puck.changeColor();
 			puck.setSpeed(20);
@@ -130,14 +136,6 @@ public class Table extends JPanel {
 			}
 		}
 		repaint();
-	}
-
-	public void updatePuckCoordinates(double x, double y, int speed) {
-		puck.updatePuckCoordinates(x, y, speed, this);
-	}
-
-	public void updateMalletCoordinates(double x, double y) {
-		mallet2.updateCoordinates(x, y, this);
 	}
 
 	public PuckCommand getPuckCommand() {

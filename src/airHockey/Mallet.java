@@ -45,17 +45,14 @@ public class Mallet {
 	public double getMalletY() {
 		return posY;
 	}
-	
-	public MalletCommand getCommand() {
-		MalletCommand command=new MalletCommand(posX,posY);
-		command.updateCommand(posX, posY);
-		return command;
-	}
 
-	public void updateCoordinates(double x, double y, Table table) {
+	public void updateCoordinates(double x, double y) {
 		Point location = new Point((int) x, (int) y);
-		table.updateCheckHit();
 		posX = (int) location.getX();
 		posY = (int) location.getY();
+	}
+	
+	public MalletCommand getCommand() {
+		return new MalletCommand(posX, posY);
 	}
 }
