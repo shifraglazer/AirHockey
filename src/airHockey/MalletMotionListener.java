@@ -21,11 +21,10 @@ public class MalletMotionListener extends MouseMotionAdapter {
 		// move your mallet to wherever the mouse pointer is located
 		Point point = world.getLocation();
 		try {
-			world.moveMallet(point);
+			world.moveMallet(point.getX(), point.getY());
 
 			// send location of your mallet to second players
-			world.sendCommand(world.table.getMalletCommand());
-		
+			world.sendCommand(world.table.getCommand('m'));
 		}
 		catch (IOException | LineUnavailableException | UnsupportedAudioFileException | InterruptedException e1) {
 			e1.printStackTrace();

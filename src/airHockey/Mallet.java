@@ -1,8 +1,6 @@
 package airHockey;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.io.IOException;
@@ -11,11 +9,8 @@ import javax.imageio.ImageIO;
 
 import commands.MalletCommand;
 
-public class Mallet {
+public class Mallet extends Positionable {
 	protected static final int MALLETRADIUS = 20;
-	private double posX;
-	private double posY;
-	private Image image;
 
 	public Mallet(int sideCenter) throws IOException {
 		posX = World.GAMEWIDTH / 2;
@@ -23,35 +18,20 @@ public class Mallet {
 		image = ImageIO.read(getClass().getResource("pics/mallet.jpg"));
 	}
 
-	public void drawMallet(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.drawImage(image, (int) posX - MALLETRADIUS, (int) posY - MALLETRADIUS, MALLETRADIUS * 2, MALLETRADIUS * 2, null);
-	}
-
-	public void setMalletXY(Point location) {
-		double locx = location.getX();
-		double locy = location.getY();
+	public void setMalletXY(double x, double y) {
 		Point point = MouseInfo.getPointerInfo().getLocation();
-		if (point.getY() - locy - (MALLETRADIUS * 2) >= World.FRAMEHEIGHT / 2) {
-			posX = point.getX() - locx;
-			posY = point.getY() - locy - MALLETRADIUS * 2;
+		if (point.getY() - y - (MALLETRADIUS * 2) >= World.FRAMEHEIGHT / 2) {
+			posX = point.getX() - x;
+			posY = point.getY() - y - MALLETRADIUS * 2;
 		}
 	}
 
-	public double getMalletX() {
-		return posX;
+	@Override
+	protected void draw(Graphics g) {
+		g.drawImage(image, (int) posX - MALLETRADIUS, (int) posY - MALLETRADIUS, MALLETRADIUS * 2, MALLETRADIUS * 2, null);
 	}
 
-	public double getMalletY() {
-		return posY;
-	}
-
-	public void updateCoordinates(double x, double y) {
-		Point location = new Point((int) x, (int) y);
-		posX = (int) location.getX();
-		posY = (int) location.getY();
-	}
-	
+	@Override
 	public MalletCommand getCommand() {
 		return new MalletCommand(posX, posY);
 	}

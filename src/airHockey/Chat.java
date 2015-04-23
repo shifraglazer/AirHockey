@@ -30,7 +30,7 @@ public class Chat extends JPanel {
 		add(text, BorderLayout.SOUTH);
 	}
 
-	public String readText() throws IOException {
+	protected String readText() throws IOException {
 		String line = text.getText();
 		area.append("Me: " + line + "\n");
 
@@ -38,7 +38,7 @@ public class Chat extends JPanel {
 		return line;
 	}
 
-	public void updateChat(String msg) {
+	protected void updateChat(String msg) {
 		area.append("Opponent: " + msg + "\n");
 	}
 

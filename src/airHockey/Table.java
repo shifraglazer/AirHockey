@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Point;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -16,8 +15,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import commands.MalletCommand;
-import commands.PuckCommand;
+import commands.Command;
 
 public class Table extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -26,8 +24,7 @@ public class Table extends JPanel {
 
 	private Puck puck;
 	private Mallet mallet1;
-	// private Mallet mallet2;
-	protected Mallet mallet2;
+	private Mallet mallet2;
 	private Image tableImg;
 
 	private static final double HITDIS = Puck.PUCKRADIUS + Mallet.MALLETRADIUS;
@@ -54,32 +51,33 @@ public class Table extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(tableImg, 0, 0, width, height, null);
-		puck.drawPuck(g);
-		mallet1.drawMallet(g);
-		mallet2.drawMallet(g);
+		puck.draw(g);
+		mallet1.draw(g);
+		mallet2.draw(g);
 		Graphics2D g2 = (Graphics2D) g;
 		if (puck.getGoal()) {
 			g2.drawImage(animated, (width / 2) - GOALPICSIZE / 2, (height / 2) - GOALPICSIZE / 2, GOALPICSIZE + 1, GOALPICSIZE, this);
 		}
 	}
 
-	public int movePuck() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+	protected int movePuck() throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		int point = puck.move();
 		if (checkHit()) {
 			// bump so decrease speed
 			puck.decreaseSpeed();
-
+			puck.changeColor();
 		}
+		// return which player number deserves a point
 		return point;
 	}
 
-	public boolean checkHit() {
+	private boolean checkHit() {
 		return calcMallet(mallet1) || calcMallet(mallet2);
 	}
 
-	public boolean calcMallet(Mallet mallet) {
-		double malletX = mallet.getMalletX();
-		double malletY = mallet.getMalletY();
+	private boolean calcMallet(Mallet mallet) {
+		double malletX = mallet.posX;
+		double malletY = mallet.posY;
 		double diff = Math.sqrt(Math.pow((malletX - puck.posX), 2) + Math.pow(malletY - puck.posY, 2));
 		if (diff <= HITDIS) {
 			puck.setSlope(malletX, malletY);
@@ -88,14 +86,14 @@ public class Table extends JPanel {
 		return false;
 	}
 
-	public void moveMallet(Point location) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		mallet1.setMalletXY(location);
-
+	protected void updateMalletCoordinates(double x, double y, int malletNum) {
+		if (malletNum == 1) {
+			mallet1.setMalletXY(x, y);
+		}
 		if (checkHit()) {
 			// FIXME don't know if should play sound here - not playing at right time anyway
 			// SOUND.changeTrack("sound/score.wav");
-			puck.changeColor();
-			puck.setSpeed(20);
+			puck.hit();
 			// restart executor
 			// TODO set up that only shuts down if executor is not null
 			if (executor.isShutdown()) {
@@ -103,53 +101,40 @@ public class Table extends JPanel {
 				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
 			}
 		}
+		if (malletNum == 2) {
+			mallet2.updateCoordinates(x, y);
+		}
+		repaint();
+	}
+	
+	protected Mallet getMallet1() {
+		return mallet1;
+	}
+	
+	protected void updatePuck(double x, double y, int speed) {
+		puck.update(x, y, speed);
 		repaint();
 	}
 
-	public void setPuck(int number) {
-		puck.setResetY(number);
-	}
-
-	public int getPuckSpeed() {
+	protected int getPuckSpeed() {
 		return puck.getSpeed();
 	}
 
-	public Mallet getMallet1() {
-		return mallet1;
+	protected void setPuck(int number) {
+		puck.setResetY(number);
 	}
-
-	public void updatePuckCoordinates(double x, double y, int speed) {
-		puck.updatePuckCoordinates(x, y, speed);
-		repaint();
-	}
-
-	public void updateMalletCoordinates(double x, double y) {
-		mallet2.updateCoordinates(x, y);
-		if (checkHit()) {
-			puck.changeColor();
-			puck.setSpeed(20);
-			// restart executor
-			// TODO set up that only shuts down if executor is not null
-			if (executor.isShutdown()) {
-				executor = Executors.newScheduledThreadPool(1);
-				executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
-			}
+	
+	protected Command getCommand(char positionable) {
+		if (positionable == 'p') {
+			return puck.getCommand();
 		}
-		repaint();
-	}
-
-	public PuckCommand getPuckCommand() {
-		return puck.getCommand();
-	}
-
-	public MalletCommand getMalletCommand() {
 		return mallet1.getCommand();
 	}
 
 	// speed decreases as time elapses since was last hit by a mallets
 	private Runnable decreaseSpeed = new Runnable() {
 		public void run() {
-			if (puck.getSpeed() > 0) {
+			if (puck.isMoving()) {
 				puck.decreaseSpeed();
 			}
 			else {

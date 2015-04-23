@@ -12,9 +12,6 @@ public class ClientWorld extends World {
 	public ClientWorld(String serverAddress) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		setLocationRelativeTo(null);
 		socket = new Socket(serverAddress, 3769);
-
-		// 1 = server second
-		setUp(1);
+		setUp(1); // 1 = server second
 	}
-
 }

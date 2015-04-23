@@ -32,6 +32,6 @@ public class ReaderThread extends Thread {
 		catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
-		// listener.onCloseSocket(socket);
+		listener.onCloseSocket(socket);
 	}
 }

@@ -3,7 +3,6 @@ package airHockey;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -31,6 +30,7 @@ import org.apache.commons.io.IOUtils;
 import audio.MusicMenu;
 import audio.Sound;
 import audio.SoundMute;
+
 import commands.Command;
 import commands.MessageCommand;
 
@@ -84,7 +84,7 @@ public class World extends JFrame implements ReaderListener {
 		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
-	public void setUp(int number) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
+	protected void setUp(int number) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		new ReaderThread(socket, this).start();
 		out = socket.getOutputStream();
 		objOut = new ObjectOutputStream(out);
@@ -146,8 +146,8 @@ public class World extends JFrame implements ReaderListener {
 		repaint();
 	}
 
-	public void moveMallet(Point location) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-		table.moveMallet(location);
+	public void moveMallet(double x, double y) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+		table.updateMalletCoordinates(x, y, 1);
 		// sound.changeTrack("sound/moveMallet.wav");
 	}
 
@@ -164,7 +164,7 @@ public class World extends JFrame implements ReaderListener {
 	public synchronized void sendCommand(Command command) throws IOException, InterruptedException {
 		objOut.writeObject(command);
 		objOut.flush();
-		//objOut.reset();
+		// objOut.reset();
 		// out.close();
 		// objOut.close();
 	}
@@ -174,7 +174,15 @@ public class World extends JFrame implements ReaderListener {
 	}
 
 	public void updateMalletCoordinates(double x, double y) {
-		table.updateMalletCoordinates(x, y);
+		table.updateMalletCoordinates(x, y, 2);
+	}
+	
+
+	public void updatePuckCoordinates(double x, double y, int speed) {
+		table.updatePuck(x, y, speed);
+	}
+
+	public void syncPuck() throws IOException, InterruptedException {
 	}
 
 	@Override
@@ -186,7 +194,7 @@ public class World extends JFrame implements ReaderListener {
 	public void onCloseSocket(Socket socket) {
 		IOUtils.closeQuietly(socket);
 	}
-
+	
 	private class EnterAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -202,15 +210,4 @@ public class World extends JFrame implements ReaderListener {
 			}
 		}
 	}
-
-	public void updatePuckCoordinates(double x, double y, int speed) {
-		table.updatePuckCoordinates(x, y, speed);
-	}
-
-	public void syncPuck() throws IOException, InterruptedException {
-	
-		
-	}
-
-	
 }
