@@ -31,7 +31,6 @@ import org.apache.commons.io.IOUtils;
 import audio.MusicMenu;
 import audio.Sound;
 import audio.SoundMute;
-
 import commands.Command;
 import commands.MessageCommand;
 
@@ -206,5 +205,12 @@ public class World extends JFrame implements ReaderListener {
 
 	public void updatePuckCoordinates(double x, double y, int speed) {
 		table.updatePuckCoordinates(x, y, speed);
-	};
+	}
+
+	public void syncPuck() throws IOException, InterruptedException {
+	
+		
+	}
+
+	
 }

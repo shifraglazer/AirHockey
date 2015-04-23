@@ -19,6 +19,7 @@ public class GameLoopThread extends Thread {
 			if (speed > 0) {
 				try {
 					world.movePuck();
+					world.syncPuck();
 				}
 				catch (LineUnavailableException | IOException | UnsupportedAudioFileException | InterruptedException e) {
 					e.printStackTrace();

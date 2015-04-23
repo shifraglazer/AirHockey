@@ -10,7 +10,8 @@ public class ServerWorld extends World {
 	private static final long serialVersionUID = 1L;
 	private ServerSocket serverSocket;
 
-	public ServerWorld(boolean test) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
+	public ServerWorld(boolean test) throws IOException,
+			LineUnavailableException, UnsupportedAudioFileException {
 		if (!test) {
 			setLocationRelativeTo(null);
 		}
@@ -23,9 +24,15 @@ public class ServerWorld extends World {
 	}
 
 	@Override
-	public void movePuck() throws LineUnavailableException, IOException, UnsupportedAudioFileException, InterruptedException {
-		sendCommand(table.getPuckCommand());
+	public void movePuck() throws LineUnavailableException, IOException,
+			UnsupportedAudioFileException, InterruptedException {
+	//	sendCommand(table.getPuckCommand());
 		super.movePuck();
 	}
+
+	@Override
+	public void syncPuck() throws IOException, InterruptedException {
+		sendCommand(table.getPuckCommand());
+	};
 
 }
