@@ -25,7 +25,7 @@ public class MalletMotionListener extends MouseMotionAdapter {
 
 			// send location of your mallet to second players
 			world.sendCommand(world.table.getMalletCommand());
-			//world.syncPuck();
+		
 		}
 		catch (IOException | LineUnavailableException | UnsupportedAudioFileException | InterruptedException e1) {
 			e1.printStackTrace();
