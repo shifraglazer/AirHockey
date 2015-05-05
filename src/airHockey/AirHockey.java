@@ -29,6 +29,7 @@ public class AirHockey extends JDialog {
 		setResizable(false);
 		setLayout(new GridLayout(3, 1));
 
+		// create menu option to choose if server, client, or testing so want both
 		server = new JButton("SERVER");
 		server.addMouseListener(mouse);
 		server.addActionListener(new ServerListener(this));
@@ -39,6 +40,7 @@ public class AirHockey extends JDialog {
 		client.addActionListener(new ClientListener(this));
 		add(client);
 
+		// creates both a server and client using localhost
 		testMode = new JButton("TEST MODE");
 		testMode.addMouseListener(mouse);
 		testMode.addActionListener(new TestModeListener(this));

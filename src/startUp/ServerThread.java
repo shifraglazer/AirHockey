@@ -1,11 +1,11 @@
-package airHockey;
+package startUp;
 
 import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import startUp.LoadingFrame;
+import airHockey.ServerWorld;
 
 public class ServerThread extends Thread {
 	private LoadingFrame frame;

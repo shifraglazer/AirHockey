@@ -65,6 +65,7 @@ public class Puck extends Positionable {
 		return 0;
 	}
 
+	// if there is a goal, this method will return the player that called checkGoal, otherwise, will return 0
 	private int checkGoal(int player) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
 		// if puck within goal range, return player who scores
 		if (posX > 70 && posX < width - 70) {
@@ -132,6 +133,10 @@ public class Puck extends Positionable {
 		speed--;
 	}
 
+	protected int getSpeed() {
+		return speed;
+	}
+
 	public void changeColor() {
 		colorNum += .02;
 	}
@@ -151,10 +156,6 @@ public class Puck extends Positionable {
 
 	protected boolean isMoving() {
 		return speed > 0;
-	}
-
-	protected int getSpeed() {
-		return speed;
 	}
 
 	protected void update(double x, double y, int speed) {

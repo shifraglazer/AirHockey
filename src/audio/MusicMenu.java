@@ -82,6 +82,7 @@ public class MusicMenu extends JMenu {
 		}
 	}
 
+	//FIXME is there an easier way to toggle colors??
 	public void deselectItem(JMenuItem item) {
 		item.setForeground(defaultForeG);
 		item.setBackground(defaultBackG);

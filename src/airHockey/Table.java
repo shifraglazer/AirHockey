@@ -106,11 +106,11 @@ public class Table extends JPanel {
 		}
 		repaint();
 	}
-	
+
 	protected Mallet getMallet1() {
 		return mallet1;
 	}
-	
+
 	protected void updatePuck(double x, double y, int speed) {
 		puck.update(x, y, speed);
 		repaint();
@@ -123,7 +123,8 @@ public class Table extends JPanel {
 	protected void setPuck(int number) {
 		puck.setResetY(number);
 	}
-	
+
+	//FIXME getCommand without 'p' or 'm'
 	protected Command getCommand(char positionable) {
 		if (positionable == 'p') {
 			return puck.getCommand();

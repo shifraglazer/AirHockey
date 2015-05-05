@@ -132,8 +132,7 @@ public class World extends JFrame implements ReaderListener {
 			points1.setText(String.valueOf(++total1));
 			if (total1 >= 10) {
 				// winner = true;
-				// TODO can instead return winner so know if should stop
-				// gameloops
+				// TODO can instead return winner so know if should stop gameloop
 			}
 		}
 		else if (point == 2) {
@@ -176,7 +175,6 @@ public class World extends JFrame implements ReaderListener {
 	public void updateMalletCoordinates(double x, double y) {
 		table.updateMalletCoordinates(x, y, 2);
 	}
-	
 
 	public void updatePuckCoordinates(double x, double y, int speed) {
 		table.updatePuck(x, y, speed);
@@ -194,7 +192,7 @@ public class World extends JFrame implements ReaderListener {
 	public void onCloseSocket(Socket socket) {
 		IOUtils.closeQuietly(socket);
 	}
-	
+
 	private class EnterAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
