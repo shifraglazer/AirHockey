@@ -48,11 +48,9 @@ public class World extends JFrame implements ReaderListener {
 	private Font fontBold;
 
 	// TODO private boolean winner;
-	private Container container;
 	private Chat chat;
 	private MusicMenu musicMenu;
 	private final Sound sound = Sound.getInstance();
-	private OutputStream out;
 	private ObjectOutputStream objOut;
 	public static final int FRAMEWIDTH = 600;
 	public static final int FRAMEHEIGHT = 500;
@@ -61,7 +59,7 @@ public class World extends JFrame implements ReaderListener {
 
 	public World() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
 		setTitle("Air Hockey");
-		container = getContentPane();
+		Container container = getContentPane();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		font = new Font("Arial", Font.PLAIN, 14);
 		fontBold = font.deriveFont(Font.BOLD);
@@ -86,8 +84,9 @@ public class World extends JFrame implements ReaderListener {
 
 	protected void setUp(int number) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		new ReaderThread(socket, this).start();
-		out = socket.getOutputStream();
+		OutputStream out = socket.getOutputStream();
 		objOut = new ObjectOutputStream(out);
+		
 		table.addMouseMotionListener(new MalletMotionListener(this));
 		table.setPuck(number);
 
@@ -130,16 +129,16 @@ public class World extends JFrame implements ReaderListener {
 		int point = table.movePuck();
 		if (point == 1) {
 			points1.setText(String.valueOf(++total1));
-			if (total1 >= 10) {
+			//if (total1 >= 10) {
 				// winner = true;
 				// TODO can instead return winner so know if should stop gameloop
-			}
+			//}
 		}
 		else if (point == 2) {
 			points2.setText(String.valueOf(++total2));
-			if (total2 >= 10) {
+			//if (total2 >= 10) {
 				// TODO winner = true;
-			}
+			//}
 		}
 
 		repaint();

@@ -17,9 +17,6 @@ import startUp.TestModeListener;
 
 public class AirHockey extends JDialog {
 	private static final long serialVersionUID = 1L;
-	private JButton server;
-	private JButton client;
-	private JButton testMode;
 
 	public AirHockey() {
 		setSize(150, 125);
@@ -30,18 +27,18 @@ public class AirHockey extends JDialog {
 		setLayout(new GridLayout(3, 1));
 
 		// create menu option to choose if server, client, or testing so want both
-		server = new JButton("SERVER");
+		JButton server = new JButton("SERVER");
 		server.addMouseListener(mouse);
 		server.addActionListener(new ServerListener(this));
 		add(server);
 
-		client = new JButton("CLIENT");
+		JButton client = new JButton("CLIENT");
 		client.addMouseListener(mouse);
 		client.addActionListener(new ClientListener(this));
 		add(client);
 
 		// creates both a server and client using localhost
-		testMode = new JButton("TEST MODE");
+		JButton testMode = new JButton("TEST MODE");
 		testMode.addMouseListener(mouse);
 		testMode.addActionListener(new TestModeListener(this));
 		add(testMode);
@@ -49,7 +46,7 @@ public class AirHockey extends JDialog {
 		setVisible(true);
 	}
 
-	MouseListener mouse = new MouseAdapter() {
+	private MouseListener mouse = new MouseAdapter() {
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			// TODO when make nicer graphics use the following code to highlight

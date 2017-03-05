@@ -7,7 +7,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class GameLoopThread extends Thread {
 	private World world;
-	private long lastExecutedTime;
+	//private long lastExecutedTime;
 
 	public GameLoopThread(World world) {
 		this.world = world;
@@ -16,8 +16,8 @@ public class GameLoopThread extends Thread {
 	@Override
 	public void run() {
 		while (true) {
-			long newTime = System.currentTimeMillis();
-			double delta = (newTime - lastExecutedTime) / 1000;
+			//long newTime = System.currentTimeMillis();
+			//double delta = (newTime - lastExecutedTime) / 1000;
 			// int speed = (int) (world.getPuckSpeed() * delta);
 			int speed = world.getPuckSpeed();
 			if (speed > 0) {
@@ -36,7 +36,7 @@ public class GameLoopThread extends Thread {
 			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			lastExecutedTime = newTime;
+			//lastExecutedTime = newTime;
 		}
 
 	}

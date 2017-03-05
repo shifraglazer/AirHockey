@@ -8,13 +8,12 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class ServerWorld extends World {
 	private static final long serialVersionUID = 1L;
-	private ServerSocket serverSocket;
 
 	public ServerWorld(boolean test) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		if (!test) {
 			setLocationRelativeTo(null);
 		}
-		serverSocket = new ServerSocket(3769); // port num sent
+		ServerSocket serverSocket = new ServerSocket(3769); // port num sent
 		socket = serverSocket.accept();
 		setUp(3); // 3 = server first
 	}

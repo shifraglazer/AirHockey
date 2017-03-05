@@ -31,7 +31,6 @@ public class MusicMenu extends JMenu {
 	private final Color selectedBackG = Color.decode("#E0ECF8");
 
 	// music starts at random track
-	private Random random;
 	private int randomStart;
 
 	public MusicMenu(JMenuItem soundItem, Font font) throws UnsupportedAudioFileException, IOException {
@@ -49,7 +48,7 @@ public class MusicMenu extends JMenu {
 		// choose a random track to start with
 		// at this point there are 8 tracks
 		// so chooses 0-7 and then add 1 so get right choice on list
-		random = new Random();
+		Random random = new Random();
 		randomStart = random.nextInt(8) + 1;
 
 		// add all the sound tracks to the menu and maps
@@ -100,7 +99,7 @@ public class MusicMenu extends JMenu {
 		music.resume(lastClicked);
 	}
 
-	ActionListener mute = new ActionListener() {
+	private ActionListener mute = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem item = (JMenuItem) e.getSource();
@@ -122,7 +121,7 @@ public class MusicMenu extends JMenu {
 		}
 	};
 
-	ActionListener changeTrackListen = new ActionListener() {
+	private ActionListener changeTrackListen = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem item = (JMenuItem) e.getSource();

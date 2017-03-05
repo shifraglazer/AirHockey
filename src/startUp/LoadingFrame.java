@@ -10,9 +10,6 @@ import javax.swing.JLabel;
 
 public class LoadingFrame extends JDialog {
 	private static final long serialVersionUID = 1L;
-	private JLabel label;
-	private JLabel text;
-	private JLabel pic;
 
 	public LoadingFrame() {
 		setUndecorated(true);
@@ -21,15 +18,15 @@ public class LoadingFrame extends JDialog {
 		setResizable(false);
 		setLocation(500, 100);
 
-		label = new JLabel();
+		JLabel label = new JLabel();
 		label.setLayout(new BoxLayout(label, BoxLayout.X_AXIS));
 		label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-		pic = new JLabel();
+		JLabel pic = new JLabel();
 		pic.setIcon(new ImageIcon(getClass().getResource("pics/network.gif")));
 		add(label);
 		label.add(pic);
 		
-		text = new JLabel("         Loading...");
+		JLabel text = new JLabel("         Loading...");
 		ImageIcon image = new ImageIcon(getClass().getResource("pics/loading (2).gif"));
 
 		text.setIcon(image);

@@ -1,3 +1,5 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/857512df9f9846489625b5a9abdea295)](https://www.codacy.com/app/tziporaziegler/AirHockey?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=shifraglazer/AirHockey&amp;utm_campaign=Badge_Grade)
+
 # AirHockey
 
 Multi-player networked air hockey game.  
