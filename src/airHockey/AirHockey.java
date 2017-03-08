@@ -18,6 +18,23 @@ import startUp.TestModeListener;
 public class AirHockey extends JDialog {
 	private static final long serialVersionUID = 1L;
 
+	private MouseListener mouse = new MouseAdapter() {
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO when make nicer graphics use the following code to highlight
+			// whichever button
+			// the mouse is hovering over
+			// JButton button = (JButton) e.getSource();
+			// button.setBorder(border);
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// JButton button = (JButton) e.getSource();
+			// button.setBorder(null);
+		}
+	};
+	
 	public AirHockey() {
 		setSize(150, 125);
 		setUndecorated(true);
@@ -45,23 +62,6 @@ public class AirHockey extends JDialog {
 
 		setVisible(true);
 	}
-
-	private MouseListener mouse = new MouseAdapter() {
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO when make nicer graphics use the following code to highlight
-			// whichever button
-			// the mouse is hovering over
-			// JButton button = (JButton) e.getSource();
-			// button.setBorder(border);
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// JButton button = (JButton) e.getSource();
-			// button.setBorder(null);
-		}
-	};
 
 	public static void main(String[] args) {
 		try {

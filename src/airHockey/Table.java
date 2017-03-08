@@ -19,6 +19,9 @@ import commands.Command;
 
 public class Table extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private static final double HITDIS = Puck.PUCKRADIUS + Mallet.MALLETRADIUS;
+	private static final int GOALPICSIZE = 56;
+
 	private int width = World.GAMEWIDTH;
 	private int height = World.FRAMEHEIGHT;
 
@@ -27,14 +30,22 @@ public class Table extends JPanel {
 	private Mallet mallet2;
 	private Image tableImg;
 
-	private static final double HITDIS = Puck.PUCKRADIUS + Mallet.MALLETRADIUS;
-
 	private Image animated;
-	private final static int GOALPICSIZE = 56;
 	private ScheduledExecutorService executor;
 
 	// private Sound SOUND = Sound.getInstance();
 
+	// speed decreases as time elapses since was last hit by a mallets
+	private Runnable decreaseSpeed = new Runnable() {
+		public void run() {
+			if (puck.isMoving()) {
+				puck.decreaseSpeed();
+			} else {
+				executor.shutdown();
+			}
+		}
+	};
+	
 	public Table() throws IOException {
 		setSize(width, height);
 		setPreferredSize(new Dimension(width, height));
@@ -56,7 +67,8 @@ public class Table extends JPanel {
 		mallet2.draw(g);
 		Graphics2D g2 = (Graphics2D) g;
 		if (puck.getGoal()) {
-			g2.drawImage(animated, (width / 2) - GOALPICSIZE / 2, (height / 2) - GOALPICSIZE / 2, GOALPICSIZE + 1, GOALPICSIZE, this);
+			g2.drawImage(animated, (width / 2) - GOALPICSIZE / 2, (height / 2) - GOALPICSIZE / 2, GOALPICSIZE + 1,
+					GOALPICSIZE, this);
 		}
 	}
 
@@ -78,7 +90,7 @@ public class Table extends JPanel {
 	private boolean calcMallet(Mallet mallet) {
 		double malletX = mallet.posX;
 		double malletY = mallet.posY;
-		double diff = Math.sqrt(Math.pow((malletX - puck.posX), 2) + Math.pow(malletY - puck.posY, 2));
+		double diff = Math.sqrt(Math.pow(malletX - puck.posX, 2) + Math.pow(malletY - puck.posY, 2));
 		if (diff <= HITDIS) {
 			puck.setSlope(malletX, malletY);
 			return true;
@@ -91,7 +103,8 @@ public class Table extends JPanel {
 			mallet1.setMalletXY(x, y);
 		}
 		if (checkHit()) {
-			// FIXME don't know if should play sound here - not playing at right time anyway
+			// FIXME don't know if should play sound here - not playing at right
+			// time anyway
 			// SOUND.changeTrack("sound/score.wav");
 			puck.hit();
 			// restart executor
@@ -124,23 +137,11 @@ public class Table extends JPanel {
 		puck.setResetY(number);
 	}
 
-	//FIXME getCommand without 'p' or 'm'
+	// FIXME getCommand without 'p' or 'm'
 	protected Command getCommand(char positionable) {
 		if (positionable == 'p') {
 			return puck.getCommand();
 		}
 		return mallet1.getCommand();
 	}
-
-	// speed decreases as time elapses since was last hit by a mallets
-	private Runnable decreaseSpeed = new Runnable() {
-		public void run() {
-			if (puck.isMoving()) {
-				puck.decreaseSpeed();
-			}
-			else {
-				executor.shutdown();
-			}
-		}
-	};
 }

@@ -28,6 +28,15 @@ public class Puck extends Positionable {
 	private ScheduledExecutorService executor;
 	private int time;
 
+	private Runnable timer = new Runnable() {
+		public void run() {
+			time--;
+			if (time == 0) {
+				goal = false;
+			}
+		}
+	};
+	
 	public Puck() throws IOException {
 		// image = ImageIO.read(getClass().getResource("pics/puck.jpg"));
 		posX = width / 2;
@@ -173,13 +182,4 @@ public class Puck extends Positionable {
 	protected PuckCommand getCommand() {
 		return new PuckCommand(posX, posY, speed);
 	}
-
-	private Runnable timer = new Runnable() {
-		public void run() {
-			time--;
-			if (time == 0) {
-				goal = false;
-			}
-		}
-	};
 }

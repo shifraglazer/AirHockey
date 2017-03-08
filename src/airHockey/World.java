@@ -36,6 +36,11 @@ import commands.MessageCommand;
 
 public class World extends JFrame implements ReaderListener {
 	private static final long serialVersionUID = 1L;
+	public static final int FRAMEWIDTH = 600;
+	public static final int FRAMEHEIGHT = 500;
+	public static final int GAMEWIDTH = FRAMEWIDTH / 2;
+	protected static final int MIDDLE = FRAMEHEIGHT / 2;
+	
 	protected Table table;
 	protected Socket socket;
 
@@ -52,10 +57,6 @@ public class World extends JFrame implements ReaderListener {
 	private MusicMenu musicMenu;
 	private final Sound sound = Sound.getInstance();
 	private ObjectOutputStream objOut;
-	public static final int FRAMEWIDTH = 600;
-	public static final int FRAMEHEIGHT = 500;
-	public static final int GAMEWIDTH = FRAMEWIDTH / 2;
-	protected static final int MIDDLE = FRAMEHEIGHT / 2;
 
 	public World() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
 		setTitle("Air Hockey");

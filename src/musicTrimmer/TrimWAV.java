@@ -12,8 +12,10 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-/** Used to trim size of wav files
- * Takes in wav file > trims > saves new trimmed file */
+/**
+ * Used to trim size of wav files Takes in wav file > trims > saves new trimmed
+ * file
+ */
 
 public class TrimWAV extends AudioInputStream {
 
@@ -25,7 +27,8 @@ public class TrimWAV extends AudioInputStream {
 		super(new ByteArrayInputStream(new byte[0]), audioFormat, AudioSystem.NOT_SPECIFIED);
 		stream = audioInputStream;
 		// calculate where to start and where to end
-		startByte = (long) ((startMilli / 1000) * stream.getFormat().getFrameRate() * stream.getFormat().getFrameSize());
+		startByte = (long) ((startMilli / 1000) * stream.getFormat().getFrameRate()
+				* stream.getFormat().getFrameSize());
 		endByte = (long) ((endMilli / 1000) * stream.getFormat().getFrameRate() * stream.getFormat().getFrameSize());
 	}
 
@@ -47,15 +50,17 @@ public class TrimWAV extends AudioInputStream {
 			return -1;
 
 		bytesRead = stream.read(abData, 0, nLength);
-		if (bytesRead == -1)
+		if (bytesRead == -1) {
 			return -1;
-		else if (bytesRead == 0)
+		} else if (bytesRead == 0) {
 			return 0;
+		}
 
 		t_bytesRead += bytesRead;
-		if (t_bytesRead >= endByte)// "trim" the extra by altering the number of bytes read
+		if (t_bytesRead >= endByte) {
+			// "trim" the extra by altering the number of bytes read
 			bytesRead = (int) (bytesRead - (t_bytesRead - endByte));
-
+		}
 		return bytesRead;
 	}
 
@@ -71,8 +76,7 @@ public class TrimWAV extends AudioInputStream {
 			clip.start();
 			clip.loop(2);
 			Thread.sleep(1000000);
-		}
-		catch (LineUnavailableException | InterruptedException e) {
+		} catch (LineUnavailableException | InterruptedException e) {
 			e.printStackTrace();
 		}
 	}

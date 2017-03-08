@@ -33,6 +33,49 @@ public class MusicMenu extends JMenu {
 	// music starts at random track
 	private int randomStart;
 
+	private ActionListener mute = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JMenuItem item = (JMenuItem) e.getSource();
+			if (music.isOn()) {
+				music.turnOff();
+				music.stop();
+				item.setText("TURN MUSIC ON");
+			}
+			else {
+				try {
+					music.turnOn();
+					item.setText("TURN MUSIC OFF");
+					music.resume(lastClicked);
+				}
+				catch (LineUnavailableException | IOException | UnsupportedAudioFileException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+	};
+
+	private ActionListener changeTrackListen = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JMenuItem item = (JMenuItem) e.getSource();
+
+			// change colors;
+			deselectItem(oldItem);
+
+			URL src = musicSrc.get(item.getText());
+			selectItem(item, src);
+			if (music.isOn()) {
+				try {
+					music.changeTrack(src);
+				}
+				catch (LineUnavailableException | IOException | UnsupportedAudioFileException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+	};
+	
 	public MusicMenu(JMenuItem soundItem, Font font) throws UnsupportedAudioFileException, IOException {
 		this.font = font;
 		setFont(font);
@@ -98,47 +141,4 @@ public class MusicMenu extends JMenu {
 		music.turnOn();
 		music.resume(lastClicked);
 	}
-
-	private ActionListener mute = new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JMenuItem item = (JMenuItem) e.getSource();
-			if (music.isOn()) {
-				music.turnOff();
-				music.stop();
-				item.setText("TURN MUSIC ON");
-			}
-			else {
-				try {
-					music.turnOn();
-					item.setText("TURN MUSIC OFF");
-					music.resume(lastClicked);
-				}
-				catch (LineUnavailableException | IOException | UnsupportedAudioFileException e1) {
-					e1.printStackTrace();
-				}
-			}
-		}
-	};
-
-	private ActionListener changeTrackListen = new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JMenuItem item = (JMenuItem) e.getSource();
-
-			// change colors;
-			deselectItem(oldItem);
-
-			URL src = musicSrc.get(item.getText());
-			selectItem(item, src);
-			if (music.isOn()) {
-				try {
-					music.changeTrack(src);
-				}
-				catch (LineUnavailableException | IOException | UnsupportedAudioFileException e1) {
-					e1.printStackTrace();
-				}
-			}
-		}
-	};
 }
