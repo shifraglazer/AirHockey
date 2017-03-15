@@ -35,11 +35,11 @@ import commands.Command;
 import commands.MessageCommand;
 
 public class World extends JFrame implements ReaderListener {
-	private static final long serialVersionUID = 1L;
 	public static final int FRAMEWIDTH = 600;
 	public static final int FRAMEHEIGHT = 500;
 	public static final int GAMEWIDTH = FRAMEWIDTH / 2;
 	protected static final int MIDDLE = FRAMEHEIGHT / 2;
+	private static final long serialVersionUID = 1L;
 	
 	protected Table table;
 	protected Socket socket;

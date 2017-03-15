@@ -50,7 +50,7 @@ public class Table extends JPanel {
 		setSize(width, height);
 		setPreferredSize(new Dimension(width, height));
 		puck = new Puck();
-		mallet1 = new Mallet(((height / 4) * 3) - 10);
+		mallet1 = new Mallet(height / 4 * 3 - 10);
 		mallet2 = new Mallet(height / 4 + 10);
 		executor = Executors.newScheduledThreadPool(1);
 		executor.scheduleAtFixedRate(decreaseSpeed, 0, 1000, TimeUnit.MILLISECONDS);
@@ -67,7 +67,7 @@ public class Table extends JPanel {
 		mallet2.draw(g);
 		Graphics2D g2 = (Graphics2D) g;
 		if (puck.getGoal()) {
-			g2.drawImage(animated, (width / 2) - GOALPICSIZE / 2, (height / 2) - GOALPICSIZE / 2, GOALPICSIZE + 1,
+			g2.drawImage(animated, width / 2 - GOALPICSIZE / 2, height / 2 - GOALPICSIZE / 2, GOALPICSIZE + 1,
 					GOALPICSIZE, this);
 		}
 	}
