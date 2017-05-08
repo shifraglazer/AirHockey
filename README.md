@@ -2,19 +2,30 @@
 
 # AirHockey
 
-Multi-player networked air hockey game.  
+A multi-player networked air hockey game.
+
 On separate terminals, players interact seamlessly with joint game instance.  
 Uses java sockets for network communications.  
-Features include full hockey game implementation, integrated chat function and user-controlled background music.
+
+Features include:
+- Full hockey game implementation
+- Integrated chat function
+- User-controlled background music
 
 ![AirHockey Screenshot](airhockey.png)
 
-Downloading
-----
+## Downloading
+
 A runable .jar file is available for download [here](AirHockey.jar).
 
-To download or clone a complete copy of the source code, use Git or checkout with SVN using https://github.com/shifraglazer/AirHockey.git web URL.
+To download or clone a complete copy of the source code, use Git or checkout
+with SVN using https://github.com/shifraglazer/AirHockey.git web URL.
 
-About
-----
-Project collaborated by Shifra (Glazer) Black and Tzipora Ziegler.
+## Authors
+
+| [<img src="https://avatars.githubusercontent.com/u/10053935?v=3" width="100px;"/>][3] | [<img src="https://avatars.githubusercontent.com/u/10053938?v=3" width="100px;"/>][2]
+| :---: | :---: |
+| [Shifra (Glazer) Black][3] | [Tzipora Ziegler][2] |
+
+[2]:https://github.com/tziporaziegler
+[3]:https://github.com/shifraglazer
