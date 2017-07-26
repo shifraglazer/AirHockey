@@ -6,7 +6,7 @@
 A multi-player networked air hockey game.
 
 On separate terminals, players interact seamlessly with joint game instance.  
-Uses java sockets for network communications.  
+Uses Java sockets for network communications.  
 
 Features include:
 - Full hockey game implementation
